@@ -1,6 +1,9 @@
 // Sacado de:
 // http://www.scratchapixel.com/code.php?id=3&origin=/lessons/3d-basic-rendering/introduction-to-ray-tracing&src=0
 
+// Tutorial:
+// http://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing/how-does-it-work
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // [header]
