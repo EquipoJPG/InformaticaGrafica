@@ -103,8 +103,9 @@ public:
     bool intersect(const Vec3f &rayorig, const Vec3f &raydir, float &t0, float &t1) const
     {
         Vec3f l = center - rayorig;
-        float tca = l.dot(raydir);
+        float tca = l.dot(raydir);	//si intersecta o no
         if (tca < 0) return false;
+		// ecuacion de segundo grado que vimos en las intersecciones
         float d2 = l.dot(l) - tca * tca;
         if (d2 > radius2) return false;
         float thc = sqrt(radius2 - d2);
@@ -149,6 +150,7 @@ Vec3f trace(
         float t0 = INFINITY, t1 = INFINITY;
         if (spheres[i].intersect(rayorig, raydir, t0, t1)) {
             if (t0 < 0) t0 = t1;
+			// t0 es landa cercano del objeto k, t1 el otro landa del objeto k, tnear el landa mas cercano a la pantalla
             if (t0 < tnear) {
                 tnear = t0;
                 sphere = &spheres[i];
