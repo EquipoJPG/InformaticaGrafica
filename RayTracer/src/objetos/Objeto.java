@@ -1,5 +1,5 @@
 package objetos;
 
-public class Objeto {
+public abstract class Objeto {
 
 }
