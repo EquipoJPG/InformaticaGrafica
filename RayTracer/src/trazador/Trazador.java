@@ -17,8 +17,8 @@ public class Trazador {
 	/* Variables globales del trazador de rayos */
 	
 	// imagen
-	final private static int IMAGE_WIDTH = 800;
-	final private static int IMAGE_HEIGHT = 600;
+	final private static int IMAGE_WIDTH = 600;
+	final private static int IMAGE_HEIGHT = 800;
 	final private static String IMAGE_FILE_NAME = "escena.png";
 	
 	// puntos de interes
