@@ -1,5 +1,5 @@
 package trazador;
 
-public class Plano {
+public class Plano implements Objeto{
 
 }

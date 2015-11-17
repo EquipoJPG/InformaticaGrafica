@@ -1,5 +1,5 @@
 package trazador;
 
-public class Triangulo {
+public class Triangulo implements Objeto{
 
 }

@@ -1,5 +1,5 @@
 package trazador;
 
-public class Caja {
+public class Caja implements Objeto{
 
 }
