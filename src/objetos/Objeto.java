@@ -1,4 +1,4 @@
-package trazador;
+package objetos;
 
 public interface Objeto {
 
