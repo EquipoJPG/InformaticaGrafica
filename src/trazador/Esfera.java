@@ -1,5 +1,5 @@
 package trazador;
 
-public class Esfera {
+public class Esfera implements Objeto{
 
 }
