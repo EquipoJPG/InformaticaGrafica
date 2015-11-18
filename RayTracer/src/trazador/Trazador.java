@@ -54,10 +54,10 @@ public class Trazador {
 		
 		/*  Para cada pixel de la pantalla se lanza un rayo y se buscan
 		 * los objetos de la escena con los que intersecciona */
-		for (int j = 0; j < IMAGE_HEIGHT; j++) {
-			int jj = j - IMAGE_HEIGHT/2;
-			for (int i = 0; i < IMAGE_WIDTH; i++) {
-				int ii = i - IMAGE_WIDTH/2;
+		for (int i = 0; i < IMAGE_WIDTH; i++) {
+			int ii = i - IMAGE_WIDTH/2;
+			for (int j = 0; j < IMAGE_HEIGHT; j++) {
+				int jj = j - IMAGE_HEIGHT/2;
 				
 				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
 //				Vector4 pixel = new Vector4(j,i,0,1);
