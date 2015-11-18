@@ -95,6 +95,17 @@ public class Vector4 {
 	}
 	
 	/**
+	 * vx*wx + vy*wy + vz*wz
+	 * @return producto escalar de @param v y @param w
+	 */
+	public static double dot(Vector4 v, Vector4 w){
+		return (v.x * w.x +
+				v.y * w.y +
+				v.z * w.z
+				);
+	}
+	
+	/**
 	 * @return <true> si @param v es vector
 	 */
 	public static boolean esVector(Vector4 v){
