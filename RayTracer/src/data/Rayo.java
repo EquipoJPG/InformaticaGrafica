@@ -16,6 +16,20 @@ public class Rayo {
 	}
 	
 	/**
+	 * @return origin
+	 */
+	public Vector4 getOrigen(){
+		return origin;
+	}
+	
+	/**
+	 * @return direccion
+	 */
+	public Vector4 getDireccion(){
+		return direccion;
+	}
+	
+	/**
 	 * @param origin: punto origen
 	 * @param fin: punto fin
 	 * @return un nuevo rayo con @param origin como origen y 
