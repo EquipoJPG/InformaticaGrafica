@@ -18,12 +18,12 @@ public class Trazador {
 	/* Variables globales del trazador de rayos */
 	
 	// imagen
-	final private static int IMAGE_WIDTH = 400;
-	final private static int IMAGE_HEIGHT = 400;
+	final private static int IMAGE_WIDTH = 1024;
+	final private static int IMAGE_HEIGHT = 720;
 	final private static String IMAGE_FILE_NAME = "escena.png";
 	
 	// puntos de interes
-	final private static int MAX_REBOTES_RAYO = 0;
+	final private static int MAX_REBOTES_RAYO = 7;
 	final private static int DISTANCIA_FOCAL = 5;
 	final private static Vector4 POV = new Vector4(10,10,10,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0,0,0,1);
@@ -33,7 +33,7 @@ public class Trazador {
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static BufferedImage img = new BufferedImage(
-			IMAGE_HEIGHT, IMAGE_WIDTH, BufferedImage.TYPE_INT_RGB);
+			IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
 	
 	
 	public static void main(String[] args) {
@@ -46,7 +46,7 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_WIDTH, IMAGE_HEIGHT);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera = new Esfera(15, Color.RED);
+		Esfera esfera = new Esfera(17.305, Color.RED);
 		objetos.add(esfera);
 		
 		System.out.println("OK");
@@ -62,13 +62,13 @@ public class Trazador {
 				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
 //				Vector4 pixel = new Vector4(j,i,0,1);
 //				Rayo rayoPrimario = new Rayo(POV, pixel);
-				Rayo rayoPrimario = camara.rayoToPixel(jj,ii);
+				Rayo rayoPrimario = camara.rayoToPixel(ii, jj);
 				
 				/* Pinta el pixel(i,j) del color devuelto por el rayo */
 //				System.out.printf(numRayos + ") Lanzando rayo desde pixel(" + j + ", " + i + ")...");
 				Color colorPixel = trazar(rayoPrimario, 0);
 				int color = colorPixel.getRGB();
-				img.setRGB(j, i, color);
+				img.setRGB(i, j, color);
 			}
 		}
 		
