@@ -36,6 +36,10 @@ public class Trazador {
 	
 	
 	public static void main(String[] args) {
+
+		int numRayos = 0;
+		
+		System.out.printf("Preparando escena...");
 		
 		/* Define la escena */
 		Foco foco = new Foco(POSICION_LUZ,COLOR_LUZ);
@@ -44,28 +48,40 @@ public class Trazador {
 		Esfera esfera = new Esfera(10.0,Color.RED);
 		objetos.add(esfera);
 		
+		System.out.println("OK");
+		System.out.printf("Lanzando rayos...");
+		
 		/*  Para cada pixel de la pantalla se lanza un rayo y se buscan
 		 * los objetos de la escena con los que intersecciona */
 		for (int j = 0; j < IMAGE_HEIGHT; j++) {
 			for (int i = 0; i < IMAGE_WIDTH; i++) {
+				
+				numRayos++;
 				
 				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
 				Vector4 pixel = new Vector4(j,i,0,1);
 				Rayo rayoPrimario = new Rayo(POV, pixel);
 				
 				/* Pinta el pixel(i,j) del color devuelto por el rayo */
+//				System.out.printf(numRayos + ") Lanzando rayo desde pixel(" + j + ", " + i + ")...");
 				Color colorPixel = trazar(rayoPrimario, 0);
 				int color = colorPixel.getRGB();
 				img.setRGB(j, i, color);
 			}
 		}
 		
+		System.out.println("OK");
+		System.out.printf("Guardando imagen...");
+		
 		/* Escribe la imagen resultante en un fichero */
 		try {
 			
 			File f = new File(IMAGE_FILE_NAME);
 			if (!ImageIO.write(img, "PNG", f)) {
-				throw new RuntimeException("Unexpected error writing image");
+				throw new RuntimeException("ERROR. Unexpected error writing image");
+			}
+			else {
+				System.out.println("OK");
 			}
 			
 		} catch (IOException e) {
@@ -112,7 +128,12 @@ public class Trazador {
 			}
 			
 		}
-		colorFinal = objeto.getColor();
+		if (objeto != null) {
+			colorFinal = objeto.getColor();
+		}
+		else {
+//			System.out.println("NO HAY INTERSECCION D:");
+		}
 		
 		/* Si existe al menos un objeto visible, se lanzan los rayos
 		 * correspondientes */
