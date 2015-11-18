@@ -30,8 +30,8 @@ public class Camara {
 		this.pxW = px_width;
 		this.pxH = px_height;
 		
-		this.anchura = this.pxH * 2;
-		this.altura = this.pxW * 2;
+		this.anchura = this.pxW * 2;
+		this.altura = this.pxH * 2;
 		
 		/* u, v, w */
 		Vector4 up = new Vector4(0, 1, 0, 0);
