@@ -8,8 +8,9 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import data.Vector4;
 import data.Rayo;
+import data.Vector4;
+import objetos.Esfera;
 import objetos.Objeto;
 
 public class Trazador {
@@ -23,9 +24,10 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 0;
-	final private static Vector4 POV = new Vector4(0,0,0,1);
-	final private static Vector4 LIGHT_POS = new Vector4(0,0,0,1);
-	final private static double AMBIENT_LIGHT = 0.2;
+	final private static Vector4 POV = new Vector4(10,10,10,1);
+	final private static Vector4 POSICION_LUZ = new Vector4(0,0,0,1);
+	final private static Color COLOR_LUZ = new Color(255,255,255);
+	final private static double LUZ_AMBIENTAL = 0.2;
 	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -34,6 +36,13 @@ public class Trazador {
 	
 	
 	public static void main(String[] args) {
+		
+		/* Define la escena */
+		Foco foco = new Foco(POSICION_LUZ,COLOR_LUZ);
+		
+		/* Define los objetos de la escena */
+		Esfera esfera = new Esfera(10.0,Color.RED);
+		objetos.add(esfera);
 		
 		/*  Para cada pixel de la pantalla se lanza un rayo y se buscan
 		 * los objetos de la escena con los que intersecciona */

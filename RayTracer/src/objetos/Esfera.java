@@ -23,7 +23,7 @@ public class Esfera extends Objeto {
 	/**
 	 * @param radio: radio de la esfera
 	 */
-	public Esfera(double radio, Color colo){
+	public Esfera(double radio, Color color){
 		this.centro = new Vector4();
 		this.radio = radio;
 		super.color = color;
