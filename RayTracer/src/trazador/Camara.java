@@ -13,7 +13,7 @@ public class Camara {
 	
 	private int anchura, altura;	// anchura y altura de la pantalla
 	
-	private int width_px, height_px;	// pixeles de anchura y altura
+	private int filas, columnas;	// pixeles de anchura y altura
 
 	/**
 	 * Constructor de la camara en @param posicion mirando a @param g a una
@@ -22,16 +22,16 @@ public class Camara {
 	 * 
 	 * La anchura y altura reales de la pantalla son el doble de px.
 	 */
-	public Camara(Vector4 posicion, Vector4 g, double f, int px_width, int px_height){
+	public Camara(Vector4 posicion, Vector4 g, double f, int columnas, int filas){
 		this.posicion = posicion;
 		this.direccion = g;
 		this.f = f;
 		
-		this.width_px = px_width;
-		this.height_px = px_height;
+		this.filas = filas;
+		this.columnas = columnas;
 		
-		this.anchura = width_px;
-		this.altura = height_px;
+		this.anchura = columnas;
+		this.altura = filas;
 		
 		/* u, v, w */
 		Vector4 up = new Vector4(0, 1, 0, 0);
@@ -45,8 +45,8 @@ public class Camara {
 	 * @return el rayo que va desde el ojo al pixel (i,j) de la pantalla
 	 */
 	public Rayo rayoToPixel(int i, int j){
-		double diffu = anchura / (height_px - 1);
-		double diffv = altura / (width_px - 1);
+		double diffu = anchura / (columnas - 1);
+		double diffv = altura / (filas - 1);
 		
 		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
