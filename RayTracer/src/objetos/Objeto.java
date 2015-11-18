@@ -1,8 +1,19 @@
 package objetos;
 
+import java.awt.Color;
+
 import data.Rayo;
 
 public abstract class Objeto {
+	
+	private Color color;
+	
+	/**
+	 * @return color
+	 */
+	public Color getColor(){
+		return color;
+	}
 	
 	/**
 	 * @param ray: rayo con el que intersectar
