@@ -22,13 +22,13 @@ public class Trazador {
 	final private static String IMAGE_FILE_NAME = "escena.png";
 	
 	// puntos de interes
-	final private static int MAX_RAY_DEPTH = 3;
+	final private static int MAX_REBOTES_RAYO = 3;
 	final private static Vector4 POV = new Vector4(0,0,0,1);
 	final private static Vector4 LIGHT_POS = new Vector4(0,0,0,1);
 	final private static double AMBIENT_LIGHT = 0.2;
 	
 	// contenido de la escena
-	private static ArrayList<Objeto> objects = new ArrayList<Objeto>();
+	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static BufferedImage img = new BufferedImage(
 			IMAGE_HEIGHT, IMAGE_WIDTH, BufferedImage.TYPE_INT_RGB);
 	
@@ -40,9 +40,9 @@ public class Trazador {
 		for (int j = 0; j < IMAGE_HEIGHT; j++) {
 			for (int i = 0; i < IMAGE_WIDTH; i++) {
 				
-				/* Se crea el rayo que pasa por el pixel(i,j) y se lanza */
-				//Vector4 pixel = new Vector4(i,j,0,1);
-				//Rayo primaryRay = new Rayo(pixel.substract(POV));
+				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
+				Vector4 pixel = new Vector4(j,i,0,1);
+				Rayo rayoPrimario = new Rayo(POV, pixel);
 				
 				// pintar en el pixel(i,j) el color obtenido por "trace(primaryRay, 0);"
 				img.setRGB(j, i, 0);
@@ -68,70 +68,81 @@ public class Trazador {
 	 * @param depth: numero de rebotes actuales
 	 * @return color calculado para el 
 	 */
-//	private static Color trace(Rayo ray, int depth){
-//		
-//		Color finalColor = Color.BLACK;
-//		Objeto object = null;
-//		double minDistance = Double.POSITIVE_INFINITY;
-//		Vector4 pIntersect;
-//		Vector4 nIntersect;
-//		
-//		/* Para cada objeto de la escena, se intenta interseccionar */
-//		for (int k = 0; k < objects.size(); k++) {
-//			
-//			double lambda = objects.get(k).intersect(ray);
-//			if (lambda >= 0) {
-//				
-//				/* Se comprueba cual es el objeto visible mas cercano */
-//				pIntersect = ray.getIntersection(lambda);
-//				double distance = ray.origin.distance(pIntersect);
-//				
-//				if (distance < minDistance) {
-//					object = objects.get(k);
-//					minDistance = distance;
-//				}
-//			}
-//		}
-//		
-//		/* Si existe al menos un objeto visible, se lanzan los rayos
-//		 * correspondientes */
-//		if (object != null) {
-//			
-//			// objeto no opaco
-//			if (object.isGlass() && depth < MAX_RAY_DEPTH) {
-//				
-//				/* Lanza el rayo de reflexion */
-//				Rayo reflectionRay = ray.reflectionRay();
-//				Color reflectionColor = trace(reflectionRay, depth + 1);
-//				
-//				/* Lanza el rayo de refraccion */
-//				Rayo refractionRay = ray.refractionRay();
-//				Color refractionColor = trace(refractionRay, depth + 1);
-//				
-//				// finalColor =  reflected * object.Kd + refracted * (1 - object.Kd)
-//			}
-//			
-//			// objeto opaco
-//			else {
-//
-//				/* Lanza el rayo sombra */
-//				Rayo shadowRay = ray.shadowRay(LIGHT_POS.substract(pIntersect));
-//				boolean isShadow = false;
-//				
-//				/* Si el rayo sombra intersecciona con algun objeto, el punto
-//				 * desde el que sale no recibe luz */
-//				for (int k = 0; !isShadow && k < objects.size(); k++) {
-//					isShadow = (objects.get(k).intersect(ray) > 0);
-//				}
-//				
-//				/* Si no llega luz al objeto se le aplica la iluminacion ambiente */
-//				if (isShadow) {
-//					finalColor = object.color * AMBIENT_LIGHT;
-//				}
-//			}
-//			
-//		}
-//		
-//		return finalColor;
-//	}
+	private static Color trazar(Rayo rayo, int rebotes){
+		
+		Color colorFinal = Color.BLACK;
+		Objeto object = null;
+		double minDistancia = Double.POSITIVE_INFINITY;
+		double lambda;
+		Vector4 pIntersec;
+		Vector4 nIntersec;
+		
+		/* Para cada objeto de la escena, se intenta interseccionar */
+		for (int k = 0; k < objetos.size(); k++) {
+			
+			Double landa = objetos.get(k).interseccion(rayo);
+			
+			if (landa != null) {
+				
+				/* Se ha producido una interseccion */
+				lambda = (double) landa;
+				
+				if (lambda >= 0) {
+					
+					/* Se comprueba cual es el objeto visible mas cercano */
+					pIntersec = Rayo.getInterseccion(rayo, lambda);
+					double distance =  Vector4.distancia(rayo.getOrigen(), pIntersec);
+					
+					if (distance < minDistancia) {
+						object = objetos.get(k);
+						minDistancia = distance;
+					}
+				}
+			}
+			
+		}
+		
+		/* Si existe al menos un objeto visible, se lanzan los rayos
+		 * correspondientes */
+		if (object != null) {
+			
+			// objeto no opaco
+			if (object.esCristal() && rebotes < MAX_REBOTES_RAYO) {
+				
+				/* Lanza el rayo de reflexion */
+				Rayo rayoReflejado = rayo.rayoReflejado();
+				Color colorReflexion = trazar(rayoReflejado, rebotes + 1);
+				
+				/* Lanza el rayo de refraccion */
+				Rayo rayoRefractado = rayo.rayoRefractado();
+				Color colorRefraccion = trazar(rayoRefractado, rebotes + 1);
+				
+				// colorFinal = reflected * object.Kd + refracted * (1 - object.Kd)
+			}
+			
+			// objeto opaco
+			else {
+
+				/* Lanza el rayo sombra */
+				Rayo rayoSombra = Rayo.RayoPcpioFin(pIntersec, LIGHT_POS);
+				boolean esSombra = false;
+				
+				/* Si el rayo sombra intersecciona con algun objeto, el punto
+				 * desde el que sale no recibe luz */
+				for (int k = 0; !esSombra && k < objetos.size(); k++) {
+					
+					Double landa = objetos.get(k).interseccion(rayo);
+					esSombra = (landa != null);
+				}
+				
+				/* Si no llega luz al objeto se le aplica la iluminacion ambiente */
+				if (esSombra) {
+					colorFinal = object.color * AMBIENT_LIGHT;
+				}
+			}
+			
+		}
+		
+		return colorFinal;
+	}
 }
