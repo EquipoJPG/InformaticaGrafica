@@ -15,5 +15,8 @@ public class PuntoVectorH {
 		this.h = h;
 	}
 
+	/* operaciones con puntos */
+	
+	/* operaciones con vectores */
 	
 }
