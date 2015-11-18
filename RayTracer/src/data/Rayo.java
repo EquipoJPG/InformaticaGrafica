@@ -4,19 +4,29 @@ public class Rayo {
 
 	/* Atributos de la clase Rayo */
 	private Vector4 origin;
-	private Vector4 intersection;
-	private double phi;
-	private double theta;
+	private Vector4 direccion;
 	
-	public Rayo(Vector4 origin, double phi, double theta) {
+	/**
+	 * @param origin: punto origen del rayo
+	 * @param direction: vector direccion del rayo
+	 */
+	public Rayo (Vector4 origin, Vector4 direction){
 		this.origin = origin;
-		this.phi = phi;
-		this.theta = theta;
+		this.direccion = direction;
 	}
 	
-	public Vector4 getIntersection() {
-		
-		return intersection;
+	/**
+	 * @param origin: punto origen
+	 * @param fin: punto fin
+	 * @return un nuevo rayo con @param origin como origen y 
+	 * @param fin - @param origin como direccion
+	 */
+	public static Rayo RayoPcpioFin(Vector4 origin, Vector4 fin){
+		return new Rayo(origin, Vector4.sub(fin, origin));
+	}
+	
+	public static Vector4 getInterseccion(Rayo ray, double lambda){
+		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
 	}
 	
 }
