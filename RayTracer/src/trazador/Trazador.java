@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import data.PuntoVectorH;
+import data.Vector4;
 import data.Rayo;
 import objetos.Objeto;
 
@@ -23,8 +23,8 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_RAY_DEPTH = 3;
-	final private static PuntoVectorH POV = new PuntoVectorH(0,0,0,1);
-	final private static PuntoVectorH LIGHT_POS = new PuntoVectorH(0,0,0,1);
+	final private static Vector4 POV = new Vector4(0,0,0,1);
+	final private static Vector4 LIGHT_POS = new Vector4(0,0,0,1);
 	final private static double AMBIENT_LIGHT = 0.2;
 	
 	// contenido de la escena
@@ -41,7 +41,7 @@ public class Trazador {
 			for (int i = 0; i < IMAGE_WIDTH; i++) {
 				
 				/* Se crea el rayo que pasa por el pixel(i,j) y se lanza */
-				//PuntoVectorH pixel = new PuntoVectorH(i,j,0,1);
+				//Vector4 pixel = new Vector4(i,j,0,1);
 				//Rayo primaryRay = new Rayo(pixel.substract(POV));
 				
 				// pintar en el pixel(i,j) el color obtenido por "trace(primaryRay, 0);"
@@ -62,13 +62,19 @@ public class Trazador {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param ray: rayo lanzado
+	 * @param depth: numero de rebotes actuales
+	 * @return color calculado para el 
+	 */
 //	private static Color trace(Rayo ray, int depth){
 //		
 //		Color finalColor = Color.BLACK;
 //		Objeto object = null;
 //		double minDistance = Double.POSITIVE_INFINITY;
-//		PuntoVectorH pIntersect;
-//		PuntoVectorH nIntersect;
+//		Vector4 pIntersect;
+//		Vector4 nIntersect;
 //		
 //		/* Para cada objeto de la escena, se intenta interseccionar */
 //		for (int k = 0; k < objects.size(); k++) {
