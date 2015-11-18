@@ -43,6 +43,7 @@ public class Trazador {
 		
 		/* Define la escena */
 		Foco foco = new Foco(POSICION_LUZ,COLOR_LUZ);
+		// FALTA METER LA CAMARA //
 		
 		/* Define los objetos de la escena */
 		Esfera esfera = new Esfera(10.0,Color.RED);
