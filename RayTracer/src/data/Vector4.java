@@ -64,8 +64,34 @@ public class Vector4 {
 		return new Vector4(x, y, z, h);
 	}
 	
+	/**
+	 * @param v: vector|punto
+	 * @param escalar: numero
+	 * @return v*escalar
+	 */
 	public static Vector4 mulEscalar(Vector4 v, double escalar){
 		return new Vector4(v.x * escalar, v.y * escalar, v.z * escalar, v.h);
+	}
+	
+	/**
+	 * @param v: origen
+	 * @param w: fin
+	 * @return distancia de origen (@param v) a fin (@param w)
+	 */
+	public static double distancia(Vector4 v, Vector4 w){
+		return Vector4.modulo(Vector4.sub(w, v));
+	}
+	
+	/**
+	 * @return raiz(x^2 + y^2 + z^2)
+	 */
+	public static double modulo(Vector4 v){
+		return ( Math.pow(
+				 (Math.pow(v.x, 2) +
+				  Math.pow(v.y, 2) +
+				  Math.pow(v.z, 2)),
+				  0.5)
+				);
 	}
 	
 	/**
