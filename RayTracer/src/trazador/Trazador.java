@@ -46,7 +46,7 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_WIDTH, IMAGE_HEIGHT);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera = new Esfera(10, Color.RED);
+		Esfera esfera = new Esfera(15, Color.RED);
 		objetos.add(esfera);
 		
 		System.out.println("OK");
@@ -55,19 +55,19 @@ public class Trazador {
 		/*  Para cada pixel de la pantalla se lanza un rayo y se buscan
 		 * los objetos de la escena con los que intersecciona */
 		for (int j = 0; j < IMAGE_HEIGHT; j++) {
+			int jj = j - IMAGE_HEIGHT/2;
 			for (int i = 0; i < IMAGE_WIDTH; i++) {
+				int ii = i - IMAGE_WIDTH/2;
 				
 				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
 //				Vector4 pixel = new Vector4(j,i,0,1);
 //				Rayo rayoPrimario = new Rayo(POV, pixel);
-				Rayo rayoPrimario = camara.rayoToPixel(j,i);
+				Rayo rayoPrimario = camara.rayoToPixel(jj,ii);
 				
 				/* Pinta el pixel(i,j) del color devuelto por el rayo */
 //				System.out.printf(numRayos + ") Lanzando rayo desde pixel(" + j + ", " + i + ")...");
 				Color colorPixel = trazar(rayoPrimario, 0);
-				System.out.println(colorPixel);
 				int color = colorPixel.getRGB();
-//				System.out.println(color);
 				img.setRGB(j, i, color);
 			}
 		}
