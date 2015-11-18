@@ -22,7 +22,7 @@ public class Trazador {
 	final private static String IMAGE_FILE_NAME = "escena.png";
 	
 	// puntos de interes
-	final private static int MAX_REBOTES_RAYO = 3;
+	final private static int MAX_REBOTES_RAYO = 0;
 	final private static Vector4 POV = new Vector4(0,0,0,1);
 	final private static Vector4 LIGHT_POS = new Vector4(0,0,0,1);
 	final private static double AMBIENT_LIGHT = 0.2;
@@ -44,8 +44,10 @@ public class Trazador {
 				Vector4 pixel = new Vector4(j,i,0,1);
 				Rayo rayoPrimario = new Rayo(POV, pixel);
 				
-				// pintar en el pixel(i,j) el color obtenido por "trace(primaryRay, 0);"
-				img.setRGB(j, i, 0);
+				/* Pinta el pixel(i,j) del color devuelto por el rayo */
+				Color colorPixel = trazar(rayoPrimario, 0);
+				int color = colorPixel.getRGB();
+				img.setRGB(j, i, color);
 			}
 		}
 		
@@ -71,7 +73,7 @@ public class Trazador {
 	private static Color trazar(Rayo rayo, int rebotes){
 		
 		Color colorFinal = Color.BLACK;
-		Objeto object = null;
+		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
 		double lambda;
 		Vector4 pIntersec;
@@ -94,54 +96,55 @@ public class Trazador {
 					double distance =  Vector4.distancia(rayo.getOrigen(), pIntersec);
 					
 					if (distance < minDistancia) {
-						object = objetos.get(k);
+						objeto = objetos.get(k);
 						minDistancia = distance;
 					}
 				}
 			}
 			
 		}
+		colorFinal = objeto.getColor();
 		
 		/* Si existe al menos un objeto visible, se lanzan los rayos
 		 * correspondientes */
-		if (object != null) {
-			
-			// objeto no opaco
-			if (object.esCristal() && rebotes < MAX_REBOTES_RAYO) {
-				
-				/* Lanza el rayo de reflexion */
-				Rayo rayoReflejado = rayo.rayoReflejado();
-				Color colorReflexion = trazar(rayoReflejado, rebotes + 1);
-				
-				/* Lanza el rayo de refraccion */
-				Rayo rayoRefractado = rayo.rayoRefractado();
-				Color colorRefraccion = trazar(rayoRefractado, rebotes + 1);
-				
-				// colorFinal = reflected * object.Kd + refracted * (1 - object.Kd)
-			}
-			
-			// objeto opaco
-			else {
-
-				/* Lanza el rayo sombra */
-				Rayo rayoSombra = Rayo.RayoPcpioFin(pIntersec, LIGHT_POS);
-				boolean esSombra = false;
-				
-				/* Si el rayo sombra intersecciona con algun objeto, el punto
-				 * desde el que sale no recibe luz */
-				for (int k = 0; !esSombra && k < objetos.size(); k++) {
-					
-					Double landa = objetos.get(k).interseccion(rayo);
-					esSombra = (landa != null);
-				}
-				
-				/* Si no llega luz al objeto se le aplica la iluminacion ambiente */
-				if (esSombra) {
-					colorFinal = object.color * AMBIENT_LIGHT;
-				}
-			}
-			
-		}
+//		if (object != null) {
+//			
+//			// objeto no opaco
+//			if (object.esCristal() && rebotes < MAX_REBOTES_RAYO) {
+//				
+//				/* Lanza el rayo de reflexion */
+//				Rayo rayoReflejado = rayo.rayoReflejado();
+//				Color colorReflexion = trazar(rayoReflejado, rebotes + 1);
+//				
+//				/* Lanza el rayo de refraccion */
+//				Rayo rayoRefractado = rayo.rayoRefractado();
+//				Color colorRefraccion = trazar(rayoRefractado, rebotes + 1);
+//				
+//				// colorFinal = reflected * object.Kd + refracted * (1 - object.Kd)
+//			}
+//			
+//			// objeto opaco
+//			else {
+//
+//				/* Lanza el rayo sombra */
+//				Rayo rayoSombra = Rayo.RayoPcpioFin(pIntersec, LIGHT_POS);
+//				boolean esSombra = false;
+//				
+//				/* Si el rayo sombra intersecciona con algun objeto, el punto
+//				 * desde el que sale no recibe luz */
+//				for (int k = 0; !esSombra && k < objetos.size(); k++) {
+//					
+//					Double landa = objetos.get(k).interseccion(rayo);
+//					esSombra = (landa != null);
+//				}
+//				
+//				/* Si no llega luz al objeto se le aplica la iluminacion ambiente */
+//				if (esSombra) {
+//					colorFinal = object.color * AMBIENT_LIGHT;
+//				}
+//			}
+//			
+//		}
 		
 		return colorFinal;
 	}
