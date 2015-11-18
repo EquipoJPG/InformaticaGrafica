@@ -6,7 +6,7 @@ import data.Rayo;
 
 public abstract class Objeto {
 	
-	private Color color;
+	protected Color color;
 	
 	/**
 	 * @return color
