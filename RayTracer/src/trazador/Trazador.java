@@ -24,6 +24,7 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 0;
+	final private static int DISTANCIA_FOCAL = 5;
 	final private static Vector4 POV = new Vector4(10,10,10,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0,0,0,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
@@ -37,16 +38,15 @@ public class Trazador {
 	
 	public static void main(String[] args) {
 
-		int numRayos = 0;
-		
 		System.out.printf("Preparando escena...");
 		
 		/* Define la escena */
-		Foco foco = new Foco(POSICION_LUZ,COLOR_LUZ);
-		// FALTA METER LA CAMARA //
+		Foco luz = new Foco(POSICION_LUZ,COLOR_LUZ);
+		Camara camara = new Camara(POV, Vector4.sub(new Vector4(), POV),
+									DISTANCIA_FOCAL, IMAGE_WIDTH, IMAGE_HEIGHT);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera = new Esfera(10.0,Color.RED);
+		Esfera esfera = new Esfera(10, Color.RED);
 		objetos.add(esfera);
 		
 		System.out.println("OK");
@@ -57,16 +57,17 @@ public class Trazador {
 		for (int j = 0; j < IMAGE_HEIGHT; j++) {
 			for (int i = 0; i < IMAGE_WIDTH; i++) {
 				
-				numRayos++;
-				
 				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
-				Vector4 pixel = new Vector4(j,i,0,1);
-				Rayo rayoPrimario = new Rayo(POV, pixel);
+//				Vector4 pixel = new Vector4(j,i,0,1);
+//				Rayo rayoPrimario = new Rayo(POV, pixel);
+				Rayo rayoPrimario = camara.rayoToPixel(j,i);
 				
 				/* Pinta el pixel(i,j) del color devuelto por el rayo */
 //				System.out.printf(numRayos + ") Lanzando rayo desde pixel(" + j + ", " + i + ")...");
 				Color colorPixel = trazar(rayoPrimario, 0);
+				System.out.println(colorPixel);
 				int color = colorPixel.getRGB();
+//				System.out.println(color);
 				img.setRGB(j, i, color);
 			}
 		}
@@ -92,13 +93,14 @@ public class Trazador {
 	
 	/**
 	 * 
-	 * @param ray: rayo lanzado
-	 * @param depth: numero de rebotes actuales
-	 * @return color calculado para el 
+	 * @param rayo: rayo lanzado
+	 * @param rebotes: numero de rebotes actuales
+	 * @return color calculado para el punto desde el que se lanza el
+	 * rayo rayo
 	 */
 	private static Color trazar(Rayo rayo, int rebotes){
 		
-		Color colorFinal = Color.BLACK;
+		Color colorFinal = Color.WHITE;
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
 		double lambda;
@@ -131,6 +133,9 @@ public class Trazador {
 		}
 		if (objeto != null) {
 			colorFinal = objeto.getColor();
+			
+//			System.out.printf("Interseccion, color: ");
+//			System.out.println(colorFinal);
 		}
 		else {
 //			System.out.println("NO HAY INTERSECCION D:");
