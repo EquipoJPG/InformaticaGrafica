@@ -1,7 +1,5 @@
 package objetos;
 
-import java.awt.Color;
-
 import data.Rayo;
 import data.Vector4;
 
@@ -14,19 +12,19 @@ public class Esfera extends Objeto {
 	 * @param centro: centro de la esfera (0,0,0) seria lo correcto
 	 * @param radio: radio de la esfera
 	 */
-	public Esfera(Vector4 centro, double radio, Color color){
+	public Esfera(Vector4 centro, double radio, Material m){
 		this.centro = centro;
 		this.radio = radio;
-		super.color = color;
+		super.material = m;
 	}
 	
 	/**
 	 * @param radio: radio de la esfera
 	 */
-	public Esfera(double radio, Color color){
+	public Esfera(double radio, Material m){
 		this.centro = new Vector4();
 		this.radio = radio;
-		super.color = color;
+		super.material = m;
 	}
 
 	/**

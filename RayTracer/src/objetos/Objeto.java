@@ -1,18 +1,13 @@
 package objetos;
 
-import java.awt.Color;
-
 import data.Rayo;
 
 public abstract class Objeto {
 	
-	protected Color color;
+	protected Material material;
 	
-	/**
-	 * @return color
-	 */
-	public Color getColor(){
-		return color;
+	public Material getMaterial(){
+		return material;
 	}
 	
 	/**

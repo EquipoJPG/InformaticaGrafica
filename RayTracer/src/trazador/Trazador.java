@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import data.Rayo;
 import data.Vector4;
 import objetos.Esfera;
+import objetos.Material;
 import objetos.Objeto;
 
 public class Trazador {
@@ -46,7 +47,7 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera = new Esfera(17.305, Color.RED);
+		Esfera esfera = new Esfera(17.305, new Material(0.2, 0.5, Color.RED));
 		objetos.add(esfera);
 		
 		System.out.println("OK");
@@ -100,7 +101,7 @@ public class Trazador {
 	 */
 	private static Color trazar(Rayo rayo, int rebotes){
 		
-		Color colorFinal = Color.WHITE;
+		Color colorFinal = Color.BLACK;
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
 		double lambda;
@@ -132,7 +133,17 @@ public class Trazador {
 			
 		}
 		if (objeto != null) {
-			colorFinal = objeto.getColor();
+			/*
+			 * La luz ambiental siempre es completamente blanca: (255, 255, 255)
+			 * color_luz_ambiental * coeficiente_ambiental <- cuanta luz llega al objeto
+			 * color_objeto * (luz que llega al objeto) <- termino ambiental
+			 */
+			Color ambiente = COLOR_LUZ;
+			Color c = objeto.getMaterial().getColor();
+			int r = (int) (c.getRed() * ( (ambiente.getRed() * LUZ_AMBIENTAL)/255 ));
+			int b = (int) (c.getBlue() * ( (ambiente.getBlue() * LUZ_AMBIENTAL)/ 255));
+			int g = (int) (c.getGreen() * ( (ambiente.getGreen() * LUZ_AMBIENTAL)/ 255));
+			colorFinal = new Color(r, g, b);
 			
 //			System.out.printf("Interseccion, color: ");
 //			System.out.println(colorFinal);
