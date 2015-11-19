@@ -13,7 +13,6 @@ import data.Vector4;
 import objetos.Esfera;
 import objetos.Material;
 import objetos.Objeto;
-import objetos.Plano;
 
 public class Trazador {
 
@@ -26,12 +25,12 @@ public class Trazador {
 	final private static int ANTIALIASING = 9;
 	
 	// puntos de interes
-	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 145;
+	final private static int MAX_REBOTES_RAYO = 3;
+	final private static int DISTANCIA_FOCAL = 100;
 	final private static Vector4 POV = new Vector4(100,100,100,1);
-	final private static Vector4 POSICION_LUZ = new Vector4(50,50,50,1);
+	final private static Vector4 POSICION_LUZ = new Vector4(100,0,0,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
-	final private static double LUZ_AMBIENTAL = 0.5;
+	final private static double LUZ_AMBIENTAL = 0.2;
 	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -48,17 +47,12 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(0.2, 0, Color.RED));
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.3, 0, Color.CYAN));
-		
-		Vector4 normalPlano1 = Vector4.sub(new Vector4(0, 0, 0, 1), POV); //new Vector4(1, 0, 0, 0);
-		Vector4 centroPlano1 = new Vector4(0, 0, 0, 1);
-		Plano plano1 = new Plano(normalPlano1, centroPlano1, 30, 30, new Material(0.2, 0, Color.GREEN));
+		Esfera esfera1 = new Esfera(20, new Material(1, 0.2, Color.RED));
+		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(1, 0.8, Color.CYAN));
 		
 		objetos.add(esfera1);
 		objetos.add(esfera2);
-		objetos.add(plano1);
-		
+
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
 		
@@ -117,12 +111,11 @@ public class Trazador {
 	 */
 	private static Color trazar(Rayo rayo, int rebotes){
 		
-		Color colorFinal = Color.WHITE;
+		Color colorFinal = Color.BLACK;
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
 		double lambda;
 		Vector4 pIntersec = null;
-		Vector4 nIntersec;
 		
 		/* Para cada objeto de la escena, se intenta interseccionar */
 		for (int k = 0; k < objetos.size(); k++) {
@@ -153,62 +146,68 @@ public class Trazador {
 		 * correspondientes */
 		if (objeto != null) {
 			
-			// objeto no opaco
-			if (objeto.getMaterial().getK_refraccion() > 0 && rebotes < MAX_REBOTES_RAYO) {
-				
-				/* Lanza el rayo de reflexion */
-				Rayo rayoReflejado = Rayo.rayoReflejado(rayo, objeto, pIntersec);
-				Color colorReflexion = trazar(rayoReflejado, rebotes + 1);
-				
-				/* Lanza el rayo de refraccion */
-				Rayo rayoRefractado = Rayo.rayoRefractado(rayo, objeto, pIntersec);
-				Color colorRefraccion = trazar(rayoRefractado, rebotes + 1);
-				
-				/* Calcula el color resultante */
-				double Kd = objeto.getMaterial().getK_reflexion();
-				int rFinal =(int) ((int) ((int) colorReflexion.getRed() * Kd) + ((int) colorRefraccion.getRed() * (1 - Kd)));
-				int gFinal =(int) ((int) ((int) colorReflexion.getGreen() * Kd) + ((int) colorRefraccion.getGreen() * (1 - Kd)));
-				int bFinal =(int) ((int) ((int) colorReflexion.getBlue() * Kd) + ((int) colorRefraccion.getBlue() * (1 - Kd)));
-				colorFinal = new Color(rFinal, gFinal, bFinal);
-			}
-			
-			// objeto opaco
-			else {
-
-				/* Lanza el rayo sombra */
-				Rayo rayoSombra = Rayo.RayoPcpioFin(pIntersec, POSICION_LUZ);
-				boolean esSombra = false;
-				
-				/* Si el rayo sombra intersecciona con algun objeto, el punto
-				 * desde el que sale no recibe luz */
-				for (int k = 0; !esSombra && k < objetos.size(); k++) {
-					
-					Double landa = objetos.get(k).interseccion(rayo);
-					esSombra = (landa != null);
+			// continuar con la recursion
+			if(rebotes < MAX_REBOTES_RAYO){
+				// rayo de sombra
+				boolean sombreado = false;	// true si esta a la sombra
+				Rayo sombra = Rayo.RayoPcpioFin(pIntersec, POSICION_LUZ);
+				for(int k = 0; k < objetos.size() && !sombreado; k++){
+					Double landa = objetos.get(k).interseccion(sombra); 
+					sombreado = landa != null && landa >= 0;
 				}
 				
-				/* Si no llega luz al objeto se le aplica la iluminacion ambiente */
-				if (esSombra) {
-					
-					/*
-					 * La luz ambiental siempre es completamente blanca: (255, 255, 255)
-					 * color_luz_ambiental * coeficiente_ambiental <- cuanta luz llega al objeto
-					 * color_objeto * (luz que llega al objeto) <- termino ambiental
-					 */
-					Color ambiente = COLOR_LUZ;
-					Color c = objeto.getMaterial().getColor();
-					int r = (int) (c.getRed() * ( (ambiente.getRed() * LUZ_AMBIENTAL)/255 ));
-					int b = (int) (c.getBlue() * ( (ambiente.getBlue() * LUZ_AMBIENTAL)/ 255));
-					int g = (int) (c.getGreen() * ( (ambiente.getGreen() * LUZ_AMBIENTAL)/ 255));
-					colorFinal = new Color(r, g, b);
+				if(sombreado){
+					colorFinal = luzAmbiental(LUZ_AMBIENTAL, objeto);
 				}
+				else{
+					colorFinal = objeto.getMaterial().getColor();
+				}
+				
+				// rayo refractado - termino difuso
+				Rayo refractado = Rayo.rayoDifuso(rayo, objeto, pIntersec);
+				Color colorRefractado = trazar(refractado, rebotes + 1);
+				int red = (int) (objeto.getMaterial().getColor().getRed()
+						* (colorRefractado.getRed() * objeto.getMaterial().getK_reflexion() / 255));
+				int green = (int) (objeto.getMaterial().getColor().getGreen()
+						* (colorRefractado.getGreen() * objeto.getMaterial().getK_reflexion() / 255));
+				int blue = (int) (objeto.getMaterial().getColor().getBlue()
+						* (colorRefractado.getBlue() * objeto.getMaterial().getK_reflexion() / 255));
+				colorRefractado = new Color(red, green, blue);
+				
+				if(colorRefractado != Color.BLACK){
+					colorFinal = mix(colorFinal, colorRefractado);
+				}
+				
+				// rayo reflejado - termino especular
+//				Rayo reflejado = Rayo.rayoEspecular(rayo, objeto, pIntersec);
+//				Color colorReflejado = trazar(reflejado, rebotes + 1);
+//				int red = (int) (colorReflejado.getRed() * objeto.getMaterial().getK_reflexion());
+//				int green = (int) (colorReflejado.getGreen() * objeto.getMaterial().getK_reflexion());
+//				int blue = (int) (colorReflejado.getBlue() * objeto.getMaterial().getK_reflexion());
+//				colorReflejado = new Color(red, green, blue);
+//				
+//				if(colorReflejado != Color.BLACK){
+//					colorFinal = mix(colorFinal, colorReflejado);
+//				}
 			}
-			
 		}
 		
 		return colorFinal;
 	}
 	
+	/**
+	 * @param luzAmbiental
+	 * @param objeto
+	 * @return color al aplicar luz ambiental al objeto
+	 */
+	private static Color luzAmbiental(double luzAmbiental, Objeto objeto) {
+		Color c = objeto.getMaterial().getColor();
+		int r = (int) (c.getRed() * luzAmbiental);
+		int b = (int) (c.getBlue() * luzAmbiental);
+		int g = (int) (c.getGreen() * luzAmbiental);
+		return new Color(r, g, b);
+	}
+
 	/**
 	 * Mezcla los colores dados
 	 */

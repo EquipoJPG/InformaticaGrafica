@@ -50,7 +50,7 @@ public class Rayo {
 		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
 	}
 
-	public static Rayo rayoRefractado(Rayo original, Objeto o, Vector4 i) {
+	public static Rayo rayoDifuso(Rayo original, Objeto o, Vector4 i) {
 		
 		/* Calcular variables */
 		Vector4 normal = o.normal(i);
@@ -70,19 +70,23 @@ public class Rayo {
 		return returned;
 	}
 
-	public static Rayo rayoReflejado(Rayo original, Objeto o, Vector4 i) {
+	public static Rayo rayoEspecular(Rayo original, Objeto o, Vector4 i) {
 		
 		/* Calcular variables */
 		Vector4 normal = o.normal(i);
-		double dotProduct = Vector4.dot(original.getDireccion(), normal);
+		// dot = l.n, l= -direccion 
+		double dotProduct = Vector4.dot(Vector4.negate(original.getDireccion()), normal);
 		
 		/* Calculo reflejado */
+		// segundoTerm = (2*dot)n
 		Vector4 segundoTerm = Vector4.mulEscalar(normal, 2*dotProduct);
-		Vector4 reflejado = Vector4.sub(original.getDireccion(), segundoTerm);
+		// reflejado = (2*(l.n))n - l
+		Vector4 reflejado = Vector4.sub(segundoTerm, Vector4.negate(original.getDireccion()));
 		reflejado.normalise();
 		
 		/* Construccion del rayo devuelto */
-		Rayo returned = new Rayo(i,reflejado);
+		double epsilon = 1e-12;
+		Rayo returned = new Rayo(Vector4.add(i, Vector4.mulEscalar(reflejado, epsilon)),reflejado);
 		return returned;
 	}
 
