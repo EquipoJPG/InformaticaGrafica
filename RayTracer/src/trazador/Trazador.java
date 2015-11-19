@@ -26,7 +26,7 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 100;
+	final private static int DISTANCIA_FOCAL = 145;
 	final private static Vector4 POV = new Vector4(100,100,100,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(50,50,50,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
@@ -52,11 +52,11 @@ public class Trazador {
 		
 		Vector4 normalPlano1 = Vector4.sub(new Vector4(0, 0, 0, 1), POV); //new Vector4(1, 0, 0, 0);
 		Vector4 centroPlano1 = new Vector4(0, 0, 0, 1);
-		Plano plano1 = new Plano(normalPlano1, centroPlano1, 30, 30, new Material(0.2, 0.5, Color.GREEN));
+		Plano plano1 = new Plano(normalPlano1, centroPlano1, 30, 30, new Material(0.2, 0, Color.GREEN));
 		
 		objetos.add(esfera1);
 		objetos.add(esfera2);
-		//objetos.add(plano1);
+		objetos.add(plano1);
 		
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
