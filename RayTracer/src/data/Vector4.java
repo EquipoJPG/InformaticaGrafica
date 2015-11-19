@@ -163,7 +163,7 @@ public class Vector4 {
 	 */
 	public static double angulo(Vector4 v, Vector4 w){
 		// dot div (mod(v)*mod(w))
-		return (Vector4.dot(v, w) / (Vector4.modulo(v) * Vector4.modulo(w)));
+		return Math.acos((Vector4.dot(v, w) / (Vector4.modulo(v) * Vector4.modulo(w))));
 	}
 	
 	/**
