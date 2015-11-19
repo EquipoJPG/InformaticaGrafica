@@ -19,8 +19,8 @@ public class Trazador {
 	/* Variables globales del trazador de rayos */
 	
 	// imagen
-	final private static int IMAGE_COLS = 1024;	// width
-	final private static int IMAGE_ROWS = 720;	// height
+	final private static int IMAGE_COLS = 40;	// width
+	final private static int IMAGE_ROWS = 30;	// height
 	final private static String IMAGE_FILE_NAME = "escena.png";
 	
 	// puntos de interes
@@ -29,7 +29,7 @@ public class Trazador {
 	final private static Vector4 POV = new Vector4(10,10,10,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0,0,0,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
-	final private static double LUZ_AMBIENTAL = 0.2;
+	final private static double LUZ_AMBIENTAL = 0.5;
 	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -47,7 +47,7 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera = new Esfera(17.305, new Material(0.2, 0.5, Color.RED));
+		Esfera esfera = new Esfera(16, new Material(0.2, 0.5, Color.RED));
 		objetos.add(esfera);
 		
 		System.out.println("OK");
@@ -101,7 +101,7 @@ public class Trazador {
 	 */
 	private static Color trazar(Rayo rayo, int rebotes){
 		
-		Color colorFinal = Color.BLACK;
+		Color colorFinal = Color.WHITE;
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
 		double lambda;
