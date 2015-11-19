@@ -1,5 +1,7 @@
 package trazador;
 
+import java.util.Random;
+
 import data.Rayo;
 import data.Vector4;
 
@@ -48,7 +50,11 @@ public class Camara {
 		double diffu = anchura / (columnas - 1);
 		double diffv = altura / (filas - 1);
 		
-		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
+		Random r = new Random();
+		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
+		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
+		
+		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
 		
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
