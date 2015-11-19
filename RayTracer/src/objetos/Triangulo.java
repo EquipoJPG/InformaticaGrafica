@@ -24,7 +24,10 @@ public class Triangulo extends Objeto {
 	
 	@Override
 	public Double interseccion(Rayo ray) {
-		
+		Vector4 a = ray.getOrigen();
+		Vector4 d = ray.getDireccion();
+		Vector4 term1 = Vector4.sub(p2, p1);
+		Vector4 term2 = Vector4.sub(v, w)
 		return null;
 	}
 
