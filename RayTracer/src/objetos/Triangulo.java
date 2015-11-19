@@ -26,7 +26,7 @@ public class Triangulo extends Objeto {
 	@Override
 	public Double interseccion(Rayo ray) {
 		Vector4 a = ray.getOrigen();
-		Vector4 d = ray.getDireccion().normalise();
+		Vector4 d = ray.getDireccion();
 		Vector4 n = normal(null);
 
 		double denominador = Vector4.dot(d, n);
@@ -37,6 +37,9 @@ public class Triangulo extends Objeto {
 			return null;
 		} else {
 			/* Si que intersecciona */
+			if (denominador > 0)
+				n = Vector4.negate(n);
+
 			double numerador = Vector4.dot(Vector4.sub(p1, a), n);
 			double landa = numerador / denominador;
 			/* Interseccion */
@@ -51,10 +54,9 @@ public class Triangulo extends Objeto {
 			double s3 = Vector4.dot(Vector4.cross(Vector4.sub(p1, p3), Vector4.sub(p, p3)), n);
 
 			/* Comprobar que las tres 's' tienen el mismo signo */
-			if (Math.signum(s1) == Math.signum(s2) && Math.signum(s1) == Math.signum(s3)
-					&& Math.signum(s3) == Math.signum(s2)) {
+			if (Math.signum(s1) == Math.signum(s2) && Math.signum(s1) == Math.signum(s3)) {
 				return landa;
-			} else{
+			} else {
 				/* No hay interseccion dentro del triángulo */
 				return null;
 			}
