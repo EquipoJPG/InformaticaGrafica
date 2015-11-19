@@ -25,10 +25,19 @@ public class Triangulo extends Objeto {
 	@Override
 	public Double interseccion(Rayo ray) {
 		Vector4 a = ray.getOrigen();
-		Vector4 d = ray.getDireccion();
+		Vector4 d = ray.getDireccion().normalise();
 		Vector4 term1 = Vector4.sub(p2, p1);
-		Vector4 term2 = Vector4.sub(v, w)
-		return null;
+		Vector4 term2 = Vector4.sub(p3, p1);
+		Vector4 n = Vector4.cross(term1, term2);
+		
+		double denominador = Vector4.dot(d, n);
+		if(denominador == 0){
+			return null;
+		}
+		else{
+			double numerador = Vector4.dot(Vector4.sub(p1,a),n);
+			return numerador / denominador;
+		}
 	}
 
 	@Override
