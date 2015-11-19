@@ -51,8 +51,8 @@ public class Camara {
 		double diffv = altura / (filas - 1);
 		
 		Random r = new Random();
-		double varu = r.nextDouble() - 0.5;
-		double varv = r.nextDouble() - 0.5;
+		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
+		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		
 		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
