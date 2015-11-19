@@ -22,7 +22,7 @@ public class Esfera extends Objeto {
 	 * @param radio: radio de la esfera
 	 */
 	public Esfera(double radio, Material m){
-		this.centro = new Vector4();
+		this.centro = new Vector4(0, 0, 0, 1);
 		this.radio = radio;
 		super.material = m;
 	}
@@ -55,19 +55,14 @@ public class Esfera extends Objeto {
 			lambda2 = (-2*B - Math.pow(4*Math.pow(B, 2) - 4*A*C, 0.5)) / (2*A);
 			
 			double min = Math.min(lambda1, lambda2);
-			double max = Math.max(lambda1, lambda2);
-			
-			if(min < 0){
-				if(max < 0){	// min < 0 && max < 0
-					return null;
-				}
-				else{	// min < 0 && max > 0
-					return max;
-				}
-			}
-			else{	// min > 0
-				return min;
-			}
+			return min;
 		}
+	}
+	
+	/**
+	 * @return la normal de la esfera respecto a @param interseccion
+	 */
+	public Vector4 normal(Vector4 interseccion){
+		return Vector4.sub(interseccion, centro);
 	}
 }
