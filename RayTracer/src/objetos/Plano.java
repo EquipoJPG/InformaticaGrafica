@@ -9,9 +9,10 @@ public class Plano extends Objeto {
 	Vector4 normal;
 	double puntoD;		// distancia al origen de coordenadas
 	
-	public Plano(Vector4 normal, double D) {
+	public Plano(Vector4 normal, double D, Material m) {
 		this.normal = normal;
 		this.puntoD = D;
+		super.material = m;
 	}
 	
 	@Override
@@ -20,7 +21,7 @@ public class Plano extends Objeto {
 		Vector4 n = normal;
 		Vector4 a = ray.getOrigen();
 		
-		double numerador = Vector4.dot(n, a) + puntoD; 	// [n * a + D]
+		double numerador = - Vector4.dot(n, a) + puntoD; 	// [n * a + D]
 		double denominador = Vector4.dot(d, n); 		// (d * n)
 		Double lambda = null;
 		

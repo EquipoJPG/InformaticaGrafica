@@ -13,14 +13,15 @@ import data.Vector4;
 import objetos.Esfera;
 import objetos.Material;
 import objetos.Objeto;
+import objetos.Plano;
 
 public class Trazador {
 
 	/* Variables globales del trazador de rayos */
 	
 	// imagen
-	final private static int IMAGE_COLS = 40;	// width
-	final private static int IMAGE_ROWS = 30;	// height
+	final private static int IMAGE_COLS = 1024;	// width
+	final private static int IMAGE_ROWS = 720;	// height
 	final private static String IMAGE_FILE_NAME = "escena.png";
 	
 	// puntos de interes
@@ -29,7 +30,7 @@ public class Trazador {
 	final private static Vector4 POV = new Vector4(50,50,50,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0,0,0,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
-	final private static double LUZ_AMBIENTAL = 0.1;
+	final private static double LUZ_AMBIENTAL = 0.5;
 	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -48,8 +49,12 @@ public class Trazador {
 		/* Define los objetos de la escena */
 		Esfera esfera1 = new Esfera(20, new Material(0.2, 0.5, Color.RED));
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.2, 0.5, Color.CYAN));
+		
+		Plano plano1 = new Plano(Vector4.sub(POV, new Vector4(0, 0, 0, 1)), 20, new Material(0.2, 0.5, Color.GREEN));
+		
 		objetos.add(esfera1);
 		objetos.add(esfera2);
+		objetos.add(plano1);
 		
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -62,12 +67,9 @@ public class Trazador {
 				int ii = i - IMAGE_ROWS/2;
 				
 				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
-//				Vector4 pixel = new Vector4(j,i,0,1);
-//				Rayo rayoPrimario = new Rayo(POV, pixel);
 				Rayo rayoPrimario = camara.rayoToPixel(ii, jj);
 				
 				/* Pinta el pixel(i,j) del color devuelto por el rayo */
-//				System.out.printf(numRayos + ") Lanzando rayo desde pixel(" + j + ", " + i + ")...");
 				Color colorPixel = trazar(rayoPrimario, 0);
 				int color = colorPixel.getRGB();
 				img.setRGB(j, i, color);
