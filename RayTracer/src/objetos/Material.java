@@ -16,8 +16,8 @@ public class Material {
 	 * @param color
 	 */
 	public Material(double k_reflexion, double k_refraccion, Color color) {
-		this.k_reflexion = k_reflexion;
-		this.k_refraccion = k_refraccion;
+		this.setK_reflexion(k_reflexion);
+		this.setK_refraccion(k_refraccion);
 		this.color = color;
 	}
 	
@@ -26,6 +26,22 @@ public class Material {
 	 */
 	public Color getColor(){
 		return color;
+	}
+
+	public double getK_reflexion() {
+		return k_reflexion;
+	}
+
+	public void setK_reflexion(double k_reflexion) {
+		this.k_reflexion = k_reflexion;
+	}
+
+	public double getK_refraccion() {
+		return k_refraccion;
+	}
+
+	public void setK_refraccion(double k_refraccion) {
+		this.k_refraccion = k_refraccion;
 	}
 
 }
