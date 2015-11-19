@@ -47,11 +47,12 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true));
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.2, 0.8, Color.CYAN, true, true));
-	
-		objetos.add(esfera1);
-		objetos.add(esfera2);
+//		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true));
+//		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.2, 0.8, Color.CYAN, true, true));
+//	
+//		objetos.add(esfera1);
+//		objetos.add(esfera2);
+		objetos = Escena.crear(POV);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
