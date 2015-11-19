@@ -32,8 +32,9 @@ public class Camara {
 		this.filas = filas;
 		this.columnas = columnas;
 		
-		this.anchura = columnas;
-		this.altura = filas;
+		this.anchura = columnas / 5;
+		this.altura = filas / 5;
+		
 		
 		/* u, v, w */
 		Vector4 up = new Vector4(0, 1, 0, 0);
@@ -47,8 +48,10 @@ public class Camara {
 	 * @return el rayo que va desde el ojo al pixel (i,j) de la pantalla
 	 */
 	public Rayo rayoToPixel(int i, int j){
-		double diffu = anchura / (columnas - 1);
-		double diffv = altura / (filas - 1);
+		double diffu = (double) anchura / (double) (columnas - 1);
+		double diffv = (double) altura / (double) (filas - 1);
+		
+//		System.out.println("DIFFU: " + diffu +", DIFFV: " + diffv);
 		
 		Random r = new Random();
 		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]

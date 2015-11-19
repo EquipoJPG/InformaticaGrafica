@@ -49,7 +49,7 @@ public class Trazador {
 		/* Define los objetos de la escena */
 		Esfera esfera1 = new Esfera(20, new Material(1, 0.2, Color.RED));
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(1, 0.8, Color.CYAN));
-		
+	
 		objetos.add(esfera1);
 		objetos.add(esfera2);
 
