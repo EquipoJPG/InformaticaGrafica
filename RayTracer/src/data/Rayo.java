@@ -50,11 +50,11 @@ public class Rayo {
 		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
 	}
 
-	public Rayo rayoRefractado(Rayo original, Objeto o, Vector4 i) {
+	public static Rayo rayoRefractado(Rayo original, Objeto o, Vector4 i) {
 		
 		/* Calcular variables */
 		Vector4 normal = o.normal(i);
-		double anguloIncidencia = Vector4.angulo(this.direccion, normal);
+		double anguloIncidencia = Vector4.angulo(original.direccion, normal);
 		double kRefr = o.getMaterial().getK_refraccion();
 		double anguloRefractado = Math.asin(Math.sin(anguloIncidencia) / kRefr);
 		
@@ -70,7 +70,7 @@ public class Rayo {
 		return returned;
 	}
 
-	public Rayo rayoReflejado(Rayo original, Objeto o, Vector4 i) {
+	public static Rayo rayoReflejado(Rayo original, Objeto o, Vector4 i) {
 		
 		/* Calcular variables */
 		Vector4 normal = o.normal(i);
