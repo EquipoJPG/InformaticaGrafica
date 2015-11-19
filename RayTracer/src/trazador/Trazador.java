@@ -47,8 +47,8 @@ public class Trazador {
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(1, 0.2, Color.RED));
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(1, 0.8, Color.CYAN));
+		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true));
+		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.2, 0.8, Color.CYAN, true, true));
 	
 		objetos.add(esfera1);
 		objetos.add(esfera2);
@@ -148,51 +148,48 @@ public class Trazador {
 			
 			// continuar con la recursion
 			if(rebotes < MAX_REBOTES_RAYO){
-				// rayo de sombra
-				boolean sombreado = false;	// true si esta a la sombra
-				Rayo sombra = Rayo.RayoPcpioFin(pIntersec, POSICION_LUZ);
-				for(int k = 0; k < objetos.size() && !sombreado; k++){
-					Double landa = objetos.get(k).interseccion(sombra); 
-					sombreado = landa != null && landa > 0;
-				}
 				
-				if(sombreado){
-					colorFinal = luzAmbiental(LUZ_AMBIENTAL, objeto);
+				// si refleja o refracta, devuelve especular + difuso
+				if(objeto.getMaterial().isTransparente() || objeto.getMaterial().isRefleja()){
+					// rayo reflejado - termino especular
+					Rayo reflejado = Rayo.rayoEspecular(rayo, objeto, pIntersec);
+					Color colorReflejado = trazar(reflejado, rebotes + 1);
+					
+					if(objeto.getMaterial().isRefleja()){
+						return colorReflejado;
+					}
+					else{
+						// rayo refractado - termino difuso
+						Rayo refractado = Rayo.rayoDifuso(rayo, objeto, pIntersec);
+						Color colorRefractado = trazar(refractado, rebotes + 1);
+						
+						int red = (int) (colorReflejado.getRed() * objeto.getMaterial().getK_reflexion()
+								+ colorRefractado.getRed() * objeto.getMaterial().getK_refraccion());
+						int green = (int) (colorReflejado.getGreen() * objeto.getMaterial().getK_reflexion()
+								+ colorRefractado.getGreen() * objeto.getMaterial().getK_refraccion());
+						int blue = (int) (colorReflejado.getBlue() * objeto.getMaterial().getK_reflexion()
+								+ colorRefractado.getBlue() * objeto.getMaterial().getK_refraccion());
+						
+						Color finalColor = new Color(red, green, blue);
+						return finalColor;
+					}
 				}
-				else{
-					colorFinal = objeto.getMaterial().getColor();
-				}
-				
-				// rayo refractado - termino difuso
-//				Rayo refractado = Rayo.rayoDifuso(rayo, objeto, pIntersec);
-//				Color colorRefractado = trazar(refractado, rebotes + 1);
-//				int red = (int) (objeto.getMaterial().getColor().getRed()
-//						* (colorRefractado.getRed() * objeto.getMaterial().getK_refraccion() / 255));
-//				int green = (int) (objeto.getMaterial().getColor().getGreen()
-//						* (colorRefractado.getGreen() * objeto.getMaterial().getK_refraccion() / 255));
-//				int blue = (int) (objeto.getMaterial().getColor().getBlue()
-//						* (colorRefractado.getBlue() * objeto.getMaterial().getK_refraccion() / 255));
-//				colorRefractado = new Color(red, green, blue);
-//				
-//				if(colorRefractado != Color.BLACK){
-//					colorFinal = mix(colorFinal, colorRefractado);
-//				}
-				
-				// rayo reflejado - termino especular
-//				Rayo reflejado = Rayo.rayoEspecular(rayo, objeto, pIntersec);
-//				Color colorReflejado = trazar(reflejado, rebotes + 1);
-//				int red = (int) (colorReflejado.getRed() * objeto.getMaterial().getK_reflexion());
-//				int green = (int) (colorReflejado.getGreen() * objeto.getMaterial().getK_reflexion());
-//				int blue = (int) (colorReflejado.getBlue() * objeto.getMaterial().getK_reflexion());
-//				colorReflejado = new Color(red, green, blue);
-//				
-//				if(colorReflejado != Color.BLACK){
-//					colorFinal = mix(colorFinal, colorReflejado);
-//				}
+			}
+			// rayo de sombra
+			boolean sombreado = false;	// true si esta a la sombra
+			Rayo sombra = Rayo.RayoPcpioFin(pIntersec, POSICION_LUZ);
+			for(int k = 0; k < objetos.size() && !sombreado; k++){
+				Double landa = objetos.get(k).interseccion(sombra); 
+				sombreado = landa != null && landa > 0;
+			}
+			if(sombreado){
+				return luzAmbiental(LUZ_AMBIENTAL, objeto);
+			}
+			else{
+				return objeto.getMaterial().getColor();
 			}
 		}
-		
-		return colorFinal;
+		return Color.BLACK;
 	}
 	
 	/**
