@@ -23,6 +23,7 @@ public class Trazador {
 	final private static int IMAGE_COLS = 1024;	// width
 	final private static int IMAGE_ROWS = 720;	// height
 	final private static String IMAGE_FILE_NAME = "escena.png";
+	final private static int ANTIALIASING = 9;
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
@@ -67,13 +68,23 @@ public class Trazador {
 			int jj = j - IMAGE_COLS/2;
 			for (int i = 0; i < IMAGE_ROWS; i++) {
 				int ii = i - IMAGE_ROWS/2;
+				Color pixel = null;
 				
-				/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
-				Rayo rayoPrimario = camara.rayoToPixel(ii, jj);
-				
-				/* Pinta el pixel(i,j) del color devuelto por el rayo */
-				Color colorPixel = trazar(rayoPrimario, 0);
-				int color = colorPixel.getRGB();
+				for(int k = 0; k < ANTIALIASING; k++){
+					/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
+					Rayo rayoPrimario = camara.rayoToPixel(ii, jj);
+					
+					/* Pinta el pixel(i,j) del color devuelto por el rayo */
+					Color colorPixel = trazar(rayoPrimario, 0);
+					if(pixel != null && colorPixel != null){
+						pixel = mix(pixel, colorPixel);
+					}
+					else{
+						pixel = colorPixel;
+					}
+					
+				}
+				int color = pixel.getRGB();
 				img.setRGB(j, i, color);
 			}
 		}
@@ -196,5 +207,24 @@ public class Trazador {
 		}
 		
 		return colorFinal;
+	}
+	
+	/**
+	 * Mezcla los colores dados
+	 */
+	private static Color mix(Color pixel, Color acum){
+		int pixelr = pixel.getRed();
+		int pixelb = pixel.getBlue();
+		int pixelg = pixel.getGreen();
+		
+		int acumr = acum.getRed();
+		int acumb = acum.getBlue();
+		int acumg = acum.getGreen();
+		
+		int finalr = (pixelr + acumr) / 2;
+		int finalb = (pixelb + acumb) / 2;
+		int finalg = (pixelg + acumg) / 2;
+		
+		return new Color(finalr, finalg, finalb);
 	}
 }
