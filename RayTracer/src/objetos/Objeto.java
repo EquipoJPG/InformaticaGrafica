@@ -19,6 +19,13 @@ public abstract class Objeto {
 	public abstract Double interseccion(Rayo ray);
 	
 	/**
+	 * @param ray: rayo con el que intersectar
+	 * @return <null> si no intersecta o el lambda mas 
+	 * cercano con el que intersecta
+	 */
+	public abstract Double interseccionSombra(Rayo ray);
+	
+	/**
 	 * @param interseccion: punto de la interseccion con el objeto
 	 * @return la normal del objeto
 	 */

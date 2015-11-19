@@ -81,7 +81,7 @@ public class Rayo {
 		// segundoTerm = (2*dot)n
 		Vector4 segundoTerm = Vector4.mulEscalar(normal, 2*dotProduct);
 		// reflejado = (2*(l.n))n - l
-		Vector4 reflejado = Vector4.sub(segundoTerm, Vector4.negate(original.getDireccion()));
+		Vector4 reflejado = Vector4.sub(Vector4.negate(original.getDireccion()), segundoTerm);
 		reflejado.normalise();
 		
 		/* Construccion del rayo devuelto */
