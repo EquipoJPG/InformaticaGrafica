@@ -14,6 +14,7 @@ import objetos.Esfera;
 import objetos.Material;
 import objetos.Objeto;
 import objetos.Plano;
+import objetos.Triangulo;
 
 public class Trazador {
 
@@ -27,7 +28,7 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 145;
+	final private static int DISTANCIA_FOCAL = 120;
 	final private static Vector4 POV = new Vector4(100,100,100,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(50,50,50,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
@@ -47,21 +48,8 @@ public class Trazador {
 		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV),
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
-		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(0.2, 0, Color.RED));
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.3, 0, Color.CYAN));
-		
-		Vector4 normalPlano1 = Vector4.sub(new Vector4(0, 0, 0, 1), POV); //new Vector4(1, 0, 0, 0);
-		Vector4 p1Plano1 = new Vector4(0, 10, 10, 1);
-		Vector4 p2Plano1 = new Vector4(0, 10, 0, 1);
-		Vector4 p3Plano1 = new Vector4(0, 0, 10, 1);
-		Vector4 p4Plano1 = new Vector4(0, 0, 0, 1);
-		Plano plano1 = new Plano(normalPlano1, p1Plano1, p2Plano1,
-				p3Plano1, p4Plano1, new Material(0.2, 0, Color.GREEN));
-		
-		objetos.add(esfera1);
-		objetos.add(esfera2);
-		objetos.add(plano1);
+		/* Coloca los objetos en la escena */
+		objetos = Escena.crear(POV);
 		
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
