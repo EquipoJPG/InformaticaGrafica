@@ -46,8 +46,9 @@ public class Trazador {
 				IMAGE_ROWS);
 
 		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, false));
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.2, 0.8, Color.CYAN, false, false));
+		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true, 50));
+		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20,
+				new Material(0.2, 0.8, Color.CYAN, false, true, 20));
 
 		objetos.add(esfera1);
 		objetos.add(esfera2);
@@ -148,7 +149,7 @@ public class Trazador {
 		 */
 		if (objeto != null) {
 
-			finalColor = objeto.getMaterial().getColor();
+			finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 
 			// continuar con la recursion
 			if (rebotes < MAX_REBOTES_RAYO
@@ -156,6 +157,16 @@ public class Trazador {
 				// rayo reflejado - termino especular
 				Rayo reflejado = Rayo.rayoEspecular(rayo, objeto, pIntersec);
 				Color colorReflejado = trazar(reflejado, rebotes + 1);
+				double alpha = Math.cos(Vector4.dot(Vector4.negate(rayo.getDireccion()), reflejado.getDireccion()));
+				alpha = Math.pow(alpha, objeto.getMaterial().getReflejo());
+
+				int red = (int) (objeto.getMaterial().getColor().getRed() * alpha
+						* objeto.getMaterial().getK_reflexion());
+				int green = (int) (objeto.getMaterial().getColor().getGreen() * alpha
+						* objeto.getMaterial().getK_reflexion());
+				int blue = (int) (objeto.getMaterial().getColor().getBlue() * alpha
+						* objeto.getMaterial().getK_reflexion());
+				colorReflejado = new Color(red, green, blue);
 
 				if (objeto.getMaterial().isRefleja()) {
 					finalColor = mix(finalColor, colorReflejado);
@@ -163,13 +174,6 @@ public class Trazador {
 					// rayo refractado - termino difuso
 					Rayo refractado = Rayo.rayoDifuso(rayo, objeto, pIntersec);
 					Color colorRefractado = trazar(refractado, rebotes + 1);
-
-					int red = (int) (colorReflejado.getRed() * objeto.getMaterial().getK_reflexion()
-							+ colorRefractado.getRed() * objeto.getMaterial().getK_refraccion());
-					int green = (int) (colorReflejado.getGreen() * objeto.getMaterial().getK_reflexion()
-							+ colorRefractado.getGreen() * objeto.getMaterial().getK_refraccion());
-					int blue = (int) (colorReflejado.getBlue() * objeto.getMaterial().getK_reflexion()
-							+ colorRefractado.getBlue() * objeto.getMaterial().getK_refraccion());
 
 					Color mixColor = new Color(red, green, blue);
 					finalColor = mix(finalColor, mixColor);
@@ -182,12 +186,6 @@ public class Trazador {
 				Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersec).normalise();
 				Vector4 origen = Vector4.add(pIntersec, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);
-				for (int k = 0; k < objetos.size() && !sombreado; k++) {
-					Double landa = objetos.get(k).interseccionSombra(sombra);
-					sombreado = landa != null && landa >= 0;
-					if (sombreado) {
-					}
-				}
 				Vector4 normal = objeto.normal(pIntersec);
 				double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
 				if (angulo < 0) {

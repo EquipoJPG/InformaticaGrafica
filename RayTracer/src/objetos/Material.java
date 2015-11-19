@@ -10,6 +10,7 @@ public class Material {
 	private Color color; // color del material
 	
 	private boolean refleja; // true si refleja
+	private int reflejo;	// cuan difuso es el reflejo
 
 	/**
 	 * Material y sus propiedades
@@ -19,13 +20,14 @@ public class Material {
 	 * @param color
 	 */
 	public Material(double k_reflexion, double k_refraccion, Color color,
-			boolean transp, boolean ref) {
+			boolean transp, boolean ref, int refl) {
 		this.setK_reflexion(k_reflexion);
 		this.setK_refraccion(k_refraccion);
 		this.color = color;
 		this.transparente = transp;
 		
 		this.refleja = ref;
+		this.reflejo = refl;
 	}
 	
 	/**
@@ -69,5 +71,13 @@ public class Material {
 
 	public boolean isTransparente() {
 		return transparente;
+	}
+
+	public int getReflejo() {
+		return reflejo;
+	}
+
+	public void setReflejo(int reflejo) {
+		this.reflejo = reflejo;
 	}
 }
