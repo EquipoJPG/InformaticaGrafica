@@ -22,7 +22,7 @@ public class Esfera extends Objeto {
 	 * @param radio: radio de la esfera
 	 */
 	public Esfera(double radio, Material m){
-		this.centro = new Vector4();
+		this.centro = new Vector4(0, 0, 0, 1);
 		this.radio = radio;
 		super.material = m;
 	}
@@ -55,19 +55,53 @@ public class Esfera extends Objeto {
 			lambda2 = (-2*B - Math.pow(4*Math.pow(B, 2) - 4*A*C, 0.5)) / (2*A);
 			
 			double min = Math.min(lambda1, lambda2);
+			return min;
+		}
+	}
+	
+	/**
+	 * Interseccion con el rayo @param ray.
+	 * @return <null> si no intersecta y el lambda de la primera 
+	 * interseccion (o unica) si intersecta
+	 */
+	@Override
+	public Double interseccionSombra(Rayo ray) {
+		double A = Vector4.dot(ray.getDireccion(), 
+				ray.getDireccion());	// A = d . d
+		double B = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), 
+				ray.getDireccion());	// B = (a-c).d
+		double C = Vector4.dot(
+					Vector4.sub(ray.getOrigen(), this.centro), 
+					Vector4.sub(ray.getOrigen(), this.centro))
+				- Math.pow(this.radio, 2);	// C = (a-c).(a-c) - r^2
+		
+		double D = Math.pow(B, 2) - A*C;	// D = B^2 - AC
+		
+		if(D < 0){
+			return null;
+		}
+		else{
+			double lambda1, lambda2;
+			// l = [-2B +- raiz(4B^2-4AC)] / [2A]
+			lambda1 = (-2*B + Math.pow(4*Math.pow(B, 2) - 4*A*C, 0.5)) / (2*A);
+			lambda2 = (-2*B - Math.pow(4*Math.pow(B, 2) - 4*A*C, 0.5)) / (2*A);
+			
+			double min = Math.min(lambda1, lambda2);
 			double max = Math.max(lambda1, lambda2);
 			
-			if(min < 0){
-				if(max < 0){	// min < 0 && max < 0
-					return null;
-				}
-				else{	// min < 0 && max > 0
-					return max;
-				}
-			}
-			else{	// min > 0
+			if(min >= 0){
 				return min;
 			}
+			else{
+				return max;
+			}
 		}
+	}
+	
+	/**
+	 * @return la normal de la esfera respecto a @param interseccion
+	 */
+	public Vector4 normal(Vector4 interseccion){
+		return Vector4.sub(interseccion, centro).normalise();
 	}
 }

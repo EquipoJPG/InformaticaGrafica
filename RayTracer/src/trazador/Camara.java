@@ -1,5 +1,7 @@
 package trazador;
 
+import java.util.Random;
+
 import data.Rayo;
 import data.Vector4;
 
@@ -30,8 +32,9 @@ public class Camara {
 		this.filas = filas;
 		this.columnas = columnas;
 		
-		this.anchura = columnas;
-		this.altura = filas;
+		this.anchura = columnas / 15;
+		this.altura = filas / 15;
+		
 		
 		/* u, v, w */
 		Vector4 up = new Vector4(0, 1, 0, 0);
@@ -45,12 +48,18 @@ public class Camara {
 	 * @return el rayo que va desde el ojo al pixel (i,j) de la pantalla
 	 */
 	public Rayo rayoToPixel(int i, int j){
-		double diffu = anchura / (columnas - 1);
-		double diffv = altura / (filas - 1);
+		double diffu = (double) anchura / (double) (columnas - 1);
+		double diffv = (double) altura / (double) (filas - 1);
 		
-		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
+//		System.out.println("DIFFU: " + diffu +", DIFFV: " + diffv);
+		
+		Random r = new Random();
+		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
+		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
+		
+		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
 		
-		return new Rayo(posicion, Vector4.sub(mundo, posicion));
+		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
 	}
 }
