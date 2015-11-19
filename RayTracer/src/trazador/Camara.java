@@ -51,6 +51,6 @@ public class Camara {
 		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
 		
-		return new Rayo(posicion, Vector4.sub(mundo, posicion));
+		return new Rayo(posicion, Vector4.sub(mundo, posicion).normalise());
 	}
 }

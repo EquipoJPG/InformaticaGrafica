@@ -1,6 +1,6 @@
 package data;
 
-import objetos.Material;
+import objetos.Objeto;
 
 public class Rayo {
 
@@ -14,7 +14,7 @@ public class Rayo {
 	 */
 	public Rayo (Vector4 origin, Vector4 direction){
 		this.origin = origin;
-		this.direccion = direction;
+		this.direccion = direction.normalise();
 	}
 	
 	/**
@@ -38,19 +38,23 @@ public class Rayo {
 	 * @param fin - @param origin como direccion
 	 */
 	public static Rayo RayoPcpioFin(Vector4 origin, Vector4 fin){
-		return new Rayo(origin, Vector4.sub(fin, origin));
+		return new Rayo(origin, Vector4.sub(fin, origin).normalise());
 	}
 	
 	public static Vector4 getInterseccion(Rayo ray, double lambda){
 		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
 	}
 	
-	public Rayo rayoRefractado(Material m){
+	public Rayo rayoRefractado(Objeto o){
 		// SKELETON ONLY
+		/*
+		Vector4 normal = o.getNormal();
+		
+		*/
 		return null;
 	}
 	
-	public Rayo rayoReflejado(Material m){
+	public Rayo rayoReflejado(Objeto o){
 		// SKELETON ONLY
 		return null;
 	}

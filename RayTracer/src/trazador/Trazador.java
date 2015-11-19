@@ -25,17 +25,16 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 5;
-	final private static Vector4 POV = new Vector4(10,10,10,1);
+	final private static int DISTANCIA_FOCAL = 200;
+	final private static Vector4 POV = new Vector4(50,50,50,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0,0,0,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
-	final private static double LUZ_AMBIENTAL = 0.5;
+	final private static double LUZ_AMBIENTAL = 0.1;
 	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static BufferedImage img = new BufferedImage(
 			IMAGE_COLS, IMAGE_ROWS, BufferedImage.TYPE_INT_RGB);
-	
 	
 	public static void main(String[] args) {
 
@@ -43,12 +42,14 @@ public class Trazador {
 		
 		/* Define la escena */
 		Foco luz = new Foco(POSICION_LUZ,COLOR_LUZ);
-		Camara camara = new Camara(POV, Vector4.sub(new Vector4(), POV),
+		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV),
 									DISTANCIA_FOCAL, IMAGE_COLS, IMAGE_ROWS);
 		
 		/* Define los objetos de la escena */
-		Esfera esfera = new Esfera(16, new Material(0.2, 0.5, Color.RED));
-		objetos.add(esfera);
+		Esfera esfera1 = new Esfera(20, new Material(0.2, 0.5, Color.RED));
+		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.2, 0.5, Color.CYAN));
+		objetos.add(esfera1);
+		objetos.add(esfera2);
 		
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -144,12 +145,6 @@ public class Trazador {
 			int b = (int) (c.getBlue() * ( (ambiente.getBlue() * LUZ_AMBIENTAL)/ 255));
 			int g = (int) (c.getGreen() * ( (ambiente.getGreen() * LUZ_AMBIENTAL)/ 255));
 			colorFinal = new Color(r, g, b);
-			
-//			System.out.printf("Interseccion, color: ");
-//			System.out.println(colorFinal);
-		}
-		else {
-//			System.out.println("NO HAY INTERSECCION D:");
 		}
 		
 		/* Si existe al menos un objeto visible, se lanzan los rayos
