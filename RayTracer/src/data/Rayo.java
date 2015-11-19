@@ -1,5 +1,7 @@
 package data;
 
+import objetos.Material;
+
 public class Rayo {
 
 	/* Atributos de la clase Rayo */
@@ -41,6 +43,16 @@ public class Rayo {
 	
 	public static Vector4 getInterseccion(Rayo ray, double lambda){
 		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
+	}
+	
+	public Rayo rayoRefractado(Material m){
+		// SKELETON ONLY
+		return null;
+	}
+	
+	public Rayo rayoReflejado(Material m){
+		// SKELETON ONLY
+		return null;
 	}
 	
 }
