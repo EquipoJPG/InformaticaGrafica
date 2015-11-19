@@ -1,6 +1,7 @@
 package objetos;
 
 import data.Rayo;
+import data.Vector4;
 
 public abstract class Objeto {
 	
@@ -16,5 +17,11 @@ public abstract class Objeto {
 	 * cercano con el que intersecta
 	 */
 	public abstract Double interseccion(Rayo ray);
+	
+	/**
+	 * @param interseccion: punto de la interseccion con el objeto
+	 * @return la normal del objeto
+	 */
+	public abstract Vector4 normal(Vector4 interseccion);
 
 }

@@ -136,6 +136,9 @@ public class Vector4 {
 		return Vector4.modulo(this);
 	}
 	
+	public Vector4 normalise(){
+		return Vector4.div(this, this.normaL2());
+	}
 	/**
 	 * @param p: punto que cambiar de base
 	 * @param u: primera row
