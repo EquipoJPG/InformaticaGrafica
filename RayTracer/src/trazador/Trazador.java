@@ -22,13 +22,13 @@ public class Trazador {
 	final private static int IMAGE_COLS = 1024;	// width
 	final private static int IMAGE_ROWS = 720;	// height
 	final private static String IMAGE_FILE_NAME = "escena.png";
-	final private static int ANTIALIASING = 9;
+	final private static int ANTIALIASING = 7;
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 3;
 	final private static int DISTANCIA_FOCAL = 100;
 	final private static Vector4 POV = new Vector4(100,100,100,1);
-	final private static Vector4 POSICION_LUZ = new Vector4(100,0,0,1);
+	final private static Vector4 POSICION_LUZ = new Vector4(0,100,0,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
 	final private static double LUZ_AMBIENTAL = 0.2;
 	
@@ -153,7 +153,7 @@ public class Trazador {
 				Rayo sombra = Rayo.RayoPcpioFin(pIntersec, POSICION_LUZ);
 				for(int k = 0; k < objetos.size() && !sombreado; k++){
 					Double landa = objetos.get(k).interseccion(sombra); 
-					sombreado = landa != null && landa >= 0;
+					sombreado = landa != null && landa > 0;
 				}
 				
 				if(sombreado){
@@ -164,19 +164,19 @@ public class Trazador {
 				}
 				
 				// rayo refractado - termino difuso
-				Rayo refractado = Rayo.rayoDifuso(rayo, objeto, pIntersec);
-				Color colorRefractado = trazar(refractado, rebotes + 1);
-				int red = (int) (objeto.getMaterial().getColor().getRed()
-						* (colorRefractado.getRed() * objeto.getMaterial().getK_reflexion() / 255));
-				int green = (int) (objeto.getMaterial().getColor().getGreen()
-						* (colorRefractado.getGreen() * objeto.getMaterial().getK_reflexion() / 255));
-				int blue = (int) (objeto.getMaterial().getColor().getBlue()
-						* (colorRefractado.getBlue() * objeto.getMaterial().getK_reflexion() / 255));
-				colorRefractado = new Color(red, green, blue);
-				
-				if(colorRefractado != Color.BLACK){
-					colorFinal = mix(colorFinal, colorRefractado);
-				}
+//				Rayo refractado = Rayo.rayoDifuso(rayo, objeto, pIntersec);
+//				Color colorRefractado = trazar(refractado, rebotes + 1);
+//				int red = (int) (objeto.getMaterial().getColor().getRed()
+//						* (colorRefractado.getRed() * objeto.getMaterial().getK_refraccion() / 255));
+//				int green = (int) (objeto.getMaterial().getColor().getGreen()
+//						* (colorRefractado.getGreen() * objeto.getMaterial().getK_refraccion() / 255));
+//				int blue = (int) (objeto.getMaterial().getColor().getBlue()
+//						* (colorRefractado.getBlue() * objeto.getMaterial().getK_refraccion() / 255));
+//				colorRefractado = new Color(red, green, blue);
+//				
+//				if(colorRefractado != Color.BLACK){
+//					colorFinal = mix(colorFinal, colorRefractado);
+//				}
 				
 				// rayo reflejado - termino especular
 //				Rayo reflejado = Rayo.rayoEspecular(rayo, objeto, pIntersec);
