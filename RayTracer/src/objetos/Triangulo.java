@@ -28,22 +28,21 @@ public class Triangulo extends Objeto {
 		Vector4 a = ray.getOrigen();
 		Vector4 d = ray.getDireccion();
 		Vector4 n = normal(null);
-
+		Double lambda = null;
+		
 		double denominador = Vector4.dot(d, n);
 
 		/* Comprobacion de si intersecciona */
 		if (denominador == 0) {
 			/* No intersecciona o no se ve */
-			return null;
+			lambda = null;
 		} else {
 			/* Si que intersecciona */
-			if (denominador > 0)
-				n = Vector4.negate(n);
 
 			double numerador = Vector4.dot(Vector4.sub(p1, a), n);
-			double landa = numerador / denominador;
+			
 			/* Interseccion */
-			Vector4 p = Rayo.getInterseccion(ray, landa);
+			Vector4 p = Rayo.getInterseccion(ray, numerador / denominador);
 
 			/*
 			 * Comprobacion de que el punto de interseccion cae dentro del
@@ -55,13 +54,11 @@ public class Triangulo extends Objeto {
 
 			/* Comprobar que las tres 's' tienen el mismo signo */
 			if (Math.signum(s1) == Math.signum(s2) && Math.signum(s1) == Math.signum(s3)) {
-				return landa;
-			} else {
-				/* No hay interseccion dentro del triángulo */
-				return null;
+				lambda = numerador / denominador;
 			}
 
 		}
+		return lambda;
 	}
 
 	@Override
