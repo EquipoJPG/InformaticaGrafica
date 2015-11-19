@@ -51,8 +51,12 @@ public class Trazador {
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.3, 0, Color.CYAN));
 		
 		Vector4 normalPlano1 = Vector4.sub(new Vector4(0, 0, 0, 1), POV); //new Vector4(1, 0, 0, 0);
-		Vector4 centroPlano1 = new Vector4(0, 0, 0, 1);
-		Plano plano1 = new Plano(normalPlano1, centroPlano1, 30, 30, new Material(0.2, 0, Color.GREEN));
+		Vector4 p1Plano1 = new Vector4(0, 10, 10, 1);
+		Vector4 p2Plano1 = new Vector4(0, 10, 0, 1);
+		Vector4 p3Plano1 = new Vector4(0, 0, 10, 1);
+		Vector4 p4Plano1 = new Vector4(0, 0, 0, 1);
+		Plano plano1 = new Plano(normalPlano1, p1Plano1, p2Plano1,
+				p3Plano1, p4Plano1, new Material(0.2, 0, Color.GREEN));
 		
 		objetos.add(esfera1);
 		objetos.add(esfera2);
