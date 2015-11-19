@@ -32,8 +32,8 @@ public class Camara {
 		this.filas = filas;
 		this.columnas = columnas;
 		
-		this.anchura = columnas / 5;
-		this.altura = filas / 5;
+		this.anchura = columnas / 15;
+		this.altura = filas / 15;
 		
 		
 		/* u, v, w */

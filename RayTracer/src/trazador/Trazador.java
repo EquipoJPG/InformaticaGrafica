@@ -27,7 +27,7 @@ public class Trazador {
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 3;
 	final private static int DISTANCIA_FOCAL = 100;
-	final private static Vector4 POV = new Vector4(100, 100, 100, 1);
+	final private static Vector4 POV = new Vector4(100, 100, -50, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0, 100, 0, 1);
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
 	final private static double LUZ_AMBIENTAL = 0.2;
@@ -196,7 +196,6 @@ public class Trazador {
 				if (angulo > 1) {
 					angulo = 1;
 				}
-				System.out.println(angulo);
 				int red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
 				int green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
 				int blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
