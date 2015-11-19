@@ -159,6 +159,14 @@ public class Vector4 {
 	}
 	
 	/**
+	 * @return el angulo entre @param v y @param w
+	 */
+	public static double angulo(Vector4 v, Vector4 w){
+		// dot div (mod(v)*mod(w))
+		return (Vector4.dot(v, w) / (Vector4.modulo(v) * Vector4.modulo(w)));
+	}
+	
+	/**
 	 * @return <true> si @param v es vector
 	 */
 	public static boolean esVector(Vector4 v){
