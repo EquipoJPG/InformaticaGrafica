@@ -26,8 +26,8 @@ public class Trazador {
 	
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 200;
-	final private static Vector4 POV = new Vector4(50,50,50,1);
+	final private static int DISTANCIA_FOCAL = 100;
+	final private static Vector4 POV = new Vector4(100,100,100,1);
 	final private static Vector4 POSICION_LUZ = new Vector4(50,50,50,1);
 	final private static Color COLOR_LUZ = new Color(255,255,255);
 	final private static double LUZ_AMBIENTAL = 0.5;
