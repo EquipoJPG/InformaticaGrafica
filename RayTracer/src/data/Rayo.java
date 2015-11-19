@@ -1,6 +1,6 @@
 package data;
 
-import objetos.Material;
+import objetos.Objeto;
 
 public class Rayo {
 
@@ -45,12 +45,16 @@ public class Rayo {
 		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
 	}
 	
-	public Rayo rayoRefractado(Material m){
+	public Rayo rayoRefractado(Objeto o){
 		// SKELETON ONLY
+		/*
+		Vector4 normal = o.getNormal();
+		
+		*/
 		return null;
 	}
 	
-	public Rayo rayoReflejado(Material m){
+	public Rayo rayoReflejado(Objeto o){
 		// SKELETON ONLY
 		return null;
 	}
