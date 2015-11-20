@@ -60,7 +60,10 @@ public class Esfera extends Objeto {
 			if(!sombra) return min;
 			else{
 				if(min >= 0) return min;
-				else return max;
+				else{
+					if(max < 0) return null;
+					else return max;
+				}
 			}
 		}
 	}
