@@ -122,7 +122,7 @@ public class Trazador {
 		/* Para cada objeto de la escena, se intenta interseccionar */
 		for (int k = 0; k < objetos.size(); k++) {
 
-			Double landa = objetos.get(k).interseccion(rayo, false);
+			Double landa = objetos.get(k).interseccion(rayo);
 
 			if (landa != null) {
 
