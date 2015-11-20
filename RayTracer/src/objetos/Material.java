@@ -4,41 +4,49 @@ import java.awt.Color;
 
 public class Material {
 
-	private double kd, ks;
+	private double kd, ks; // ks = 1 - kd
 	
-	private double k_reflexion; // kd, coeficiente de especular
-	private double k_refraccion; // ks, coeficiente de difusion
+	private double k_reflexion;
+	private double k_refraccion;
 	private boolean transparente;	// true si es transparente
 	private Color color; // color del material
 	
-	private boolean refleja; // true si refleja
-	private int reflejo;	// cuan difuso es el reflejo
+	private boolean reflectante; // true si refleja
+	private int shiny;	// mas shiny, mas agudo es el reflejo especular [1, 200]
 
 	/**
 	 * Material y sus propiedades
-	 * 
-	 * @param k_reflexion
-	 * @param k_refraccion
-	 * @param color
 	 */
 	public Material(double k_reflexion, double k_refraccion, double kd, double ks, Color color,
-			boolean transp, boolean ref, int refl) {
+			boolean transparente, boolean reflectante, int shiny) {
 		this.kd = kd;
 		this.ks = ks;
-		this.setK_reflexion(k_reflexion);
-		this.setK_refraccion(k_refraccion);
-		this.color = color;
-		this.transparente = transp;
 		
-		this.refleja = ref;
-		this.reflejo = refl;
+		this.k_reflexion = k_reflexion;
+		this.k_refraccion = k_refraccion;
+		
+		this.color = color;
+		
+		this.transparente = transparente;
+		this.reflectante = reflectante;
+		
+		this.shiny = shiny;
 	}
-	
-	/**
-	 * @return color
-	 */
-	public Color getColor(){
-		return color;
+
+	public double getKd() {
+		return kd;
+	}
+
+	public void setKd(double kd) {
+		this.kd = kd;
+	}
+
+	public double getKs() {
+		return ks;
+	}
+
+	public void setKs(double ks) {
+		this.ks = ks;
 	}
 
 	public double getK_reflexion() {
@@ -57,47 +65,35 @@ public class Material {
 		this.k_refraccion = k_refraccion;
 	}
 
+	public boolean isTransparente() {
+		return transparente;
+	}
+
 	public void setTransparente(boolean transparente) {
 		this.transparente = transparente;
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	public void setColor(Color color) {
 		this.color = color;
 	}
 
-	public boolean isRefleja() {
-		return refleja;
+	public boolean isReflectante() {
+		return reflectante;
 	}
 
-	public void setRefleja(boolean refleja) {
-		this.refleja = refleja;
+	public void setReflectante(boolean reflectante) {
+		this.reflectante = reflectante;
 	}
 
-	public boolean isTransparente() {
-		return transparente;
+	public int getShiny() {
+		return shiny;
 	}
 
-	public int getReflejo() {
-		return reflejo;
-	}
-
-	public void setReflejo(int reflejo) {
-		this.reflejo = reflejo;
-	}
-
-	public double getKd() {
-		return kd;
-	}
-
-	public void setKd(double kd) {
-		this.kd = kd;
-	}
-
-	public double getKs() {
-		return ks;
-	}
-
-	public void setKs(double ks) {
-		this.ks = ks;
+	public void setShiny(int shiny) {
+		this.shiny = shiny;
 	}
 }

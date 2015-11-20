@@ -162,13 +162,14 @@ public class Trazador {
 			finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 
 			/* Comprobar si le da la luz o no */
-			// TODO Para cada posicion de luz
 			double epsilon = 1e-12;
 			Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersecFinal).normalise();
 			Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 			Rayo sombra = new Rayo(origen, direccion);
 
-			/* reflexion difusa - se hace siempre */
+			///////////////////////////////////////////////////////////////////////
+			// TODO link a reflexion difusa
+			/* reflexion difusa */
 			Vector4 normal = objeto.normal(pIntersecFinal);
 
 			double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
@@ -185,7 +186,9 @@ public class Trazador {
 			finalColor = ColorOperations.add(finalColor, difusa);
 			/* fin reflexion difusa */
 
-			/* reflexion especular - se ve el color de la luz */
+			/////////////////////////////////////////////////////////////////
+			// TODO link a reflexion especular
+			/* reflexion especular */
 			Rayo reflejado = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
 			Vector4 R = reflejado.getDireccion().normalise();
 			Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
@@ -194,18 +197,28 @@ public class Trazador {
 			if (coseno < 0)
 				coseno = 0;
 
-			double n = objeto.getMaterial().getReflejo();
+			double n = objeto.getMaterial().getShiny();
 			double terminoEspecular = Math.pow(coseno, n);
 
 			red = (int) (objeto.getMaterial().getColor().getRed() * Math.abs(terminoEspecular));
 			green = (int) (objeto.getMaterial().getColor().getGreen() * Math.abs(terminoEspecular));
 			blue = (int) (objeto.getMaterial().getColor().getBlue() * Math.abs(terminoEspecular));
-			// TODO Changing stuff here too
 			Color specular = new Color(red, green, blue);
 
 			finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
 					ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
 			/* fin reflexion especular */
+			
+			if((objeto.getMaterial().isTransparente() ||
+					objeto.getMaterial().isReflectante())
+					&& rebotes < MAX_REBOTES_RAYO){
+				////////////////////////////////////////////////////////////////
+				// TODO link a rayo reflejado
+				if(objeto.getMaterial().isTransparente()){
+					////////////////////////////////////////////////////////////
+					// TODO link a rayo refractado
+				}
+			}
 		}
 		return finalColor;
 	}
