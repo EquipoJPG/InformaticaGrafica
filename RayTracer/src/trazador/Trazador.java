@@ -46,11 +46,11 @@ public class Trazador {
 				IMAGE_ROWS);
 
 		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true, 50));
+//		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true, 50));
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20,
-				new Material(0.2, 0.8, Color.CYAN, false, true, 20));
+				new Material(0.2, 0.8, 0.7, 0.3, Color.CYAN, false, false, 20));
 
-		objetos.add(esfera1);
+//		objetos.add(esfera1);
 		objetos.add(esfera2);
 
 		System.out.println("OK");
@@ -120,7 +120,7 @@ public class Trazador {
 		/* Para cada objeto de la escena, se intenta interseccionar */
 		for (int k = 0; k < objetos.size(); k++) {
 
-			Double landa = objetos.get(k).interseccion(rayo);
+			Double landa = objetos.get(k).interseccion(rayo, false);
 
 			if (landa != null) {
 
@@ -149,7 +149,7 @@ public class Trazador {
 		 */
 		if (objeto != null) {
 
-			finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
+			finalColor = Color.BLACK;
 
 			// continuar con la recursion
 			if (rebotes < MAX_REBOTES_RAYO
@@ -180,24 +180,29 @@ public class Trazador {
 				}
 			}
 			if (!objeto.getMaterial().isTransparente()) {
-				// TERMINO DIFUSO
-				boolean sombreado = false; // true si esta a la sombra
+				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
+				
+				/* reflexion difusa */
 				double epsilon = 1e-12;
 				Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersec).normalise();
 				Vector4 origen = Vector4.add(pIntersec, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);
 				Vector4 normal = objeto.normal(pIntersec);
+				
 				double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-				if (angulo < 0) {
-					angulo = 0;
-				}
-				if (angulo > 1) {
-					angulo = 1;
-				}
+				if (angulo < 0) angulo = 0;
+				if (angulo > 1) angulo = 1;
+				
 				int red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
 				int green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
 				int blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
+				
 				finalColor = mix(finalColor, new Color(red, green, blue));
+				/* fin reflexion difusa */
+				
+				/* reflexion especular */
+				
+				/* fin reflexion especular */
 			}
 		}
 		return finalColor;
