@@ -173,10 +173,8 @@ public class Trazador {
 			Vector4 normal = objeto.normal(pIntersecFinal);
 
 			double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-			if (angulo < 0)
-				angulo = 0;
-			if (angulo > 1)
-				angulo = 1;
+			if (angulo < 0) angulo = 0;
+			if (angulo > 1) angulo = 1;
 
 			int red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
 			int green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
@@ -194,8 +192,7 @@ public class Trazador {
 			Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 
 			double coseno = -Vector4.dot(R, V);
-			if (coseno < 0)
-				coseno = 0;
+			if (coseno < 0) coseno = 0;
 
 			double n = objeto.getMaterial().getShiny();
 			double terminoEspecular = Math.pow(coseno, n);
@@ -203,8 +200,8 @@ public class Trazador {
 			red = (int) (objeto.getMaterial().getColor().getRed() * Math.abs(terminoEspecular));
 			green = (int) (objeto.getMaterial().getColor().getGreen() * Math.abs(terminoEspecular));
 			blue = (int) (objeto.getMaterial().getColor().getBlue() * Math.abs(terminoEspecular));
+			
 			Color specular = new Color(red, green, blue);
-
 			finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
 					ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
 			/* fin reflexion especular */
