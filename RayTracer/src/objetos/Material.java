@@ -23,6 +23,8 @@ public class Material {
 	 */
 	public Material(double k_reflexion, double k_refraccion, double kd, double ks, Color color,
 			boolean transp, boolean ref, int refl) {
+		this.kd = kd;
+		this.ks = ks;
 		this.setK_reflexion(k_reflexion);
 		this.setK_refraccion(k_refraccion);
 		this.color = color;

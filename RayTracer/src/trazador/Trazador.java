@@ -48,7 +48,7 @@ public class Trazador {
 		/* Define los objetos de la escena */
 //		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, Color.RED, false, true, 50));
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20,
-				new Material(0.2, 0.8, 0.7, 0.3, Color.CYAN, false, false, 20));
+				new Material(0.2, 0.8, 0.5, 0.3, Color.CYAN, false, false, 1));
 
 //		objetos.add(esfera1);
 		objetos.add(esfera2);
@@ -180,7 +180,7 @@ public class Trazador {
 				}
 			}
 			if (!objeto.getMaterial().isTransparente()) {
-				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
+				Color ambiente = luzAmbiental(objeto.getMaterial().getKd(), objeto);
 				
 				/* reflexion difusa */
 				double epsilon = 1e-12;
@@ -197,12 +197,44 @@ public class Trazador {
 				int green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
 				int blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
 				
-				finalColor = mix(finalColor, new Color(red, green, blue));
+				Color difusa = new Color(red, green, blue);
 				/* fin reflexion difusa */
 				
 				/* reflexion especular */
+				Rayo aux = Rayo.rayoEspecular(rayo, objeto, pIntersec);
+				Rayo especular = new Rayo(Vector4.add(aux.getOrigen(), Vector4.mulEscalar(aux.getDireccion(), epsilon)),
+						aux.getDireccion());
 				
+				angulo = Vector4.dot(especular.getDireccion(), Vector4.negate(rayo.getDireccion()));
+				if(angulo < 0) angulo = 0;
+				angulo = Math.pow(angulo, objeto.getMaterial().getReflejo());
+				
+				red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
+				green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
+				blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
+				
+				Color specular = new Color(red, green, blue);
 				/* fin reflexion especular */
+				
+//				System.out.println("ANTES: " + ambiente.getBlue() + " " + difusa.getBlue() + " " + specular.getBlue());
+				red = (int) (ambiente.getRed() * objeto.getMaterial().getKd()
+						+ difusa.getRed() * objeto.getMaterial().getKd()
+						+ specular.getRed() * objeto.getMaterial().getKs());
+				if(red > 255) red = 255;
+				blue = (int) (ambiente.getBlue() * objeto.getMaterial().getKd()
+						+ difusa.getBlue() * objeto.getMaterial().getKd()
+						+ specular.getBlue() * objeto.getMaterial().getKs());
+				if(blue > 255) blue = 255;
+				green = (int) (ambiente.getGreen() * objeto.getMaterial().getKd()
+						+ difusa.getGreen() * objeto.getMaterial().getKd()
+						+ specular.getGreen() * objeto.getMaterial().getKs());
+				if(green > 255) green = 255;
+//				System.out.println(objeto.getMaterial().getKd() + " " + objeto.getMaterial().getKs());
+//				System.out.println("DESPUES: " + ambiente.getBlue() * objeto.getMaterial().getKd()
+//						+ " " + difusa.getBlue() * objeto.getMaterial().getKd()
+//						+ " " + specular.getBlue() * objeto.getMaterial().getKs());
+				
+				finalColor = new Color(red, green, blue);
 			}
 		}
 		return finalColor;
