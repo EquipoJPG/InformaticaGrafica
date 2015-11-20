@@ -70,19 +70,19 @@ public class Rayo {
 		return returned;
 	}
 
-	public static Rayo rayoReflejado(Rayo original, Objeto o, Vector4 i) {
-		
-		/* Calcular variables */
+	/**
+	 * Rayo reflejado(IL, N) = IL - 2N(IL.N)
+	 */
+	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i) {
+		Vector4 luz = sombra.getDireccion();
 		Vector4 normal = o.normal(i);
-		// dot = l.n, l= -direccion 
-		double dotProduct = Vector4.dot(Vector4.negate(original.getDireccion()), normal);
 		
-		/* Calculo reflejado */
-		// segundoTerm = (2*dot)n
-		Vector4 segundoTerm = Vector4.mulEscalar(normal, 2*dotProduct);
-		// reflejado = (2*(l.n))n - l
-		Vector4 reflejado = Vector4.sub(Vector4.negate(original.getDireccion()), segundoTerm);
-		reflejado.normalise();
+		double iln = Vector4.dot(luz, normal);
+		Vector4 _2n = Vector4.mulEscalar(normal, 2);
+		Vector4 _2ndot = Vector4.mulEscalar(_2n, iln);
+		
+		Vector4 reflejado = Vector4.sub(luz, _2ndot);
+		reflejado = reflejado.normalise();
 		
 		/* Construccion del rayo devuelto */
 		double epsilon = 1e-12;
