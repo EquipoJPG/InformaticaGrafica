@@ -74,7 +74,7 @@ public class Rayo {
 	 * Rayo reflejado(IL, N) = IL - 2N(IL.N)
 	 */
 	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i) {
-		Vector4 luz = sombra.getDireccion();
+		Vector4 luz = Vector4.negate(sombra.getDireccion());
 		Vector4 normal = o.normal(i);
 		
 		double iln = Vector4.dot(luz, normal);
