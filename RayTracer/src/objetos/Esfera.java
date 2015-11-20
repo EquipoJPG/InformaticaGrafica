@@ -33,7 +33,7 @@ public class Esfera extends Objeto {
 	 * interseccion (o unica) si intersecta
 	 */
 	@Override
-	public Double interseccion(Rayo ray, boolean sombra) {
+	public Double interseccion(Rayo ray) {
 		double A = Vector4.dot(ray.getDireccion(), 
 				ray.getDireccion());	// A = d . d
 		double B = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), 
@@ -55,23 +55,21 @@ public class Esfera extends Objeto {
 			lambda2 = (-2*B - Math.pow(4*Math.pow(B, 2) - 4*A*C, 0.5)) / (2*A);
 			
 			double min = Math.min(lambda1, lambda2);
-			double max = Math.max(lambda1, lambda2);
-			
-			if(!sombra) return min;
-			else{
-				if(min >= 0) return min;
-				else{
-					if(max < 0) return null;
-					else return max;
-				}
-			}
+
+			return min;
 		}
 	}
 	
 	/**
 	 * @return la normal de la esfera respecto a @param interseccion
 	 */
+	@Override
 	public Vector4 normal(Vector4 interseccion){
 		return Vector4.sub(interseccion, centro).normalise();
+	}
+
+	@Override
+	public Vector4 normal(Vector4 interseccion, Rayo ray) {
+		return normal(interseccion);
 	}
 }

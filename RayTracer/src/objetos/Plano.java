@@ -64,4 +64,9 @@ public class Plano extends Objeto {
 	public Vector4 normal(Vector4 interseccion) {
 		return normal;
 	}
+
+	@Override
+	public Vector4 normal(Vector4 interseccion, Rayo ray) {
+		return normal(interseccion);
+	}
 }

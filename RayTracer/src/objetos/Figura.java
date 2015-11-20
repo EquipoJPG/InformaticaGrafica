@@ -60,8 +60,44 @@ public class Figura extends Objeto {
 
 	@Override
 	public Vector4 normal(Vector4 interseccion) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			throw new Exception("No se puede computar la normal de una figura sin el rayo incidente");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
+	public Vector4 normal(Vector4 in, Rayo ray){
+		if(lista.size()==0 || ray == null){
+			return null;
+		}
+		else{
+			Iterator<Objeto> it = lista.iterator();
+			Objeto o = it.next();
+			Objeto ourObject = o;
+			Double interseccion = o.interseccion(ray);
+			while(it.hasNext()){
+				o = it.next();
+				Double iterInterseccion = o.interseccion(ray);
+				if(iterInterseccion!=null){
+					if(interseccion==null){
+						interseccion = o.interseccion(ray);
+						ourObject = o;
+					}
+					else{
+						if(iterInterseccion<interseccion){
+							interseccion = iterInterseccion;
+							ourObject = o;
+						}
+					}
+				}
+				else{
+					interseccion = iterInterseccion;
+				}
+			}
+			return ourObject.normal(in);
+		}
+	}
+	
 }

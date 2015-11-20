@@ -67,6 +67,11 @@ public class Triangulo extends Objeto {
 		Vector4 term2 = Vector4.sub(p3, p1);
 		return Vector4.cross(term1, term2).normalise();
 	}
+	
+	@Override
+	public Vector4 normal(Vector4 interseccion, Rayo ray) {
+		return normal(interseccion);
+	}
 
 	public Vector4 getP1() {
 		return p1;
