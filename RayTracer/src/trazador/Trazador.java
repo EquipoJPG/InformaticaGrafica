@@ -170,7 +170,7 @@ public class Trazador {
 			///////////////////////////////////////////////////////////////////////
 			// TODO link a reflexion difusa
 			/* reflexion difusa */
-			Vector4 normal = objeto.normal(pIntersecFinal);
+			Vector4 normal = objeto.normal(pIntersecFinal,rayo);
 
 			double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
 			if (angulo < 0) angulo = 0;

@@ -23,11 +23,5 @@ public abstract class Objeto {
 	 * @return la normal del objeto
 	 */
 	public abstract Vector4 normal(Vector4 interseccion, Rayo ray);
-	
-	/**
-	 * @param interseccion: punto de la interseccion con el objeto
-	 * @return la normal del objeto
-	 */
-	public abstract Vector4 normal(Vector4 interseccion);
 
 }

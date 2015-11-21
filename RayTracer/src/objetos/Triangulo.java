@@ -61,7 +61,6 @@ public class Triangulo extends Objeto {
 		return lambda;
 	}
 
-	@Override
 	public Vector4 normal(Vector4 interseccion) {
 		Vector4 term1 = Vector4.sub(p2, p1);
 		Vector4 term2 = Vector4.sub(p3, p1);

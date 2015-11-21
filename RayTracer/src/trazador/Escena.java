@@ -18,8 +18,8 @@ public class Escena {
 		/* Define los objetos de la escena */
 		
 		// esferas
-		Esfera esfera1 = new Esfera(20, new Material(0.2, 0, Color.RED, false, false));
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.3, 0, Color.CYAN, false, false));
+		Esfera esfera1 = new Esfera(20, new Material(0.2, 0, 0, 0, Color.RED, false, false, 0));
+		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, new Material(0.3, 0, 0, 0, Color.CYAN, false, false, 0));
 		
 		// planos
 		Vector4 normalPlano1 = Vector4.sub(POV, new Vector4(-30, 0, 0, 1));
@@ -28,13 +28,13 @@ public class Escena {
 		Vector4 p3Plano1 = new Vector4(-30, 0, 0, 1);
 		Vector4 p4Plano1 = new Vector4(-30, 0, 100, 1);
 		Plano plano1 = new Plano(normalPlano1, p1Plano1, p2Plano1,
-				p3Plano1, p4Plano1, new Material(0.2, 0, Color.GREEN, false, false));
+				p3Plano1, p4Plano1, new Material(0.2, 0, 0, 0, Color.GREEN, false, false, 0));
 		
 		// triangulos
 		Vector4 p1Triang1 = new Vector4(0, 0, 0, 1);
 		Vector4 p2Triang1 = new Vector4(-100, 100, 0, 1);
 		Vector4 p3Triang1 = new Vector4(30, 30, 0, 1);
-		Triangulo triangulo1 = new Triangulo(p1Triang1, p2Triang1, p3Triang1, new Material(0, 0, Color.GRAY, false, false));
+		Triangulo triangulo1 = new Triangulo(p1Triang1, p2Triang1, p3Triang1, new Material(0, 0, 0, 0, Color.GRAY, false, false, 0));
 
 //		Esfera esferaT1 = new Esfera(p1Triang1, 5, new Material(0.2, 0, Color.RED, false, false));
 //		Esfera esferaT2 = new Esfera(p2Triang1, 5, new Material(0.2, 0, Color.GREEN, false, false));
