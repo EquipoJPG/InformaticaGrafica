@@ -31,7 +31,7 @@ public class Escena {
 		Vector4 p2Plano1 = new Vector4(0, 40, 30, 1);
 		Vector4 p3Plano1 = new Vector4(0, 40, 0, 1);
 		Vector4 p4Plano1 = new Vector4(0, -40, 0, 1);
-		Plano plano1 = new Plano(normalPlano1, p1Plano1, p2Plano1,
+		Plano plano1 = new Plano(p1Plano1, p2Plano1,
 				p3Plano1, p4Plano1, new Material(0.2, 0.6, 0.5, 0.5, Color.GREEN, false, true, 10));
 		
 		// triangulos
@@ -50,8 +50,8 @@ public class Escena {
 		objetos.add(esfera1);
 		objetos.add(esfera2);
 		objetos.add(sol);
-//		objetos.add(plano1);
-//		objetos.add(triangulo1);
+		objetos.add(plano1);
+		objetos.add(triangulo1);
 		
 		objetos.add(esferaT1);
 		objetos.add(esferaT2);
