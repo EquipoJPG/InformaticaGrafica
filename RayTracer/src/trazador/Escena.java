@@ -50,8 +50,8 @@ public class Escena {
 		objetos.add(esfera1);
 		objetos.add(esfera2);
 		objetos.add(sol);
-		objetos.add(plano1);
-		objetos.add(triangulo1);
+//		objetos.add(plano1);
+//		objetos.add(triangulo1);
 		
 		objetos.add(esferaT1);
 		objetos.add(esferaT2);
