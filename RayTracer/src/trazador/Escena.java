@@ -46,16 +46,16 @@ public class Escena {
 		
 		
 		// agrega todos los objetos
-		objetos.add(esfera1);
+//		objetos.add(esfera1);
 		objetos.add(esfera2);
-		objetos.add(sol);
+//		objetos.add(sol);
 		objetos.add(plano1);
 //		objetos.add(triangulo1);
 		
-		objetos.add(esferaT1);
-		objetos.add(esferaT2);
-		objetos.add(esferaT3);
-		objetos.add(esferaT4);
+//		objetos.add(esferaT1);
+//		objetos.add(esferaT2);
+//		objetos.add(esferaT3);
+//		objetos.add(esferaT4);
 		
 		return objetos;
 	}
