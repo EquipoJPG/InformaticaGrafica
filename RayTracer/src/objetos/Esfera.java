@@ -107,4 +107,16 @@ public class Esfera extends Objeto {
 	public Vector4 normal(Vector4 interseccion, Rayo ray) {
 		return normal(interseccion);
 	}
+
+	@Override
+	public Vector4 getLowerBound() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector4 getUpperBound() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
