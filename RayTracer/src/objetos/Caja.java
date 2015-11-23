@@ -74,4 +74,7 @@ public class Caja extends Objeto {
 		return upperBound;
 	}
 
+	public Objeto getObjeto(Rayo ray){
+		return conjuntoObjetos.getObjeto(ray);
+	}
 }

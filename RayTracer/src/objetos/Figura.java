@@ -184,4 +184,34 @@ public class Figura extends Objeto {
 		}
 		return upperBound;
 	}
+	
+	public Objeto getObjeto(Rayo ray) {
+		Objeto returned = null;
+		if (lista.size() == 0) {
+			return null;
+		} else {
+			Iterator<Objeto> it = lista.iterator();
+			Objeto o = it.next();
+			Double interseccion = o.interseccion(ray);
+			while (it.hasNext()) {
+				o = it.next();
+				Double iterInterseccion = o.interseccion(ray);
+				if (iterInterseccion != null) {
+					if (interseccion == null) {
+						interseccion = o.interseccion(ray);
+						returned = o;
+					} else {
+						if (iterInterseccion < interseccion) {
+							interseccion = iterInterseccion;
+							returned = o;
+						}
+					}
+				} else {
+					interseccion = iterInterseccion;
+					returned = o;
+				}
+			}
+			return returned;
+		}
+	}
 }
