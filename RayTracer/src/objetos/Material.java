@@ -5,9 +5,6 @@ import java.awt.Color;
 public class Material {
 
 	private double kd, ks; // ks = 1 - kd
-	
-	private double k_reflexion;
-	private double k_refraccion;
 	private boolean transparente;	// true si es transparente
 	private Color color; // color del material
 	
@@ -17,16 +14,11 @@ public class Material {
 	/**
 	 * Material y sus propiedades
 	 */
-	public Material(double k_reflexion, double k_refraccion, double kd, double ks, Color color,
-			boolean transparente, boolean reflectante, int shiny) {
+	public Material(double kd, double ks, Color color, boolean transparente,
+			boolean reflectante, int shiny) {
 		this.kd = kd;
 		this.ks = ks;
-		
-		this.k_reflexion = k_reflexion;
-		this.k_refraccion = k_refraccion;
-		
 		this.color = color;
-		
 		this.transparente = transparente;
 		this.reflectante = reflectante;
 		
@@ -47,22 +39,6 @@ public class Material {
 
 	public void setKs(double ks) {
 		this.ks = ks;
-	}
-
-	public double getK_reflexion() {
-		return k_reflexion;
-	}
-
-	public void setK_reflexion(double k_reflexion) {
-		this.k_reflexion = k_reflexion;
-	}
-
-	public double getK_refraccion() {
-		return k_refraccion;
-	}
-
-	public void setK_refraccion(double k_refraccion) {
-		this.k_refraccion = k_refraccion;
 	}
 
 	public boolean isTransparente() {

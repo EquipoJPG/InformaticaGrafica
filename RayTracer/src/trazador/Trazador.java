@@ -23,7 +23,7 @@ public class Trazador {
 	final private static int ANTIALIASING = 7;
 
 	// puntos de interes
-	final private static int MAX_REBOTES_RAYO = 3;
+	final private static int MAX_REBOTES_RAYO = 1;
 	final private static int DISTANCIA_FOCAL = 45;
 	final private static Vector4 POV = new Vector4(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(30, -30, 30, 1);
@@ -245,7 +245,17 @@ public class Trazador {
 				}
 				
 				/* (FRESNEL?) Mezcla los colores obtenidos por el rayo reflejado y refractado */
-				finalColor = ColorOperations.fresnel(colorReflejado,colorRefractado,objeto.getMaterial().getKd());
+				if (colorReflejado != null && colorRefractado != null) {
+					Color fresnelColor = ColorOperations.fresnel(colorReflejado,colorRefractado,objeto.getMaterial().getKd());
+					finalColor = ColorOperations.add(finalColor, fresnelColor);
+				}
+				else if (colorReflejado != null ) {
+					finalColor = ColorOperations.add(finalColor, colorReflejado);
+				}
+				else if (colorRefractado != null ) {
+					finalColor = ColorOperations.add(finalColor, colorRefractado);
+				}
+				
 			}
 		}
 		return finalColor;
