@@ -28,4 +28,12 @@ public class ColorOperations {
 		return new Color(red, green, blue);
 	}
 
+	/**
+	 * c1 = reflejado
+	 * c2 = refractado
+	 * @return c1 * kd + c2 * (1-kd)
+	 */
+	public static Color fresnel(Color c1, Color c2, double kd){
+		return add(escalar(c1, kd), escalar(c2, (1-kd)));
+	}
 }
