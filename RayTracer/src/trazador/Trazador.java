@@ -152,9 +152,7 @@ public class Trazador {
 			/* Color inicial */
 			//finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 
-			//////////////////////////////////////////////////////////////////////////////
-			// TODO link a comprobar si le da la sombra o la luz
-			/* Comprobar si le da la luz o no */
+			/* Comprueba si el objeto recibe luz en el punto de interseccion */
 			double epsilon = 1e-12;
 			Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersecFinal).normalise();
 			Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
@@ -180,9 +178,8 @@ public class Trazador {
 
 			int red, green, blue;
 			if(!shadow){
-				///////////////////////////////////////////////////////////////////////
-				// TODO link a reflexion difusa
-				/* reflexion difusa */
+				
+				/* Reflexion difusa */
 				Vector4 normal = objeto.normal(pIntersecFinal,rayo);
 	
 				double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
@@ -197,9 +194,7 @@ public class Trazador {
 				finalColor = difusa;
 				/* fin reflexion difusa */
 
-				/////////////////////////////////////////////////////////////////
-				// TODO link a reflexion especular
-				/* reflexion especular */
+				/* Reflexion especular */
 				Rayo reflejado = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
 				Vector4 R = reflejado.getDireccion().normalise();
 				Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
@@ -222,18 +217,35 @@ public class Trazador {
 				finalColor = ColorOperations.superAdd(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
 			}
 			else{
+				
+				/* Si un punto no esta iluminado recibe luz ambiental para no quedar a negro */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 			}
-			
-			if((objeto.getMaterial().isTransparente() ||
-					objeto.getMaterial().isReflectante())
-					&& rebotes < MAX_REBOTES_RAYO){
-				////////////////////////////////////////////////////////////////
-				// TODO link a rayo reflejado
-				if(objeto.getMaterial().isTransparente()){
-					////////////////////////////////////////////////////////////
-					// TODO link a rayo refractado
+
+			/* Intenta lanzar nuevos rayos si todavia quedan rebotes */
+			if (rebotes < MAX_REBOTES_RAYO) {
+				
+				Color colorReflejado = null;
+				Color colorRefractado = null;
+				
+				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
+				if (objeto.getMaterial().isReflectante()) {
+					// TODO link a rayo reflejado
+					Rayo reflejado = Rayo.rayoReflejado(rayo, objeto, pIntersecFinal);
+					colorReflejado = trazar(reflejado, rebotes + 1);
+					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKd());
 				}
+				
+				/* Si el material del objeto es refractante se lanza el rayo refractado */
+				if (objeto.getMaterial().isTransparente()) {
+					// TODO link a rayo refractado
+					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal);
+					colorRefractado = trazar(refractado, rebotes + 1);
+					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKs());
+				}
+				
+				/* (FRESNEL?) Mezcla los colores obtenidos por el rayo reflejado y refractado */
+				finalColor = ColorOperations.fresnel(colorReflejado,colorRefractado,objeto.getMaterial().getKd());
 			}
 		}
 		return finalColor;
