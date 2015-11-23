@@ -1,5 +1,7 @@
 package objetos;
 
+import java.util.ArrayList;
+
 import data.Rayo;
 import data.Vector4;
 
@@ -9,6 +11,8 @@ public class Triangulo extends Objeto {
 	private Vector4 p1;
 	private Vector4 p2;
 	private Vector4 p3;
+	private Vector4 lowerBound;
+	private Vector4 upperBound;
 
 	/**
 	 * @param centro:
@@ -20,6 +24,46 @@ public class Triangulo extends Objeto {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
+		
+		// Update lower bound
+		double minX = Double.POSITIVE_INFINITY;
+		double minY = Double.POSITIVE_INFINITY;
+		double minZ = Double.POSITIVE_INFINITY;
+		ArrayList<Vector4> temp = new ArrayList<Vector4>();
+		temp.add(p1);
+		temp.add(p2);
+		temp.add(p3);
+		for(Vector4 e : temp){
+			if(e.getX()<minX){
+				minX = e.getX();
+			}
+			if(e.getY()<minY){
+				minY = e.getY();
+			}
+			if(e.getZ()<minZ){
+				minZ = e.getZ();
+			}
+		}
+		lowerBound = new Vector4(minX,minY,minZ,1);
+		
+		// Update upperBound
+		double maxX = Double.NEGATIVE_INFINITY;
+		double maxY = Double.NEGATIVE_INFINITY;
+		double maxZ = Double.NEGATIVE_INFINITY;
+		for(Vector4 e : temp){
+			if(e.getX()>maxX){
+				maxX = e.getX();
+			}
+			if(e.getY()>maxY){
+				maxY = e.getY();
+			}
+			if(e.getZ()>maxZ){
+				maxZ = e.getZ();
+			}
+		}
+		upperBound = new Vector4(maxX,maxY,maxZ,1);
+		
+		// Update material
 		super.material = m;
 	}
 
@@ -123,28 +167,14 @@ public class Triangulo extends Objeto {
 		}
 	}
 
-	public Vector4 getP1() {
-		return p1;
+	@Override
+	public Vector4 getLowerBound() {
+		return lowerBound;
 	}
 
-	public void setP1(Vector4 p1) {
-		this.p1 = p1;
-	}
-
-	public Vector4 getP2() {
-		return p2;
-	}
-
-	public void setP2(Vector4 p2) {
-		this.p2 = p2;
-	}
-
-	public Vector4 getP3() {
-		return p3;
-	}
-
-	public void setP3(Vector4 p3) {
-		this.p3 = p3;
+	@Override
+	public Vector4 getUpperBound() {
+		return upperBound;
 	}
 
 

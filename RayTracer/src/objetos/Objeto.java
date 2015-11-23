@@ -25,5 +25,9 @@ public abstract class Objeto {
 	public abstract Vector4 normal(Vector4 interseccion, Rayo ray);
 
 	public abstract Double interseccionSombra(Rayo ray);
+	
+	public abstract Vector4 getLowerBound();
+	
+	public abstract Vector4 getUpperBound();
 
 }

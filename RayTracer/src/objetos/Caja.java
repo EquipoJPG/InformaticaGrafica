@@ -17,4 +17,10 @@ public class Caja extends Objeto{
 		return null;
 	}
 
+	@Override
+	public Double interseccionSombra(Rayo ray) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
