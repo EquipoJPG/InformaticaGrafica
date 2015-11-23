@@ -17,7 +17,7 @@ public class Plano extends Objeto {
 		this.p2 = p2;
 		this.p3 = p3;
 		this.p4 = p4;
-		this.normal = normal(new Vector4());
+		this.normal = normal(null);
 		super.material = m;
 	}
 	

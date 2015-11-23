@@ -26,11 +26,10 @@ public class Escena {
 		Esfera sol = new Esfera(new Vector4(40, -40, 40, 0), 5, luz);
 
 		// planos
-		Vector4 normalPlano1 = Vector4.sub(POV, new Vector4(1, 0, 0, 1));
 		Vector4 p1Plano1 = new Vector4(0, -40, 30, 1);
 		Vector4 p2Plano1 = new Vector4(0, 40, 30, 1);
-		Vector4 p3Plano1 = new Vector4(0, 40, 0, 1);
-		Vector4 p4Plano1 = new Vector4(0, -40, 0, 1);
+		Vector4 p3Plano1 = new Vector4(0, -40, -30, 1);
+		Vector4 p4Plano1 = new Vector4(0, 40, -30, 1);
 		Plano plano1 = new Plano(p1Plano1, p2Plano1,
 				p3Plano1, p4Plano1, new Material(0.2, 0.6, 0.5, 0.5, Color.GREEN, false, true, 10));
 		
@@ -43,7 +42,7 @@ public class Escena {
 		Esfera esferaT1 = new Esfera(p1Plano1, 5, new Material(0.2, 0, 0.2, 0.2, Color.RED, false, false, 1));
 		Esfera esferaT2 = new Esfera(p2Plano1, 5, new Material(0.2, 0, 0.2, 0.2, Color.GREEN, false, false, 1));
 		Esfera esferaT3 = new Esfera(p3Plano1, 5, new Material(0.2, 0, 0.2, 0.2, Color.BLUE, false, false, 1));
-		Esfera esferaT4 = new Esfera(p3Plano1, 5, new Material(0.2, 0, 0.2, 0.2, Color.WHITE, false, false, 1));
+		Esfera esferaT4 = new Esfera(p4Plano1, 5, new Material(0.2, 0, 0.2, 0.2, Color.WHITE, false, false, 1));
 		
 		
 		// agrega todos los objetos
@@ -51,7 +50,7 @@ public class Escena {
 		objetos.add(esfera2);
 		objetos.add(sol);
 		objetos.add(plano1);
-		objetos.add(triangulo1);
+//		objetos.add(triangulo1);
 		
 		objetos.add(esferaT1);
 		objetos.add(esferaT2);
