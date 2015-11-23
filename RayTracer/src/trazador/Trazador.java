@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 
 import data.Rayo;
 import data.Vector4;
+import objetos.Caja;
+import objetos.Figura;
 import objetos.Objeto;
 
 public class Trazador {
@@ -43,7 +45,7 @@ public class Trazador {
 		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV), DISTANCIA_FOCAL, IMAGE_COLS,
 				IMAGE_ROWS);
 		
-		objetos = Escena.crear(POV);
+		objetos = EscenaCajas.crear(POV);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -126,9 +128,17 @@ public class Trazador {
 					pIntersec = Rayo.getInterseccion(rayo, lambda);
 					double distance = Vector4.distancia(rayo.getOrigen(), pIntersec);
 
-					/* Se extrae el objeto m�s cercano */
+					/* Se extrae el objeto mas cercano */
 					if (distance < minDistancia) {
 						objeto = objetos.get(k);
+						if(objeto instanceof Figura){
+							Figura f = (Figura) objeto;
+							objeto = f.getObjeto(rayo);
+						}
+						if(objeto instanceof Caja){
+							Caja c = (Caja) objeto;
+							objeto = c.getObjeto(rayo);
+						}
 						pIntersecFinal = pIntersec;
 						minDistancia = distance;
 					}
