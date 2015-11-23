@@ -55,7 +55,7 @@ public class Rayo {
 		/* Calcular variables */
 		Vector4 normal = o.normal(i,original);
 		double anguloIncidencia = Vector4.angulo(original.direccion, normal);
-		double kRefr = o.getMaterial().getK_refraccion();
+		double kRefr = o.getMaterial().getKs();
 		double anguloRefractado = Math.asin(Math.sin(anguloIncidencia) / kRefr);
 		
 		/* Vector del rayo refractado */
