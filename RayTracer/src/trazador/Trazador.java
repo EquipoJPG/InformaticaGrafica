@@ -30,7 +30,7 @@ public class Trazador {
 	final private static Vector4 POV = new Vector4(100, 0, 0, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(30, -30, 30, 1);
 	final private static Color COLOR_LUZ = new Color(0, 255, 0);
-	final private static double LUZ_AMBIENTAL = 0.5;
+	final private static double LUZ_AMBIENTAL = 0.1;
 
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -152,7 +152,7 @@ public class Trazador {
 		if (objeto != null) {
 
 			/* Color inicial */
-			finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
+			//finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 
 			/* Comprobar si le da la luz o no */
 			double epsilon = 1e-12;
@@ -174,7 +174,7 @@ public class Trazador {
 			int blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
 
 			Color difusa = new Color(red, green, blue);
-			finalColor = ColorOperations.add(finalColor, difusa);
+			finalColor = difusa;
 			/* fin reflexion difusa */
 
 			/////////////////////////////////////////////////////////////////
@@ -209,6 +209,7 @@ public class Trazador {
 					// TODO link a rayo refractado
 				}
 			}
+			finalColor = ColorOperations.superAdd(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
 		}
 		return finalColor;
 	}
