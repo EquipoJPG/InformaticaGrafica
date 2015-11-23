@@ -23,7 +23,7 @@ public class Trazador {
 	final private static int ANTIALIASING = 7;
 
 	// puntos de interes
-	final private static int MAX_REBOTES_RAYO = 1;
+	final private static int MAX_REBOTES_RAYO = 7;
 	final private static int DISTANCIA_FOCAL = 30;
 	final private static Vector4 POV = new Vector4(100, 100, 100, 1);//(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(50, 50, 50, 1);
