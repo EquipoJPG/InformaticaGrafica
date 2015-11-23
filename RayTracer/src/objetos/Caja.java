@@ -23,4 +23,16 @@ public class Caja extends Objeto{
 		return null;
 	}
 
+	@Override
+	public Vector4 getLowerBound() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector4 getUpperBound() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
