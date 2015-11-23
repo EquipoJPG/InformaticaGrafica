@@ -152,6 +152,8 @@ public class Trazador {
 			/* Color inicial */
 			//finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 
+			//////////////////////////////////////////////////////////////////////////////
+			// TODO link a comprobar si le da la sombra o la luz
 			/* Comprobar si le da la luz o no */
 			double epsilon = 1e-12;
 			Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersecFinal).normalise();
@@ -177,9 +179,9 @@ public class Trazador {
 			}
 
 			int red, green, blue;
-			///////////////////////////////////////////////////////////////////////
-			// TODO link a reflexion difusa
 			if(!shadow){
+				///////////////////////////////////////////////////////////////////////
+				// TODO link a reflexion difusa
 				/* reflexion difusa */
 				Vector4 normal = objeto.normal(pIntersecFinal,rayo);
 	
@@ -216,9 +218,11 @@ public class Trazador {
 				finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
 						ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
 				/* fin reflexion especular */
+
+				finalColor = ColorOperations.superAdd(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
 			}
 			else{
-				finalColor = Color.BLACK;
+				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 			}
 			
 			if((objeto.getMaterial().isTransparente() ||
@@ -231,7 +235,6 @@ public class Trazador {
 					// TODO link a rayo refractado
 				}
 			}
-			finalColor = ColorOperations.superAdd(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
 		}
 		return finalColor;
 	}

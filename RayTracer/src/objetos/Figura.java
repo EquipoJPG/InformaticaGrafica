@@ -89,5 +89,11 @@ public class Figura extends Objeto {
 			return ourObject.normal(in,ray);
 		}
 	}
+
+	@Override
+	public Double interseccionSombra(Rayo ray) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
