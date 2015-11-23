@@ -10,8 +10,6 @@ import javax.imageio.ImageIO;
 
 import data.Rayo;
 import data.Vector4;
-import objetos.Esfera;
-import objetos.Material;
 import objetos.Objeto;
 
 public class Trazador {
@@ -159,45 +157,69 @@ public class Trazador {
 			Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersecFinal).normalise();
 			Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 			Rayo sombra = new Rayo(origen, direccion);
+			
+			double maxDistancia = Vector4.distancia(sombra.getOrigen(), POSICION_LUZ);
+			boolean shadow = false;
+			
+			for(Objeto o : objetos){
+				if(o != objeto){
+					Double landa = o.interseccionSombra(sombra);
+					if(landa != null){
+						Vector4 aux = Rayo.getInterseccion(sombra, landa);
+						double dist = Vector4.distancia(sombra.getOrigen(), aux);
+						
+						if(dist < maxDistancia){
+							shadow = true;
+							break;
+						}
+					}
+				}
+			}
 
+			int red, green, blue;
 			///////////////////////////////////////////////////////////////////////
 			// TODO link a reflexion difusa
-			/* reflexion difusa */
-			Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+			if(!shadow){
+				/* reflexion difusa */
+				Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+	
+				double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
+				if (angulo < 0) angulo = 0;
+				if (angulo > 1) angulo = 1;
+	
+				red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
+				green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
+				blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
+	
+				Color difusa = new Color(red, green, blue);
+				finalColor = difusa;
+				/* fin reflexion difusa */
 
-			double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-			if (angulo < 0) angulo = 0;
-			if (angulo > 1) angulo = 1;
-
-			int red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
-			int green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
-			int blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
-
-			Color difusa = new Color(red, green, blue);
-			finalColor = difusa;
-			/* fin reflexion difusa */
-
-			/////////////////////////////////////////////////////////////////
-			// TODO link a reflexion especular
-			/* reflexion especular */
-			Rayo reflejado = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
-			Vector4 R = reflejado.getDireccion().normalise();
-			Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
-
-			double coseno = Vector4.dot(R, V);
-			if (coseno < 0) coseno = 0;
-
-			double n = objeto.getMaterial().getShiny();
-			double terminoEspecular = Math.pow(coseno, n);
-
-			red = (int) (255 * Math.abs(terminoEspecular));
-			green = (int) (255 * Math.abs(terminoEspecular));
-			blue = (int) (255 * Math.abs(terminoEspecular));
-			
-			Color specular = new Color(red, green, blue);
-			finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
-					ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
-			/* fin reflexion especular */
+				/////////////////////////////////////////////////////////////////
+				// TODO link a reflexion especular
+				/* reflexion especular */
+				Rayo reflejado = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
+				Vector4 R = reflejado.getDireccion().normalise();
+				Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
+	
+				double coseno = Vector4.dot(R, V);
+				if (coseno < 0) coseno = 0;
+	
+				double n = objeto.getMaterial().getShiny();
+				double terminoEspecular = Math.pow(coseno, n);
+	
+				red = (int) (255 * Math.abs(terminoEspecular));
+				green = (int) (255 * Math.abs(terminoEspecular));
+				blue = (int) (255 * Math.abs(terminoEspecular));
+				
+				Color specular = new Color(red, green, blue);
+				finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
+						ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
+				/* fin reflexion especular */
+			}
+			else{
+				finalColor = Color.BLACK;
+			}
 			
 			if((objeto.getMaterial().isTransparente() ||
 					objeto.getMaterial().isReflectante())

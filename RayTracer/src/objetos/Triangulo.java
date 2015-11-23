@@ -60,6 +60,50 @@ public class Triangulo extends Objeto {
 		}
 		return lambda;
 	}
+	
+	@Override
+	public Double interseccionSombra(Rayo ray) {
+		Vector4 a = ray.getOrigen();
+		Vector4 d = ray.getDireccion();
+		Vector4 n = normal(null);
+		Double lambda = null;
+		
+		double denominador = Vector4.dot(d, n);
+		
+		/* Comprobacion de si intersecciona */
+		if (denominador == 0) {
+			/* No intersecciona o no se ve */
+			lambda = null;
+		} else {
+			/* Si que intersecciona */
+			
+			double numerador = Vector4.dot(Vector4.sub(p1, a), n);
+			
+			/* Interseccion */
+			Vector4 p = Rayo.getInterseccion(ray, numerador / denominador);
+			
+			/*
+			 * Comprobacion de que el punto de interseccion cae dentro del
+			 * triangulo
+			 */
+			double s1 = Vector4.dot(Vector4.cross(Vector4.sub(p2, p1), Vector4.sub(p, p1)), n);
+			double s2 = Vector4.dot(Vector4.cross(Vector4.sub(p3, p2), Vector4.sub(p, p2)), n);
+			double s3 = Vector4.dot(Vector4.cross(Vector4.sub(p1, p3), Vector4.sub(p, p3)), n);
+			
+			/* Comprobar que las tres 's' tienen el mismo signo */
+			if (Math.signum(s1) == Math.signum(s2) && Math.signum(s1) == Math.signum(s3)) {
+				lambda = numerador / denominador;
+			
+				if (lambda < 0) {
+					return null;
+				}
+				
+			}
+			
+		}
+		
+		return lambda;
+	}
 
 	public Vector4 normal(Vector4 interseccion) {
 		Vector4 term1 = Vector4.sub(p2, p1);
@@ -96,10 +140,5 @@ public class Triangulo extends Objeto {
 		this.p3 = p3;
 	}
 
-	@Override
-	public Double interseccionSombra(Rayo ray) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
