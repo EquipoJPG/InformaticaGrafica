@@ -89,5 +89,35 @@ public class Figura extends Objeto {
 			return ourObject.normal(in,ray);
 		}
 	}
+
+	@Override
+	public Double interseccionSombra(Rayo ray) {
+		if(lista.size()==0){
+			return null;
+		}
+		else{
+			Iterator<Objeto> it = lista.iterator();
+			Objeto o = it.next();
+			Double interseccion = o.interseccionSombra(ray);
+			while(it.hasNext()){
+				o = it.next();
+				Double iterInterseccion = o.interseccionSombra(ray);
+				if(iterInterseccion!=null){
+					if(interseccion==null){
+						interseccion = o.interseccionSombra(ray);
+					}
+					else{
+						if(iterInterseccion<interseccion){
+							interseccion = iterInterseccion;
+						}
+					}
+				}
+				else{
+					interseccion = iterInterseccion;
+				}
+			}
+			return interseccion;
+		}
+	}
 	
 }
