@@ -20,11 +20,11 @@ public class EscenaCajas {
 		/* Define los objetos de la escena */
 
 		// esferas
-		Esfera esfera1 = new Esfera(3, new Material(0.9, 0.4, Color.RED, false, true, 50));
-		Material mesf2 = new Material(0.9, 0, Color.CYAN, false, true, 1);
+		Esfera esfera1 = new Esfera(3, new Material(Color.RED, 0.9, 0.4, 50));
+		Material mesf2 = new Material(Color.CYAN, 0.9, 0, 1);
 		Esfera esfera2 = new Esfera(new Vector4(20, -20, 20, 1), 5, mesf2);
 		
-		Material luz = new Material(0.9, 1, Color.ORANGE, false, true, 1);
+		Material luz = new Material(Color.ORANGE, 0.9, 1, 1);
 		
 		
 		// agrega todos los objetos
