@@ -13,7 +13,6 @@ import data.Vector4;
 import objetos.Esfera;
 import objetos.Material;
 import objetos.Objeto;
-import objetos.Plano;
 
 public class Trazador {
 
@@ -27,10 +26,10 @@ public class Trazador {
 
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 3;
-	final private static int DISTANCIA_FOCAL = 100;
-	final private static Vector4 POV = new Vector4(100, 100, -50, 1);
-	final private static Vector4 POSICION_LUZ = new Vector4(0, 50, 0, 1);
-	final private static Color COLOR_LUZ = new Color(255, 255, 255);
+	final private static int DISTANCIA_FOCAL = 60;
+	final private static Vector4 POV = new Vector4(100, 0, 0, 1);
+	final private static Vector4 POSICION_LUZ = new Vector4(30, -30, 30, 1);
+	final private static Color COLOR_LUZ = new Color(0, 255, 0);
 	final private static double LUZ_AMBIENTAL = 0.5;
 
 	// contenido de la escena
@@ -45,15 +44,8 @@ public class Trazador {
 		Foco luz = new Foco(POSICION_LUZ, COLOR_LUZ);
 		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV), DISTANCIA_FOCAL, IMAGE_COLS,
 				IMAGE_ROWS);
-
-		/* Define los objetos de la escena */
-		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, 0.9, 0.1, Color.RED, false, true, 1));
-		// TODO IM CHANGING STUFF
-		Material mesf2 = new Material(0.2, 0.1, 0.9, 1, Color.CYAN, false, false, 10);
-		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, mesf2);
-
-		objetos.add(esfera1);
-		objetos.add(esfera2);
+		
+		objetos = Escena.crear(POV);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
