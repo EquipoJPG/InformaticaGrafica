@@ -56,14 +56,12 @@ public class Caja extends Objeto {
 
 	@Override
 	public Vector4 normal(Vector4 interseccion, Rayo ray) {
-		// TODO Auto-generated method stub
-		return null;
+		return conjuntoObjetos.normal(interseccion, ray);
 	}
 
 	@Override
 	public Double interseccionSombra(Rayo ray) {
-		// TODO Auto-generated method stub
-		return null;
+		return conjuntoObjetos.interseccionSombra(ray);
 	}
 
 	@Override
