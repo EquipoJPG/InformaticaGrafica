@@ -13,6 +13,7 @@ import data.Vector4;
 import objetos.Esfera;
 import objetos.Material;
 import objetos.Objeto;
+import objetos.Plano;
 
 public class Trazador {
 
@@ -30,7 +31,7 @@ public class Trazador {
 	final private static Vector4 POV = new Vector4(100, 100, -50, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(0, 50, 0, 1);
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
-	final private static double LUZ_AMBIENTAL = 0.2;
+	final private static double LUZ_AMBIENTAL = 0.5;
 
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -51,7 +52,7 @@ public class Trazador {
 		Material mesf2 = new Material(0.2, 0.1, 0.9, 1, Color.CYAN, false, false, 100);
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, mesf2);
 
-		// objetos.add(esfera1);
+		objetos.add(esfera1);
 		objetos.add(esfera2);
 
 		System.out.println("OK");
