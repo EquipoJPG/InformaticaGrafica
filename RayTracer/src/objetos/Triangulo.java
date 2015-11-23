@@ -96,4 +96,10 @@ public class Triangulo extends Objeto {
 		this.p3 = p3;
 	}
 
+	@Override
+	public Double interseccionSombra(Rayo ray) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
