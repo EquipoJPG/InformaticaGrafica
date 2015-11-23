@@ -53,7 +53,7 @@ public class Rayo {
 	public static Rayo rayoRefractado(Rayo original, Objeto o, Vector4 i) {
 		
 		/* Calcular variables */
-		Vector4 normal = o.normal(i);
+		Vector4 normal = o.normal(i,original);
 		double anguloIncidencia = Vector4.angulo(original.direccion, normal);
 		double kRefr = o.getMaterial().getK_refraccion();
 		double anguloRefractado = Math.asin(Math.sin(anguloIncidencia) / kRefr);
@@ -74,8 +74,8 @@ public class Rayo {
 	 * Rayo reflejado(IL, N) = IL - 2N(IL.N)
 	 */
 	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i) {
-		Vector4 luz = sombra.getDireccion();
-		Vector4 normal = o.normal(i);
+		Vector4 luz = Vector4.negate(sombra.getDireccion());
+		Vector4 normal = o.normal(i,sombra);
 		
 		double iln = Vector4.dot(luz, normal);
 		Vector4 _2n = Vector4.mulEscalar(normal, 2);

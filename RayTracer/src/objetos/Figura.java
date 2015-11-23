@@ -58,16 +58,6 @@ public class Figura extends Objeto {
 		}
 	}
 
-	@Override
-	public Vector4 normal(Vector4 interseccion) {
-		try {
-			throw new Exception("No se puede computar la normal de una figura sin el rayo incidente");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 	public Vector4 normal(Vector4 in, Rayo ray){
 		if(lista.size()==0 || ray == null){
 			return null;
@@ -96,7 +86,7 @@ public class Figura extends Objeto {
 					interseccion = iterInterseccion;
 				}
 			}
-			return ourObject.normal(in);
+			return ourObject.normal(in,ray);
 		}
 	}
 	

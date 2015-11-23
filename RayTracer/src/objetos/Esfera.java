@@ -63,7 +63,6 @@ public class Esfera extends Objeto {
 	/**
 	 * @return la normal de la esfera respecto a @param interseccion
 	 */
-	@Override
 	public Vector4 normal(Vector4 interseccion){
 		return Vector4.sub(interseccion, centro).normalise();
 	}

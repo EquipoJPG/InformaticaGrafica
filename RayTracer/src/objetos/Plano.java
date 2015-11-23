@@ -60,7 +60,6 @@ public class Plano extends Objeto {
 		return lambda;
 	}
 	
-	@Override
 	public Vector4 normal(Vector4 interseccion) {
 		return normal;
 	}

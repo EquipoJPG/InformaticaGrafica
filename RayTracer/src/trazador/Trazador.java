@@ -49,7 +49,7 @@ public class Trazador {
 		/* Define los objetos de la escena */
 		Esfera esfera1 = new Esfera(20, new Material(0.8, 0.2, 0.9, 0.1, Color.RED, false, true, 1));
 		// TODO IM CHANGING STUFF
-		Material mesf2 = new Material(0.2, 0.1, 0.9, 1, Color.CYAN, false, false, 100);
+		Material mesf2 = new Material(0.2, 0.1, 0.9, 1, Color.CYAN, false, false, 10);
 		Esfera esfera2 = new Esfera(new Vector4(10, 0, 10, 1), 20, mesf2);
 
 		objetos.add(esfera1);
@@ -171,7 +171,7 @@ public class Trazador {
 			///////////////////////////////////////////////////////////////////////
 			// TODO link a reflexion difusa
 			/* reflexion difusa */
-			Vector4 normal = objeto.normal(pIntersecFinal);
+			Vector4 normal = objeto.normal(pIntersecFinal,rayo);
 
 			double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
 			if (angulo < 0) angulo = 0;
@@ -192,15 +192,15 @@ public class Trazador {
 			Vector4 R = reflejado.getDireccion().normalise();
 			Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 
-			double coseno = -Vector4.dot(R, V);
+			double coseno = Vector4.dot(R, V);
 			if (coseno < 0) coseno = 0;
 
 			double n = objeto.getMaterial().getShiny();
 			double terminoEspecular = Math.pow(coseno, n);
 
-			red = (int) (objeto.getMaterial().getColor().getRed() * Math.abs(terminoEspecular));
-			green = (int) (objeto.getMaterial().getColor().getGreen() * Math.abs(terminoEspecular));
-			blue = (int) (objeto.getMaterial().getColor().getBlue() * Math.abs(terminoEspecular));
+			red = (int) (255 * Math.abs(terminoEspecular));
+			green = (int) (255 * Math.abs(terminoEspecular));
+			blue = (int) (255 * Math.abs(terminoEspecular));
 			
 			Color specular = new Color(red, green, blue);
 			finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),

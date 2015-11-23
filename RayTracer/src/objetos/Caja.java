@@ -3,7 +3,7 @@ package objetos;
 import data.Rayo;
 import data.Vector4;
 
-public class Caja extends Objeto {
+public class Caja extends Objeto{
 
 	@Override
 	public Double interseccion(Rayo ray) {
