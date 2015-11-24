@@ -16,6 +16,7 @@ import objetos.Objeto;
 
 public class Trazador {
 	
+	// TODO esqueleto segun raytracer.cpp
 	/*
 	 * SEGUN RayTracer.cpp
 	 * 
