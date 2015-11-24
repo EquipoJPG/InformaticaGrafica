@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import data.Rayo;
 import data.Vector4;
 import objetos.Caja;
+import objetos.Esfera;
 import objetos.Figura;
 import objetos.Objeto;
 
@@ -21,13 +22,13 @@ public class Trazador {
 	// imagen
 	final private static int IMAGE_COLS = 1024; // width
 	final private static int IMAGE_ROWS = 720; // height
-	final private static String IMAGE_FILE_NAME = "escena.png";
+	private static String IMAGE_FILE_NAME = "escena.png";
 	final private static int ANTIALIASING = 7;
 
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
 	final private static int DISTANCIA_FOCAL = 30;
-	final private static Vector4 POV = new Vector4(100, 100, 100, 1);//(80, -50, 80, 1);
+	final private static Vector4 POV = new Vector4(100, 120, 100, 1);//(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(50, 50, 50, 1);
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
 	final private static double LUZ_AMBIENTAL = 0.1;
@@ -45,7 +46,9 @@ public class Trazador {
 		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV), DISTANCIA_FOCAL, IMAGE_COLS,
 				IMAGE_ROWS);
 		
-		objetos = EscenaCajas.crear(POV);
+		objetos = EscenaCajas.crear3(POV);
+		IMAGE_FILE_NAME = "escena2.png";
+//		objetos = Escena.crear(POV);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -171,10 +174,39 @@ public class Trazador {
 			double maxDistancia = Vector4.distancia(sombra.getOrigen(), POSICION_LUZ);
 			boolean shadow = false;
 			
+			/* Para cada objeto de la escena, se intenta interseccionar */
+			for (int k = 0; k < objetos.size(); k++) {
+
+				Double landa = objetos.get(k).interseccionSombra(sombra);
+				if (landa != null) {
+
+					if (landa >= 0) {
+
+						/* Se comprueba cual es el objeto visible mas cercano */
+						Vector4 interseccionSombra = Rayo.getInterseccion(sombra, landa);
+						double dist = Vector4.distancia(sombra.getOrigen(), interseccionSombra);
+
+						/* Se extrae el objeto mas cercano */
+						if (dist <= maxDistancia) {
+							shadow = true;
+							break;
+						}
+					}
+				}
+			}
+			/*
 			for(Objeto o : objetos){
 				if(o != objeto){
 					Double landa = o.interseccionSombra(sombra);
 					if(landa != null){
+						if(o instanceof Figura){
+							Figura f = (Figura) objeto;
+							o = f.getObjeto(sombra);
+						}
+						if(o instanceof Caja){
+							Caja c = (Caja) objeto;
+							o = c.getObjeto(sombra);
+						}
 						Vector4 aux = Rayo.getInterseccion(sombra, landa);
 						double dist = Vector4.distancia(sombra.getOrigen(), aux);
 						
@@ -185,6 +217,7 @@ public class Trazador {
 					}
 				}
 			}
+			*/
 
 			int red, green, blue;
 			if(!shadow){
