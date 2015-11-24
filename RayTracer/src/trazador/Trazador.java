@@ -15,6 +15,19 @@ import objetos.Figura;
 import objetos.Objeto;
 
 public class Trazador {
+	
+	/*
+	 * SEGUN RayTracer.cpp
+	 * 
+	 * si el objeto es transparente o reflectante
+	 * 		reflejo = calcular rayo reflejado <- recursion
+	 * 		si es transparente
+	 * 			refraccion = calcular rayo refractado <- recursion
+	 * 		surfaceColor = reflejo * fresnel
+	 * 			 + refraccion * (1-fresnel) * transparente * surfaceColor
+	 * sino
+	 * 		surfaceColor = componente difusa
+	 */
 
 	/* Variables globales del trazador de rayos */
 
