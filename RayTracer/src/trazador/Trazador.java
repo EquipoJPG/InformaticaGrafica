@@ -59,7 +59,7 @@ public class Trazador {
 		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV), DISTANCIA_FOCAL, IMAGE_COLS,
 				IMAGE_ROWS);
 		
-		objetos = EscenaCajas.crear(POV);
+		objetos = Escena.crear(POV);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -200,7 +200,6 @@ public class Trazador {
 				}
 			}
 
-			int red, green, blue;
 			if(!shadow){
 				
 				/* Reflexion difusa */
@@ -210,11 +209,7 @@ public class Trazador {
 				if (angulo < 0) angulo = 0;
 				if (angulo > 1) angulo = 1;
 	
-				red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
-				green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
-				blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
-	
-				Color difusa = new Color(red, green, blue);
+				Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
 				finalColor = difusa;
 				/* fin reflexion difusa */
 
@@ -227,18 +222,14 @@ public class Trazador {
 				if (coseno < 0) coseno = 0;
 	
 				double n = objeto.getMaterial().getShiny();
-				double terminoEspecular = Math.pow(coseno, n);
+				double terminoEspecular = Math.abs(Math.pow(coseno, n));
 	
-				red = (int) (255 * Math.abs(terminoEspecular));
-				green = (int) (255 * Math.abs(terminoEspecular));
-				blue = (int) (255 * Math.abs(terminoEspecular));
-				
-				Color specular = new Color(red, green, blue);
+				Color specular = ColorOperations.escalar(COLOR_LUZ, terminoEspecular);
 				finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
 						ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
 				/* fin reflexion especular */
 
-				finalColor = ColorOperations.superAdd(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
+				finalColor = ColorOperations.add(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
 			}
 			else{
 				
