@@ -1,8 +1,6 @@
 package objetos;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import data.Rayo;
 import data.Vector4;
 
@@ -31,35 +29,33 @@ public class Figura extends Objeto {
 		updateBounds();
 	}
 
-	public void addObjeto(Objeto o) {
-		lista.add(o);
-		updateBounds();
-	}
-
 	@Override
 	public Double interseccion(Rayo ray) {
 		if (lista.size() == 0) {
 			return null;
 		} else {
-			Iterator<Objeto> it = lista.iterator();
-			Objeto o = it.next();
-			Double interseccion = o.interseccion(ray);
-			while (it.hasNext()) {
-				o = it.next();
+			Double returned = null;
+			for (Objeto o : lista) {
 				Double iterInterseccion = o.interseccion(ray);
+				// Comprobar si hay interseccion con ese objeto
 				if (iterInterseccion != null) {
-					if (interseccion == null) {
-						interseccion = o.interseccion(ray);
-					} else {
-						if (iterInterseccion < interseccion) {
-							interseccion = iterInterseccion;
+					// Comprobar si la landa es mayor o igual que 0
+					if (iterInterseccion >= 0) {
+						// Si no tenemos valor para devolver guardado,
+						// almacenamos el nuevo
+						if (returned == null) {
+							returned = iterInterseccion;
+						} else {
+							// Si tenemos valor guardado y el nuevo es menor
+							// guardar el nuevo
+							if (iterInterseccion < returned) {
+								returned = iterInterseccion;
+							}
 						}
 					}
-				} else {
-					interseccion = iterInterseccion;
 				}
 			}
-			return interseccion;
+			return returned;
 		}
 	}
 
@@ -67,28 +63,20 @@ public class Figura extends Objeto {
 		if (lista.size() == 0 || ray == null) {
 			return null;
 		} else {
-			Iterator<Objeto> it = lista.iterator();
-			Objeto o = it.next();
-			Objeto ourObject = o;
-			Double interseccion = o.interseccion(ray);
-			while (it.hasNext()) {
-				o = it.next();
-				Double iterInterseccion = o.interseccion(ray);
+			Objeto ourObject = null;
+			for (Objeto obj : lista) {
+				Double iterInterseccion = obj.interseccion(ray);
 				if (iterInterseccion != null) {
-					if (interseccion == null) {
-						interseccion = o.interseccion(ray);
-						ourObject = o;
-					} else {
-						if (iterInterseccion < interseccion) {
-							interseccion = iterInterseccion;
-							ourObject = o;
-						}
+					if (in.equals(iterInterseccion)) {
+						ourObject = obj;
 					}
-				} else {
-					interseccion = iterInterseccion;
 				}
 			}
-			return ourObject.normal(in, ray);
+			if (ourObject == null) {
+				return null;
+			} else {
+				return ourObject.normal(in, ray);
+			}
 		}
 	}
 
@@ -97,28 +85,92 @@ public class Figura extends Objeto {
 		if (lista.size() == 0) {
 			return null;
 		} else {
-			Iterator<Objeto> it = lista.iterator();
-			Objeto o = it.next();
-			Double interseccion = o.interseccionSombra(ray);
-			while (it.hasNext()) {
-				o = it.next();
+			Double returned = null;
+			for (Objeto o : lista) {
 				Double iterInterseccion = o.interseccionSombra(ray);
+				// Comprobar si hay interseccion con ese objeto
 				if (iterInterseccion != null) {
-					if (interseccion == null) {
-						interseccion = o.interseccionSombra(ray);
-					} else {
-						if (iterInterseccion < interseccion) {
-							interseccion = iterInterseccion;
+					// Comprobar si la landa es mayor o igual que 0
+					if (iterInterseccion >= 0) {
+						// Si no tenemos valor para devolver guardado,
+						// almacenamos el nuevo
+						if (returned == null) {
+							returned = iterInterseccion;
+						} else {
+							// Si tenemos valor guardado y el nuevo es menor
+							// guardar el nuevo
+							if (iterInterseccion < returned) {
+								returned = iterInterseccion;
+							}
 						}
 					}
-				} else {
-					interseccion = iterInterseccion;
 				}
 			}
-			return interseccion;
+			return returned;
 		}
 	}
 
+	@Override
+	public Vector4 getLowerBound() {
+		if (lowerBound == null) {
+			try {
+				throw new Exception("Can't get bounds from empty figure");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return lowerBound;
+	}
+
+	@Override
+	public Vector4 getUpperBound() {
+		if (upperBound == null) {
+			try {
+				throw new Exception("Can't get bounds from empty figure");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return upperBound;
+	}
+
+	public void addObjeto(Objeto o) {
+		lista.add(o);
+		updateBounds();
+	}
+	
+	public Objeto getObjeto(Rayo ray) {
+		if (lista.size() == 0) {
+			return null;
+		} else {
+			Double returned = null;
+			Objeto returnedObj = null;
+			for (Objeto o : lista) {
+				Double iterInterseccion = o.interseccionSombra(ray);
+				// Comprobar si hay interseccion con ese objeto
+				if (iterInterseccion != null) {
+					// Comprobar si la landa es mayor o igual que 0
+					if (iterInterseccion >= 0) {
+						// Si no tenemos valor para devolver guardado,
+						// almacenamos el nuevo
+						if (returned == null) {
+							returned = iterInterseccion;
+							returnedObj = o;
+						} else {
+							// Si tenemos valor guardado y el nuevo es menor
+							// guardar el nuevo
+							if (iterInterseccion < returned) {
+								returned = iterInterseccion;
+								returnedObj = o;
+							}
+						}
+					}
+				}
+			}
+			return returnedObj;
+		}
+	}
+	
 	private void updateBounds() {
 		// Update lower bound
 		double minX = Double.POSITIVE_INFINITY;
@@ -159,59 +211,5 @@ public class Figura extends Objeto {
 			}
 		}
 		upperBound = new Vector4(maxX, maxY, maxZ, 1);
-	}
-
-	@Override
-	public Vector4 getLowerBound() {
-		if (lowerBound == null) {
-			try {
-				throw new Exception("Can't get bounds from empty figure");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return lowerBound;
-	}
-
-	@Override
-	public Vector4 getUpperBound() {
-		if (upperBound == null) {
-			try {
-				throw new Exception("Can't get bounds from empty figure");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return upperBound;
-	}
-	
-	public Objeto getObjeto(Rayo ray) {
-		Objeto returned = null;
-		if (lista.size() == 0) {
-			return null;
-		} else {
-			Iterator<Objeto> it = lista.iterator();
-			Objeto o = it.next();
-			Double interseccion = o.interseccion(ray);
-			while (it.hasNext()) {
-				o = it.next();
-				Double iterInterseccion = o.interseccion(ray);
-				if (iterInterseccion != null) {
-					if (interseccion == null) {
-						interseccion = o.interseccion(ray);
-						returned = o;
-					} else {
-						if (iterInterseccion < interseccion) {
-							interseccion = iterInterseccion;
-							returned = o;
-						}
-					}
-				} else {
-					interseccion = iterInterseccion;
-					returned = o;
-				}
-			}
-			return returned;
-		}
 	}
 }
