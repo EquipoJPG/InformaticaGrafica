@@ -67,7 +67,7 @@ public class Trazador {
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */
 					Color colorPixel = trazar(rayoPrimario, 0);
 					if (pixel != null && colorPixel != null) {
-						pixel = mix(pixel, colorPixel);
+						pixel = ColorOperations.add(pixel, colorPixel);
 					} else {
 						pixel = colorPixel;
 					}
@@ -278,28 +278,6 @@ public class Trazador {
 	 */
 	private static Color luzAmbiental(double luzAmbiental, Objeto objeto) {
 		Color c = objeto.getMaterial().getColor();
-		int r = (int) (c.getRed() * luzAmbiental);
-		int b = (int) (c.getBlue() * luzAmbiental);
-		int g = (int) (c.getGreen() * luzAmbiental);
-		return new Color(r, g, b);
-	}
-
-	/**
-	 * Mezcla los colores dados
-	 */
-	private static Color mix(Color pixel, Color acum) {
-		int pixelr = pixel.getRed();
-		int pixelb = pixel.getBlue();
-		int pixelg = pixel.getGreen();
-
-		int acumr = acum.getRed();
-		int acumb = acum.getBlue();
-		int acumg = acum.getGreen();
-
-		int finalr = (pixelr + acumr) / 2;
-		int finalb = (pixelb + acumb) / 2;
-		int finalg = (pixelg + acumg) / 2;
-
-		return new Color(finalr, finalg, finalb);
+		return ColorOperations.escalar(c, luzAmbiental);
 	}
 }
