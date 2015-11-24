@@ -5,25 +5,25 @@ import java.awt.Color;
 public class ColorOperations {
 	
 	public static Color add (Color c1, Color c2){
-		int red = (int) (Math.min(255, (c1.getRed() + c2.getRed())/2));
-		int green = (int) (Math.min(255, (c1.getGreen() + c2.getGreen())/2));
-		int blue = (int) (Math.min(255, (c1.getBlue() + c2.getBlue())/2));
+		int red = clamp((c1.getRed() + c2.getRed())/2, 0, 255);
+		int green = clamp((c1.getGreen() + c2.getGreen())/2, 0, 255);
+		int blue = clamp((c1.getBlue() + c2.getBlue())/2, 0, 255);
 		
 		return new Color(red, green, blue);
 	}
 	
 	public static Color superAdd (Color c1, Color c2){
-		int red = (int) (Math.min(255, (c1.getRed() + c2.getRed())));
-		int green = (int) (Math.min(255, (c1.getGreen() + c2.getGreen())));
-		int blue = (int) (Math.min(255, (c1.getBlue() + c2.getBlue())));
+		int red = clamp((c1.getRed() + c2.getRed()), 0, 255);
+		int green = clamp((c1.getGreen() + c2.getGreen()), 0, 255);
+		int blue = clamp((c1.getBlue() + c2.getBlue()), 0, 255);
 		
 		return new Color(red, green, blue);
 	}
 	
 	public static Color escalar (Color c, double k){
-		int red = (int) (Math.min(255, (c.getRed() * k)));
-		int green = (int) (Math.min(255, (c.getGreen() * k)));
-		int blue = (int) (Math.min(255, (c.getBlue() * k)));
+		int red = clamp((int)(c.getRed()*k), 0, 255);
+		int green = clamp((int)(c.getGreen()*k), 0, 255);
+		int blue = clamp((int)(c.getBlue()*k), 0, 255);
 		
 		return new Color(red, green, blue);
 	}
@@ -35,5 +35,15 @@ public class ColorOperations {
 	 */
 	public static Color fresnel(Color c1, Color c2, double kd){
 		return add(escalar(c1, kd), escalar(c2, (1-kd)));
+	}
+	
+	public static int clamp(int color, int min, int max){
+		// set minimo
+		color = Math.max(color, min);	// maximo entre el color y 0
+		
+		// set maximo
+		color = Math.min(color, max);	// minimo entre el color y 255
+		
+		return color;
 	}
 }

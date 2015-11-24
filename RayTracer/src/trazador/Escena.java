@@ -8,7 +8,6 @@ import objetos.Esfera;
 import objetos.Material;
 import objetos.Objeto;
 import objetos.Plano;
-import objetos.Triangulo;
 
 public class Escena {
 	
