@@ -125,6 +125,9 @@ public class Caja extends Objeto {
 		return conjuntoObjetos.getObjeto(ray);
 	}
 
+	/**
+	 * Devuelve true si el punto esta dentro de la caja
+	 */
 	private boolean estaDentroDeLaCaja(Vector4 p) {
 		boolean returned = false;
 		// Check X
