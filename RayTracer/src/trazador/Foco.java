@@ -7,15 +7,17 @@ public class Foco {
 	
 	private Vector4 posicion;
 	private Color color;
+	private int intensidad;
 	
 	/**
 	 * Constructor
 	 * @param posicion: posicion del foco de luz puntual
 	 * @param color: color de la luz puntual
 	 */
-	public Foco(Vector4 posicion, Color color){
+	public Foco(Vector4 posicion, Color color, int intensidad){
 		this.posicion = posicion;
 		this.color = color;
+		this.intensidad = intensidad;
 	}
 	
 	/**
@@ -32,4 +34,10 @@ public class Foco {
 		return posicion;
 	}
 
+	/**
+	 * @return intensidad
+	 */
+	public int getIntensidad(){
+		return intensidad;
+	}
 }
