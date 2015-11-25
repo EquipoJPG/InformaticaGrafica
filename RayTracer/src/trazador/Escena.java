@@ -18,11 +18,11 @@ public class Escena {
 
 		// esferas
 //		Esfera esfera1 = new Esfera(3, new Material(Color.RED, 0.9, 0.4, 50));
-		Material mesf2 = new Material(Color.ORANGE, 0.9, 0.1, 0, 1, 70);
+		Material mesf2 = new Material(Color.CYAN, 0.4, 0.1, 0.5, 0, 70);
 		Esfera esfera2 = new Esfera(new Vector4(60, 60, 60, 1), 14, mesf2);
 		
-//		Material luz = new Material(Color.ORANGE, 0.9, 1, 1);
-//		Esfera sol = new Esfera(new Vector4(40, -40, 40, 0), 5, luz);
+		Material luz = new Material(Color.RED, 0.4, 0.6, 0.6, 0, 200);
+		Esfera sol = new Esfera(new Vector4(150, 150, 150, 0), 20, luz);
 
 		// PLANOS
 		
@@ -65,7 +65,7 @@ public class Escena {
 		// agrega todos los objetos
 //		objetos.add(esfera1);
 		objetos.add(esfera2);
-//		objetos.add(sol);
+		objetos.add(sol);
 		
 		objetos.add(plano1);
 		objetos.add(plano2);
