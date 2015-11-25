@@ -19,34 +19,34 @@ public class Escena {
 		// esferas
 //		Esfera esfera1 = new Esfera(3, new Material(Color.RED, 0.9, 0.4, 50));
 		Material mesf2 = new Material(Color.CYAN, 0.4, 0.1, 0.5, 0, 70);
-		Esfera esfera2 = new Esfera(new Vector4(60, 60, 60, 1), 14, mesf2);
+		Esfera esfera2 = new Esfera(new Vector4(600, 600, 600, 1), 100, mesf2);
 		
 		Material luz = new Material(Color.RED, 0.4, 0.6, 0.6, 0.1, 200);
-		Esfera sol = new Esfera(new Vector4(150, 150, 150, 0), 20, luz);
+		Esfera sol = new Esfera(new Vector4(1500, 1500, 1500, 0), 200, luz);
 
 		// PLANOS
 		
 		// pared izquierda (y = 0)
-		Vector4 p1Plano2 = new Vector4(500, 0, 500, 1);
-		Vector4 p2Plano2 = new Vector4(0, 0, 500, 1);
-		Vector4 p3Plano2 = new Vector4(500, 0, 0, 1);
+		Vector4 p1Plano2 = new Vector4(5000, 0, 5000, 1);
+		Vector4 p2Plano2 = new Vector4(0, 0, 5000, 1);
+		Vector4 p3Plano2 = new Vector4(5000, 0, 0, 1);
 		Vector4 p4Plano2 = new Vector4(0, 0, 0, 1);
 		Plano plano2 = new Plano(p1Plano2, p2Plano2,
 				p3Plano2, p4Plano2, new Material(Color.GREEN, 0.5, 0.5, 0, 0, 200));
 		
 		// pared derecha (x = 0)
-		Vector4 p1Plano3 = new Vector4(0, 0, 500, 1);
-		Vector4 p2Plano3 = new Vector4(0, 500, 500, 1);
+		Vector4 p1Plano3 = new Vector4(0, 0, 5000, 1);
+		Vector4 p2Plano3 = new Vector4(0, 5000, 5000, 1);
 		Vector4 p3Plano3 = new Vector4(0, 0, 0, 1);
-		Vector4 p4Plano3 = new Vector4(0, 500, 0, 1);
+		Vector4 p4Plano3 = new Vector4(0, 5000, 0, 1);
 		Plano plano3 = new Plano(p1Plano3, p2Plano3,
 				p3Plano3, p4Plano3, new Material(Color.BLUE, 0.5, 0.5, 0, 0, 200));
 		
 		// suelo (z = 0)
 		Vector4 p1Plano1 = new Vector4(0, 0, 0, 1);
-		Vector4 p2Plano1 = new Vector4(0, 500, 0, 1);
-		Vector4 p3Plano1 = new Vector4(500, 0, 0, 1);
-		Vector4 p4Plano1 = new Vector4(500, 500, 0, 1);
+		Vector4 p2Plano1 = new Vector4(0, 5000, 0, 1);
+		Vector4 p3Plano1 = new Vector4(5000, 0, 0, 1);
+		Vector4 p4Plano1 = new Vector4(5000, 5000, 0, 1);
 		Plano plano1 = new Plano(p1Plano1, p2Plano1,
 				p3Plano1, p4Plano1, new Material(Color.RED, 0.5, 0.5, 0, 0, 200));
 		

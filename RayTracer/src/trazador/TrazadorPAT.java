@@ -42,9 +42,9 @@ public class TrazadorPAT {
 	// puntos de interes
 	// TODO variables
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 30;
-	final private static Vector4 POV = new Vector4(100, 80, 100, 1);//(80, -50, 80, 1);
-	final private static Vector4 POSICION_LUZ = new Vector4(100, 100, 100, 1);
+	final private static int DISTANCIA_FOCAL = 150;
+	final private static Vector4 POV = new Vector4(800, 800, 800, 1);//(80, -50, 80, 1);
+	final private static Vector4 POSICION_LUZ = new Vector4(1000, 1000, 1000, 1);
 	final private static int INTENSIDAD_LUZ = 4;
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
 	final private static double LUZ_AMBIENTAL = 0.1;
@@ -59,7 +59,7 @@ public class TrazadorPAT {
 
 		/* Define la escena */
 		Foco luz = new Foco(POSICION_LUZ, COLOR_LUZ, INTENSIDAD_LUZ);
-		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV), DISTANCIA_FOCAL, IMAGE_COLS,
+		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV).normalise(), DISTANCIA_FOCAL, IMAGE_COLS,
 				IMAGE_ROWS);
 		
 		objetos = Escena.crear(POV);
