@@ -18,7 +18,7 @@ public class Escena {
 
 		// esferas
 //		Esfera esfera1 = new Esfera(3, new Material(Color.RED, 0.9, 0.4, 50));
-		Material mesf2 = new Material(Color.ORANGE, 0.9, 0.1, 0.5, 0, 70);
+		Material mesf2 = new Material(Color.ORANGE, 0.9, 0.1, 0, 1, 70);
 		Esfera esfera2 = new Esfera(new Vector4(60, 60, 60, 1), 14, mesf2);
 		
 //		Material luz = new Material(Color.ORANGE, 0.9, 1, 1);

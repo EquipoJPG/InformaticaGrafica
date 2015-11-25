@@ -4,10 +4,10 @@ import java.awt.Color;
 
 public class ColorOperations {
 	
-	public static Color add (Color c1, Color c2, int intensity){
-		int red = clamp((c1.getRed() + c2.getRed()), 0, intensity);
-		int green = clamp((c1.getGreen() + c2.getGreen()), 0, intensity);
-		int blue = clamp((c1.getBlue() + c2.getBlue()), 0, intensity);
+	public static Color add (Color c1, Color c2){
+		int red = clamp((c1.getRed() + c2.getRed()), 0, 255);
+		int green = clamp((c1.getGreen() + c2.getGreen()), 0, 255);
+		int blue = clamp((c1.getBlue() + c2.getBlue()), 0, 255);
 		
 		return new Color(red, green, blue);
 	}
@@ -25,8 +25,8 @@ public class ColorOperations {
 	 * c2 = refractado
 	 * @return c1 * kd + c2 * (1-kd)
 	 */
-	public static Color fresnel(Color c1, Color c2, double kd, int intensity){
-		return add(escalar(c1, kd), escalar(c2, (1-kd)),intensity);
+	public static Color fresnel(Color c1, Color c2, double kd){
+		return add(escalar(c1, kd), escalar(c2, (1-kd)));
 	}
 	
 	public static int clamp(int color, int min, int max){

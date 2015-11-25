@@ -157,14 +157,7 @@ public class Triangulo extends Objeto {
 	
 	@Override
 	public Vector4 normal(Vector4 interseccion, Rayo ray) {
-		Vector4 normal = normal(interseccion);
-		double res = Vector4.dot(ray.getDireccion(), normal);
-		if(res < 0){
-			return normal;
-		}
-		else{
-			return Vector4.negate(normal);
-		}
+		return normal(interseccion);
 	}
 
 	@Override
