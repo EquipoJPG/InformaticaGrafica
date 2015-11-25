@@ -21,7 +21,7 @@ public class Escena {
 		Material mesf2 = new Material(Color.CYAN, 0.4, 0.1, 0.5, 0, 70);
 		Esfera esfera2 = new Esfera(new Vector4(60, 60, 60, 1), 14, mesf2);
 		
-		Material luz = new Material(Color.RED, 0.4, 0.6, 0.6, 0, 200);
+		Material luz = new Material(Color.RED, 0.4, 0.6, 0.6, 0.1, 200);
 		Esfera sol = new Esfera(new Vector4(150, 150, 150, 0), 20, luz);
 
 		// PLANOS

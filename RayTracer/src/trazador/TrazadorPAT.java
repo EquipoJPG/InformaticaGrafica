@@ -171,11 +171,12 @@ public class TrazadorPAT {
 
 		Color finalColor = Color.BLACK;
 		/*
-		 * Si existe al menos un objeto visible, objeto ser� distinto de null, y
+		 * Si existe al menos un objeto visible, objeto sera distinto de null, y
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
 			finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
+			finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
 			
 			/* Comprueba si el objeto recibe luz en el punto de interseccion */
 			double epsilon = 1e-12;
@@ -212,6 +213,7 @@ public class TrazadorPAT {
 	
 				Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
 				difusa = ColorOperations.escalar(difusa, INTENSIDAD_LUZ);
+				difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
 				finalColor = ColorOperations.add(finalColor, difusa);
 				/* fin reflexion difusa */
 
@@ -228,8 +230,8 @@ public class TrazadorPAT {
 				double terminoEspecular = Math.abs(Math.pow(coseno, n));
 	
 				Color specular = ColorOperations.escalar(COLOR_LUZ, terminoEspecular);
-				finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
-						ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
+				specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
+				finalColor = ColorOperations.add(finalColor, specular);
 				/* fin reflexion especular */
 				
 			}
