@@ -47,7 +47,6 @@ public class PLYConverter {
 					if (actual.equals("ply")) {
 						// Yes, its a ply file
 						plyfile = true;
-						System.out.println("Hooray");
 					} else {
 						s.close();
 						lineScanner.close();
@@ -120,11 +119,10 @@ public class PLYConverter {
 						String[] array = line.split(" ");
 						// Vertices
 						if (count < vertexNumber) {
-							float tempX = Float.parseFloat(array[indexX]);
-							float tempY = Float.parseFloat(array[indexY]);
-							float tempZ = Float.parseFloat(array[indexZ]);
-							System.out.println(count);
-							System.out.println(vertexNumber);
+							float tempX = Float.parseFloat(array[indexX]) * 10;
+							float tempY = Float.parseFloat(array[indexY]) * 10;
+							float tempZ = Float.parseFloat(array[indexZ]) * 10;
+
 							float tempR = Float.parseFloat(array[indexRed]);
 							float tempG = Float.parseFloat(array[indexGreen]);
 							float tempB = Float.parseFloat(array[indexBlue]);
