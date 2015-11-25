@@ -29,4 +29,34 @@ public class TransformacionesAfines {
 		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { x, y, z, 1 } };
 		return new Matrix(values);
 	}
+	
+	public static Matrix getGeneralTraslation(double k){
+		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { k, k, k, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getXScale(double a){
+		double[][] values = { { a, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getYScale(double b){
+		double[][] values = { { 1, 0, 0, 0 }, { 0, b, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getZScale(double c){
+		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, c, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getGeneralScale(double a, double b, double c){
+		double[][] values = { { a, 0, 0, 0 }, { 0, b, 0, 0 }, { 0, 0, c, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getGeneralScale(double k){
+		double[][] values = { { k, 0, 0, 0 }, { 0, k, 0, 0 }, { 0, 0, k, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
 }
