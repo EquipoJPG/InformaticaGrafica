@@ -1,5 +1,6 @@
 package utils;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -7,26 +8,23 @@ import java.util.Scanner;
 
 import data.Vector4;
 import objetos.Figura;
+import objetos.Material;
+import objetos.Plano;
+import objetos.Triangulo;
 
 public class PLYConverter {
 
 	public static void main(String[] args) {
-		String a = "caca pedo pis\n luls";
-		String lastWord = a.substring(a.lastIndexOf(" ")+1);
-//		Scanner s = new Scanner(a);
-//		Scanner p = new Scanner(s.nextLine().trim());
-//		
-//		String h = "";
-//		while(p.hasNext()){
-//			p.next();
-//		}
-		System.out.println(lastWord);
-//		Figura f = getFigure("test.ply");
+		Figura f = getFigure("untitled.ply");
 	}
 
 	public static Figura getFigure(String plyFile) {
+		Figura returned = new Figura();
 		boolean plyfile = false;
+		boolean data = false;
+		boolean fin = false;
 		ArrayList<Vector4> vertices = new ArrayList<Vector4>();
+		ArrayList<Vector4> colors = new ArrayList<Vector4>();
 		int index = 0;
 		int vertexNumber = -1;
 		int faceNumber = -1;
@@ -36,13 +34,14 @@ public class PLYConverter {
 		int indexRed = -1;
 		int indexGreen = -1;
 		int indexBlue = -1;
+		int count = 0;
 		try {
 			Scanner s = new Scanner(new File(plyFile));
-			while (s.hasNextLine()) {
+			while (s.hasNextLine() && !fin) {
 				String line = s.nextLine();
 				Scanner lineScanner = new Scanner(line);
 				String actual = lineScanner.next();
-				
+
 				// Check ply file
 				if (!plyfile) {
 					if (actual.equals("ply")) {
@@ -55,63 +54,164 @@ public class PLYConverter {
 						throw new Exception("Thats not a valid ply file");
 					}
 				} // End of checking ply file
-				
-				else {
-					// Element line
-					if (actual.equals("element")) {
-						actual = lineScanner.next();
-						// Vertices definition
-						if (actual.equals("vertex")) {
-							actual = lineScanner.next();
-							vertexNumber = Integer.parseInt(actual);
-						}
-						
-						// Faces definition
-						else if(actual.equals("face")){
-							actual = lineScanner.next();
-							faceNumber = Integer.parseInt(actual);
-						}
-						index = 0;
-					} // End of element line
-					
-					// Property line
-					else if(actual.equals("property")){
-						actual = line.substring(line.lastIndexOf(" ")+1);
-						
-						//Check x
-						if(actual.equals("x")){
-							indexX = index;
-						}
 
-						//Check y
-						else if(actual.equals("y")){
-							indexY = index;
+				else {
+					if (!data) {
+						// Element line
+						if (actual.equals("element")) {
+							actual = lineScanner.next();
+							// Vertices definition
+							if (actual.equals("vertex")) {
+								actual = lineScanner.next();
+								vertexNumber = Integer.parseInt(actual);
+							}
+
+							// Faces definition
+							else if (actual.equals("face")) {
+								actual = lineScanner.next();
+								faceNumber = Integer.parseInt(actual);
+							}
+							index = 0;
+						} // End of element line
+
+						// Property line
+						else if (actual.equals("property")) {
+							actual = line.substring(line.lastIndexOf(" ") + 1);
+
+							// Check x
+							if (actual.equals("x")) {
+								indexX = index;
+							}
+
+							// Check y
+							else if (actual.equals("y")) {
+								indexY = index;
+							}
+
+							// Check z
+							else if (actual.equals("z")) {
+								indexZ = index;
+							}
+
+							// Check red
+							else if (actual.equals("red")) {
+								indexRed = index;
+							}
+
+							// Check green
+							else if (actual.equals("green")) {
+								indexGreen = index;
+							}
+
+							// Check blue
+							else if (actual.equals("blue")) {
+								indexBlue = index;
+							}
+
+							index++;
+						} // End of property line
+
+						// End header line
+						else if (actual.equals("end_header")) {
+							data = true;
 						}
-						
-						//Check z
-						else if(actual.equals("z")){
-							indexZ = index;
+					} else {
+						line.replace("\n", "");
+						String[] array = line.split(" ");
+						// Vertices
+						if (count < vertexNumber) {
+							float tempX = Float.parseFloat(array[indexX]);
+							float tempY = Float.parseFloat(array[indexY]);
+							float tempZ = Float.parseFloat(array[indexZ]);
+							System.out.println(count);
+							System.out.println(vertexNumber);
+							float tempR = Float.parseFloat(array[indexRed]);
+							float tempG = Float.parseFloat(array[indexGreen]);
+							float tempB = Float.parseFloat(array[indexBlue]);
+
+							Vector4 tempV = new Vector4(tempX, tempY, tempZ, 1);
+							Vector4 tempC = new Vector4(tempR, tempG, tempB, 1);
+
+							vertices.add(tempV);
+							colors.add(tempC);
+							
 						}
-						
-						//Check red
-						else if(actual.equals("red")){
-							indexRed = index;
+						// Faces
+						else if (count<vertexNumber+faceNumber){
+							if(Integer.parseInt(array[0]) == 3){
+								// Son triangulos
+								Vector4 p1 = vertices.get(Integer.parseInt(array[1]));
+								Vector4 p2 = vertices.get(Integer.parseInt(array[2]));
+								Vector4 p3 = vertices.get(Integer.parseInt(array[3]));
+								
+								float r = (float) colors.get(Integer.parseInt(array[1])).getX();
+								r = r + (float) colors.get(Integer.parseInt(array[2])).getX();
+								r = r + (float) colors.get(Integer.parseInt(array[3])).getX();
+								r = (float) (r/3.0);
+								
+								float g = (float) colors.get(Integer.parseInt(array[1])).getY();
+								g = g + (float) colors.get(Integer.parseInt(array[2])).getY();
+								g = g + (float) colors.get(Integer.parseInt(array[3])).getY();
+								g = (float) (g/3.0);
+								
+								float b = (float) colors.get(Integer.parseInt(array[1])).getZ();
+								b = b + (float) colors.get(Integer.parseInt(array[2])).getZ();
+								b = b + (float) colors.get(Integer.parseInt(array[3])).getZ();
+								b = (float) (b/3.0);
+								
+								int ir = (int) (r);
+								int ig = (int) (g);
+								int ib = (int) (b);
+								
+								Color c = new Color(ir,ig,ib);
+								Triangulo t = new Triangulo(p1,p2,p3,new Material(c,1,0,0));
+								
+								returned.addObjeto(t);
+							}
+							else if(Integer.parseInt(array[0]) == 4){
+								// Son planos
+								Vector4 p1 = vertices.get(Integer.parseInt(array[1]));
+								Vector4 p2 = vertices.get(Integer.parseInt(array[2]));
+								Vector4 p3 = vertices.get(Integer.parseInt(array[3]));
+								Vector4 p4 = vertices.get(Integer.parseInt(array[4]));
+								
+								float r = (float) colors.get(Integer.parseInt(array[1])).getX();
+								r = r + (float) colors.get(Integer.parseInt(array[2])).getX();
+								r = r + (float) colors.get(Integer.parseInt(array[3])).getX();
+								r = r + (float) colors.get(Integer.parseInt(array[4])).getX();
+								r = (float) (r/4.0);
+								
+								float g = (float) colors.get(Integer.parseInt(array[1])).getY();
+								g = g + (float) colors.get(Integer.parseInt(array[2])).getY();
+								g = g + (float) colors.get(Integer.parseInt(array[3])).getY();
+								g = g + (float) colors.get(Integer.parseInt(array[4])).getY();
+								g = (float) (g/4.0);
+								
+								float b = (float) colors.get(Integer.parseInt(array[1])).getZ();
+								b = b + (float) colors.get(Integer.parseInt(array[2])).getZ();
+								b = b + (float) colors.get(Integer.parseInt(array[3])).getZ();
+								b = b + (float) colors.get(Integer.parseInt(array[4])).getZ();
+								b = (float) (b/4.0);
+								int ir = (int) (r);
+								int ig = (int) (g);
+								int ib = (int) (b);
+								
+								Color c = new Color(ir,ig,ib);
+								Plano t = new Plano(p1,p2,p3,p4,new Material(c,1,0,0));
+								
+								returned.addObjeto(t);
+							}
 						}
-						
-						//Check green
-						else if(actual.equals("green")){
-							indexRed = index;
+						else{
+							fin = true;
 						}
-						
-						//Check blue
-						else if(actual.equals("blue")){
-							indexRed = index;
-						}
-						index++;
+						count++;
 					}
 				}
+				lineScanner.close();
 			}
-			return null;
+			s.close();
+			return returned;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;

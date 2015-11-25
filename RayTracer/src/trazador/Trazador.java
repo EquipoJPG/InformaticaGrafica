@@ -28,7 +28,7 @@ public class Trazador {
 	// puntos de interes
 	final private static int MAX_REBOTES_RAYO = 7;
 	final private static int DISTANCIA_FOCAL = 30;
-	final private static Vector4 POV = new Vector4(100, 120, 100, 1);//(80, -50, 80, 1);
+	final private static Vector4 POV = new Vector4(40, 60, 40, 1);//(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(50, 50, 50, 1);
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
 	final private static double LUZ_AMBIENTAL = 0.1;
@@ -49,6 +49,7 @@ public class Trazador {
 //		objetos = EscenaCajas.crear3(POV);
 		IMAGE_FILE_NAME = "escena.png";
 		objetos = Escena.crear(POV);
+		objetos.add(utils.PLYConverter.getFigure("untitled.ply"));
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");

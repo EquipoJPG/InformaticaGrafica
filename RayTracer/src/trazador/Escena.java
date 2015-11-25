@@ -18,8 +18,8 @@ public class Escena {
 
 		// esferas
 //		Esfera esfera1 = new Esfera(3, new Material(Color.RED, 0.9, 0.4, 50));
-		Material mesf2 = new Material(Color.CYAN, 0.9, 0.1, 1);
-		Esfera esfera2 = new Esfera(new Vector4(20, 20, 20, 1), 5, mesf2);
+//		Material mesf2 = new Material(Color.CYAN, 0.9, 0.1, 1);
+//		Esfera esfera2 = new Esfera(new Vector4(20, 20, 20, 1), 5, mesf2);
 		
 //		Material luz = new Material(Color.ORANGE, 0.9, 1, 1);
 //		Esfera sol = new Esfera(new Vector4(40, -40, 40, 0), 5, luz);
@@ -43,12 +43,12 @@ public class Escena {
 				p3Plano3, p4Plano3, new Material(Color.BLUE, 0.2, 0.3, 10));
 		
 		// suelo (z = 0)
-		Vector4 p1Plano1 = new Vector4(0, 0, 0, 1);
-		Vector4 p2Plano1 = new Vector4(0, 50, 0, 1);
-		Vector4 p3Plano1 = new Vector4(50, 0, 0, 1);
-		Vector4 p4Plano1 = new Vector4(50, 50, 0, 1);
-		Plano plano1 = new Plano(p1Plano1, p2Plano1,
-				p3Plano1, p4Plano1, new Material(Color.RED, 0.2, 0.3, 10));
+//		Vector4 p1Plano1 = new Vector4(0, 0, 0, 1);
+//		Vector4 p2Plano1 = new Vector4(0, 50, 0, 1);
+//		Vector4 p3Plano1 = new Vector4(50, 0, 0, 1);
+//		Vector4 p4Plano1 = new Vector4(50, 50, 0, 1);
+//		Plano plano1 = new Plano(p1Plano1, p2Plano1,
+//				p3Plano1, p4Plano1, new Material(Color.RED, 0.2, 0.3, 10));
 		
 		// triangulos
 //		Vector4 p1Triang1 = new Vector4(0, 0, 0, 1);
@@ -64,10 +64,10 @@ public class Escena {
 		
 		// agrega todos los objetos
 //		objetos.add(esfera1);
-		objetos.add(esfera2);
+//		objetos.add(esfera2);
 //		objetos.add(sol);
 		
-		objetos.add(plano1);
+//		objetos.add(plano1);
 		objetos.add(plano2);
 		objetos.add(plano3);
 		
