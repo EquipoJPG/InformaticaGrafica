@@ -6,15 +6,18 @@ public class Material {
 
 	private Color color; // color del material
 	private double kd, ks; // ks = 1 - kd
+	private double kr, kt;	// kreflejado, ktransmitido
 	private int shiny;	// mas shiny, mas agudo es el reflejo especular [1, 200]
 
 	/**
 	 * Material y sus propiedades
 	 */
-	public Material(Color color, double kd, double ks, int shiny) {
+	public Material(Color color, double kd, double ks, double kr, double kt, int shiny) {
 		this.color = color;
 		this.kd = kd;
 		this.ks = ks;
+		this.kr = kr;
+		this.kt = kt;
 		this.shiny = shiny;
 	}
 
@@ -42,13 +45,28 @@ public class Material {
 		this.ks = ks;
 	}
 
-	
+	public double getKr() {
+		return kr;
+	}
+
+	public void setKr(double kr) {
+		this.kr = kr;
+	}
+
+	public double getKt() {
+		return kt;
+	}
+
+	public void setKt(double kt) {
+		this.kt = kt;
+	}
+
 	public boolean isTransparente() {
-		return ks > 0;
+		return kt > 0;
 	}
 
 	public boolean isReflectante() {
-		return kd > 0;
+		return kr > 0;
 	}
 
 	public int getShiny() {
