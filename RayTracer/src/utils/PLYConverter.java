@@ -9,11 +9,11 @@ import java.util.Scanner;
 import data.Vector4;
 import objetos.Figura;
 import objetos.Material;
-import objetos.Plano;
 import objetos.Triangulo;
 
 public class PLYConverter {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Figura f = getFigure("untitled.ply");
 	}
@@ -50,7 +50,7 @@ public class PLYConverter {
 					} else {
 						s.close();
 						lineScanner.close();
-						throw new Exception("Thats not a valid ply file");
+						throw new Exception("Thats not a valid ply file!");
 					}
 				} // End of checking ply file
 
@@ -166,38 +166,10 @@ public class PLYConverter {
 								
 								returned.addObjeto(t);
 							}
-							else if(Integer.parseInt(array[0]) == 4){
-								// Son planos
-								Vector4 p1 = vertices.get(Integer.parseInt(array[1]));
-								Vector4 p2 = vertices.get(Integer.parseInt(array[2]));
-								Vector4 p3 = vertices.get(Integer.parseInt(array[3]));
-								Vector4 p4 = vertices.get(Integer.parseInt(array[4]));
-								
-								float r = (float) colors.get(Integer.parseInt(array[1])).getX();
-								r = r + (float) colors.get(Integer.parseInt(array[2])).getX();
-								r = r + (float) colors.get(Integer.parseInt(array[3])).getX();
-								r = r + (float) colors.get(Integer.parseInt(array[4])).getX();
-								r = (float) (r/4.0);
-								
-								float g = (float) colors.get(Integer.parseInt(array[1])).getY();
-								g = g + (float) colors.get(Integer.parseInt(array[2])).getY();
-								g = g + (float) colors.get(Integer.parseInt(array[3])).getY();
-								g = g + (float) colors.get(Integer.parseInt(array[4])).getY();
-								g = (float) (g/4.0);
-								
-								float b = (float) colors.get(Integer.parseInt(array[1])).getZ();
-								b = b + (float) colors.get(Integer.parseInt(array[2])).getZ();
-								b = b + (float) colors.get(Integer.parseInt(array[3])).getZ();
-								b = b + (float) colors.get(Integer.parseInt(array[4])).getZ();
-								b = (float) (b/4.0);
-								int ir = (int) (r);
-								int ig = (int) (g);
-								int ib = (int) (b);
-								
-								Color c = new Color(ir,ig,ib);
-								Plano t = new Plano(p1,p2,p3,p4,new Material(c,1,0,0));
-								
-								returned.addObjeto(t);
+							else if(Integer.parseInt(array[0]) != 3){
+								// Only triangles!
+								lineScanner.close();
+								throw new Exception("Only triangles are accepted in your ply file!");
 							}
 						}
 						else{
@@ -211,13 +183,19 @@ public class PLYConverter {
 			s.close();
 			return returned;
 		} catch (FileNotFoundException e) {
+			System.err.println();
 			e.printStackTrace();
+			System.exit(1);
 			return null;
 		} catch (NumberFormatException e) {
+			System.err.println();
 			e.printStackTrace();
+			System.exit(1);
 			return null;
 		} catch (Exception e) {
+			System.err.println();
 			e.printStackTrace();
+			System.exit(1);
 			return null;
 		}
 	}

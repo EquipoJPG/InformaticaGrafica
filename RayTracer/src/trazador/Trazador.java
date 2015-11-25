@@ -48,7 +48,7 @@ public class Trazador {
 		
 //		objetos = EscenaCajas.crear3(POV);
 		IMAGE_FILE_NAME = "escena.png";
-		objetos = Escena.crear(POV);
+//		objetos = Escena.crear(POV);
 		objetos.add(utils.PLYConverter.getFigure("untitled.ply"));
 
 		System.out.println("OK");
