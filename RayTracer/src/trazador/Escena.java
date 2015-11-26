@@ -11,6 +11,7 @@ import objetos.Plano;
 
 public class Escena {
 	
+	@SuppressWarnings("unused")
 	public static ArrayList<Objeto> crear(Vector4 POV){
 		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 		
