@@ -28,19 +28,6 @@ import trazador.Foco;
 
 public class XMLFormatter {
 
-	public static void main(String[] args) {
-		String xml = "escena.xml";
-		Camara c = getCamara(xml);
-		List<Foco> focos = getFocos(xml);
-		List<Objeto> objetos = getObjetos(xml);
-
-		System.out.println(c.toString());
-		for (Foco f : focos)
-			System.out.println(f.toString());
-		for (Objeto o : objetos)
-			System.out.println(o.toString());
-	}
-
 	/**
 	 * @param xml
 	 * @return
@@ -61,6 +48,42 @@ public class XMLFormatter {
 		return null;
 	}
 
+	/**
+	 * Obtiene el antialiasing
+	 * @param xml
+	 * @return
+	 */
+	public static int getAntialiasing(String xml){
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+		
+		return Integer.parseInt(doc.getDocumentElement().getAttribute("antiliasing"));
+	}
+	
+	/**
+	 * Obtiene los rebotes
+	 * @param xml
+	 * @return
+	 */
+	public static int getRebotes(String xml){
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+		
+		return Integer.parseInt(doc.getDocumentElement().getAttribute("rebotes"));
+	}
+	
+	/**
+	 * Obtiene el fichero de salida
+	 * @param xml
+	 * @return
+	 */
+	public static String getFile(String xml){
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+		
+		return doc.getDocumentElement().getAttribute("file");
+	}
+	
 	/**
 	 * Obtiene una lista con los focos
 	 * 
