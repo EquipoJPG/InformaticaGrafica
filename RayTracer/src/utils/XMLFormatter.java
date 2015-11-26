@@ -73,6 +73,18 @@ public class XMLFormatter {
 	}
 	
 	/**
+	 * Obtiene la luz ambiental
+	 * @param xml
+	 * @return
+	 */
+	public static double getLuzAmbiente(String xml){
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+		
+		return Double.parseDouble(doc.getDocumentElement().getAttribute("ambiente"));
+	}
+	
+	/**
 	 * Obtiene el fichero de salida
 	 * @param xml
 	 * @return

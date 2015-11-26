@@ -1,4 +1,4 @@
-<escena antialiasing="16" file="escena.png" rebotes="7">
+<escena antialiasing="16" file="escena.png" rebotes="7" ambiente="0.3">
 
 	<!-- punto de vista (x, y, z) -->
 	<pov x="100" y="100" z="100">
