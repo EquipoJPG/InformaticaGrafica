@@ -1,9 +1,17 @@
 package utils;
 
+import java.util.ArrayList;
 import Jama.Matrix;
 import data.Vector4;
 
 public class TransformacionesAfines {
+
+	// Variables finales publicas
+	public static final double DEFAULT_TRASLATION = 0;
+	public static final double DEFAULT_SCALE = 1;
+	public static final boolean DEFAULT_SYMMETRY = false;
+	public static final double DEFAULT_ROTATION = 0;
+	public static final double DEFAULT_SHEAR = 0;
 
 	public static void main(String[] args) {
 		double[][] values = { { 5, 5, 5, 5 }, { 3, 1, 3, 3 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
@@ -25,6 +33,116 @@ public class TransformacionesAfines {
 		}
 		Matrix c = temp.times(m);
 		return Vector4.matrixToVector4(c);
+	}
+
+	public static Matrix combine(Matrix[] matArray) {
+		Matrix returned = null;
+		if (matArray.length >= 2) {
+			returned = matArray[0];
+			for (int i = 1; i < matArray.length; i++) {
+				returned = returned.times(matArray[i]);
+			}
+		} else {
+			try {
+				throw new Exception("There must be at least two matrices in matArray!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		return returned;
+	}
+
+	/**
+	 * Devuelve la matriz de transformacion afin en base a los parametros que le
+	 * son pasados
+	 * 
+	 * @param xtraslation:
+	 *            Traslacion en el eje X. Default 0
+	 * @param ytraslation:
+	 *            Traslacion en el eje Y. Default 0
+	 * @param ztraslation:
+	 *            Traslacion en el eje Z. Default 0
+	 * @param xscale:
+	 *            Escalado en el eje X. Default 1
+	 * @param yscale:
+	 *            Escalado en el eje Y. Default 1
+	 * @param zscale:
+	 *            Escalado en el eje Z. Default 1
+	 * @param xsym:
+	 *            Simetria en el eje X. Default false
+	 * @param ysym:
+	 *            Simetria en el eje Y. Default false
+	 * @param zsym:
+	 *            Simetria en el eje Z. Default false
+	 * @param xrot:
+	 *            Rotacion en radianes en el eje X. Default 0
+	 * @param yrot:
+	 *            Rotacion en radianes en el eje Y. Default 0
+	 * @param zrot:
+	 *            Rotacion en radianes en el eje Z. Default 0
+	 * @param xshear:
+	 *            Cizallas en el eje X. Default 0
+	 * @param yshear:
+	 *            Cizallas en el eje Y. Default 0
+	 * @param zshear:
+	 *            Cizallas en el eje Z. Default 0
+	 * @return matriz afin
+	 */
+
+	public static Matrix affineMatrix(double xtraslation, double ytraslation, double ztraslation, double xscale,
+			double yscale, double zscale, boolean xsym, boolean ysym, boolean zsym, double xrot, double yrot,
+			double zrot, double xshear, double yshear, double zshear) {
+		ArrayList<Matrix> total = new ArrayList<Matrix>();
+
+		// Add traslation matrix
+		total.add(getGeneralTraslation(xtraslation, ytraslation, ztraslation));
+
+		// Add scale matrix
+		total.add(getGeneralScale(xscale, yscale, zscale));
+
+		// Add symmetric matrices
+		if (xsym) {
+			if (ysym) {
+				if (zsym) {
+					// Symmetry over the origin
+					total.add(getOriginSymmetry());
+				} else {
+					// Symmetry over XY plane
+					total.add(getXYSymmetry());
+				}
+			} else if (zsym) {
+				// Symmetry over XZ plane
+				total.add(getXZSymmetry());
+			} else {
+				// Symmetry over X axis
+				total.add(getXSymmetry());
+			}
+		} else if (ysym) {
+			if (zsym) {
+				// Symmetry over YZ axis
+				total.add(getYZSymmetry());
+			} else {
+				// Symmetry over Y axis
+				total.add(getYSymmetry());
+			}
+		} else if (zsym) {
+			// Symmetry over Z axis
+			total.add(getZSymmetry());
+		} else {
+			// Do nothing buddy
+		}
+
+		// Add rotation matrices
+		total.add(getXRotation(xrot));
+		total.add(getYRotation(yrot));
+		total.add(getZRotation(zrot));
+
+		// Add shear matrices
+		total.add(getGeneralShear(xshear, yshear, zshear));
+
+		// Return value
+		return combine((Matrix[]) (total.toArray()));
 	}
 
 	public static Matrix getIdentity() {
@@ -154,16 +272,18 @@ public class TransformacionesAfines {
 		double[][] values = { { 1, sxy, sxz, 0 }, { syx, 1, syz, 0 }, { szx, szy, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
-	
+
 	public static Matrix getGeneralShear(double kx, double ky, double kz) {
 		double[][] values = { { 1, kx, kx, 0 }, { ky, 1, ky, 0 }, { kz, kz, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
-	
+
 	public static Matrix getGeneralShear(double k) {
 		double[][] values = { { 1, k, k, 0 }, { k, 1, k, 0 }, { k, k, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
-	
-	
+
+	public static Matrix getGlobalScale(double h) {
+		return getGeneralScale(h);
+	}
 }
