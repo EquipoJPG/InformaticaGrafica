@@ -15,10 +15,10 @@ public class PLYConverter {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		Figura f = getFigure("untitled.ply");
+		Figura f = getFigure("untitled.ply", null);
 	}
 
-	public static Figura getFigure(String plyFile) {
+	public static Figura getFigure(String plyFile, Material m) {
 		Figura returned = new Figura();
 		boolean plyfile = false;
 		boolean data = false;
@@ -162,7 +162,13 @@ public class PLYConverter {
 								int ib = (int) (b);
 								
 								Color c = new Color(ir,ig,ib);
-								Triangulo t = new Triangulo(p1,p2,p3,new Material(c,1,0,0,0,0));
+								Triangulo t = null;
+								if(m == null){
+									t = new Triangulo(p1,p2,p3,new Material(c,1,0,0,0,0));
+								}
+								else{
+									t = new Triangulo(p1,p2,p3,m);
+								}
 								
 								returned.addObjeto(t);
 							}
