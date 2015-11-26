@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -36,22 +35,17 @@ public class Trazador {
 	/* Variables globales del trazador de rayos */
 
 	// imagen
-	final private static int IMAGE_COLS = 1024; // width
-	final private static int IMAGE_ROWS = 720; // height
-	final private static String IMAGE_FILE_NAME = "escena.png";
-	final private static int ANTIALIASING = 16;
+	private static String IMAGE_FILE_NAME;
+	private static int ANTIALIASING;
 
 	// puntos de interes
 	// TODO variables
-	final private static int MAX_REBOTES_RAYO = 7;
-	final private static Vector4 POV = new Vector4(240, 80, 100, 1);//(80, -50, 80, 1);
-	final private static Vector4 POSICION_LUZ = new Vector4(70, 70, 90, 1);
-	final private static int INTENSIDAD_LUZ = 4;
-	final private static Color COLOR_LUZ = new Color(255, 255, 255);
-	final private static double LUZ_AMBIENTAL = 0.3;
+	private static int MAX_REBOTES_RAYO;
+	private static double LUZ_AMBIENTAL;
 	
 	// contenido de la escena
 	private static List<Objeto> objetos;
+	private static List<Foco> focos;
 	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
@@ -61,19 +55,20 @@ public class Trazador {
 	private static boolean TERMINO_REFLEJADO = false;
 	private static boolean TERMINO_REFRACTADO = false;
 	
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		String xml = "escena.xml";
+		
+		System.out.printf("Preparando escena...");
 		
 		Camara camara = XMLFormatter.getCamara(xml);
 		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
 		objetos = XMLFormatter.getObjetos(xml);
-
-		System.out.printf("Preparando escena...");
-
-		/* Define la escena */
-		Foco luz = new Foco(POSICION_LUZ, COLOR_LUZ, INTENSIDAD_LUZ);
-		objetos = Escena.crear(POV);
+		focos = XMLFormatter.getFocos(xml);
+		
+		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);
+		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
+		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
+		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -82,10 +77,10 @@ public class Trazador {
 		 * Para cada pixel de la pantalla se lanza un rayo y se buscan los
 		 * objetos de la escena con los que intersecciona
 		 */
-		for (int j = 0; j < IMAGE_COLS; j++) {
-			int jj = j - IMAGE_COLS / 2;
-			for (int i = 0; i < IMAGE_ROWS; i++) {
-				int ii = i - IMAGE_ROWS / 2;
+		for (int j = 0; j < camara.getCols(); j++) {
+			int jj = j - camara.getCols() / 2;
+			for (int i = 0; i < camara.getRows(); i++) {
+				int ii = i - camara.getRows() / 2;
 				Color pixel = null;
 
 				for (int k = 0; k < ANTIALIASING; k++) {
@@ -194,67 +189,67 @@ public class Trazador {
 				finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
 			}
 			
-			/* Comprueba si el objeto recibe luz en el punto de interseccion */
-			double epsilon = 1e-12;
-			Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersecFinal).normalise();
-			Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
-			Rayo sombra = new Rayo(origen, direccion);
-			
-			double maxDistancia = Vector4.distancia(sombra.getOrigen(), POSICION_LUZ);
-			boolean shadow = false;
-			
-			for(Objeto o : objetos){
-				Double landa = o.interseccionSombra(sombra);
-				if(landa != null){
-					Vector4 aux = Rayo.getInterseccion(sombra, landa);
-					double dist = Vector4.distancia(sombra.getOrigen(), aux);
-					
-					if(dist < maxDistancia){
-						shadow = true;
-						break;
-					}
-				}
-			}
-
 			Color colorReflejado = null;
 			Color colorRefractado = null;
-
-			if(!shadow){
+			
+			for(Foco f : focos){
 				
-				if (TERMINO_DIFUSO) {
-					
-					/* Reflexion difusa */
-					Vector4 normal = objeto.normal(pIntersecFinal,rayo);
-		
-					double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-					if (angulo < 0) angulo = 0;
-					if (angulo > 1) angulo = 1;
-		
-					Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
-					difusa = ColorOperations.escalar(difusa, INTENSIDAD_LUZ);
-					difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
-					finalColor = ColorOperations.add(finalColor, difusa);
-				}
-
-				if (TERMINO_ESPECULAR) {
-					
-					/* Reflexion especular */
-					Rayo luz = new Rayo(POSICION_LUZ, Vector4.negate(sombra.getDireccion()));
-					Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
-					Vector4 R = especular.getDireccion().normalise();
-					Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
-		
-					double coseno = Vector4.dot(R, V);
-					if (coseno < 0) coseno = 0;
-		
-					double n = objeto.getMaterial().getShiny();
-					double terminoEspecular = Math.abs(Math.pow(coseno, n));
-		
-					Color specular = ColorOperations.escalar(COLOR_LUZ, terminoEspecular);
-					specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
-					finalColor = ColorOperations.add(finalColor, specular);
+				/* Comprueba si el objeto recibe luz en el punto de interseccion */
+				double epsilon = 1e-12;
+				Vector4 direccion = Vector4.sub(f.getPosicion(), pIntersecFinal).normalise();
+				Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
+				Rayo sombra = new Rayo(origen, direccion);
+				
+				double maxDistancia = Vector4.distancia(sombra.getOrigen(), f.getPosicion());
+				boolean shadow = false;
+				
+				for(Objeto o : objetos){
+					Double landa = o.interseccionSombra(sombra);
+					if(landa != null){
+						Vector4 aux = Rayo.getInterseccion(sombra, landa);
+						double dist = Vector4.distancia(sombra.getOrigen(), aux);
+						
+						if(dist < maxDistancia){
+							shadow = true;
+							break;
+						}
+					}
 				}
 				
+				if(!shadow){	
+					if (TERMINO_DIFUSO) {
+						
+						/* Reflexion difusa */
+						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+			
+						double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
+						if (angulo < 0) angulo = 0;
+						if (angulo > 1) angulo = 1;
+			
+						Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
+						difusa = ColorOperations.escalar(difusa, f.getIntensidad());
+						difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
+						finalColor = ColorOperations.add(finalColor, difusa);
+					}
+					if (TERMINO_ESPECULAR) {
+						
+						/* Reflexion especular */
+						Rayo luz = new Rayo(f.getPosicion(), Vector4.negate(sombra.getDireccion()));
+						Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
+						Vector4 R = especular.getDireccion().normalise();
+						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
+			
+						double coseno = Vector4.dot(R, V);
+						if (coseno < 0) coseno = 0;
+			
+						double n = objeto.getMaterial().getShiny();
+						double terminoEspecular = Math.abs(Math.pow(coseno, n));
+			
+						Color specular = ColorOperations.escalar(f.getColor(), terminoEspecular);
+						specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
+						finalColor = ColorOperations.add(finalColor, specular);
+					}
+				}
 			}
 
 			/* Intenta lanzar nuevos rayos si todavia quedan rebotes */

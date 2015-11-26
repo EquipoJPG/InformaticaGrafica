@@ -42,7 +42,7 @@ public class Camara {
 		u = aux.normalise();
 		v = Vector4.cross(w, u);
 		
-		System.out.println("U: " + u.toString() + "\nV: " + v.toString() + "\nW: " + w.toString());
+//		System.out.println("U: " + u.toString() + "\nV: " + v.toString() + "\nW: " + w.toString());
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class Camara {
 	public Rayo rayoToPixel(int i, int j){
 		double diffu = (double) anchura / (double) (columnas - 1);
 		double diffv = (double) altura / (double) (filas - 1);
-		
+
 		// antialiasing por supermestreo random
 		Random r = new Random();
 		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]

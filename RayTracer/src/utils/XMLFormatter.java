@@ -57,7 +57,7 @@ public class XMLFormatter {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
 		
-		return Integer.parseInt(doc.getDocumentElement().getAttribute("antiliasing"));
+		return Integer.parseInt(doc.getDocumentElement().getAttribute("antialiasing"));
 	}
 	
 	/**
@@ -170,6 +170,7 @@ public class XMLFormatter {
 		return null;
 	}
 
+	// TODO meter los objetos en cajas
 	public static List<Objeto> getObjetos(String xml) {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
@@ -256,7 +257,7 @@ public class XMLFormatter {
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
 
-					Esfera esfera = new Esfera(1, m, T);
+					Esfera esfera = new Esfera(new Vector4(x, y, z, 1), global, m, T);	// TODO radio = 1 y NO vector4
 					objetos.add(esfera);
 				}
 
@@ -266,16 +267,16 @@ public class XMLFormatter {
 
 					/////////////////////////////////////////////////////////
 					Element ee = (Element) e.getElementsByTagName("punto1").item(0);
-					Vector4 punto1 = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 punto1 = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 
 					ee = (Element) e.getElementsByTagName("punto2").item(0);
-					Vector4 punto2 = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 punto2 = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 
 					ee = (Element) e.getElementsByTagName("punto3").item(0);
-					Vector4 punto3 = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 punto3 = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 							////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////
@@ -356,20 +357,20 @@ public class XMLFormatter {
 
 					/////////////////////////////////////////////////////////
 					Element ee = (Element) e.getElementsByTagName("topleft").item(0);
-					Vector4 topleft = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 topleft = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 
 					ee = (Element) e.getElementsByTagName("topright").item(0);
-					Vector4 topright = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 topright = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 
 					ee = (Element) e.getElementsByTagName("bottomleft").item(0);
-					Vector4 bottomleft = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 bottomleft = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 
 					ee = (Element) e.getElementsByTagName("bottomright").item(0);
-					Vector4 bottomright = new Vector4(Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+					Vector4 bottomright = new Vector4(Double.parseDouble(ee.getAttribute("x")),
+							Double.parseDouble(ee.getAttribute("y")), Double.parseDouble(ee.getAttribute("z")), 1);
 							////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////
