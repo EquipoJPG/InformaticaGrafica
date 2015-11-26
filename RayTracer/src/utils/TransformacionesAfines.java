@@ -6,10 +6,12 @@ import data.Vector4;
 public class TransformacionesAfines {
 	
 	public static void main(String[] args){
-		double[][] values = { { 5, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		double[][] values = { { 5, 5, 5, 5 }, { 3, 1, 3, 3 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		Matrix a = new Matrix(values);
 		Vector4 b = new Vector4(1,2,3,1);
 		multiplyVectorByMatrix(b,a);
+		a.print(0,0);
+		System.out.println(a.get(1, 1));
 	}
 	
 	public static Vector4 multiplyVectorByMatrix(Vector4 v, Matrix m){
