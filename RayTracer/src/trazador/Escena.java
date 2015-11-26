@@ -32,7 +32,7 @@ public class Escena {
 		Vector4 p3Plano2 = new Vector4(50, 0, 0, 1);
 		Vector4 p4Plano2 = new Vector4(0, 0, 0, 1);
 		Plano plano2 = new Plano(p1Plano2, p2Plano2,
-				p3Plano2, p4Plano2, new Material(Color.GREEN, 0.3, 0.2, 10));
+				p3Plano2, p4Plano2, new Material(Color.GREEN, 0.3, 0.2, 10, 0, 0));
 		
 		// pared derecha (x = 0)
 		Vector4 p1Plano3 = new Vector4(0, 0, 50, 1);
@@ -40,7 +40,7 @@ public class Escena {
 		Vector4 p3Plano3 = new Vector4(0, 0, 0, 1);
 		Vector4 p4Plano3 = new Vector4(0, 50, 0, 1);
 		Plano plano3 = new Plano(p1Plano3, p2Plano3,
-				p3Plano3, p4Plano3, new Material(Color.BLUE, 0.2, 0.3, 10));
+				p3Plano3, p4Plano3, new Material(Color.BLUE, 0.2, 0.3, 10, 0, 0));
 		
 		// suelo (z = 0)
 //		Vector4 p1Plano1 = new Vector4(0, 0, 0, 1);
