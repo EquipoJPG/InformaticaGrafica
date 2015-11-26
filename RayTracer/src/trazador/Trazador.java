@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import data.Rayo;
 import data.Vector4;
 import objetos.Caja;
-import objetos.Esfera;
 import objetos.Figura;
 import objetos.Objeto;
 
@@ -61,6 +60,7 @@ public class Trazador {
 	private static boolean TERMINO_REFLEJADO = false;
 	private static boolean TERMINO_REFRACTADO = false;
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		System.out.printf("Preparando escena...");
