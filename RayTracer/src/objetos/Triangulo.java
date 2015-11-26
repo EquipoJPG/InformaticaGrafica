@@ -2,6 +2,7 @@ package objetos;
 
 import java.util.ArrayList;
 
+import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
 
@@ -14,6 +15,60 @@ public class Triangulo extends Objeto {
 	private Vector4 lowerBound;
 	private Vector4 upperBound;
 
+	/**
+	 * @param centro:
+	 *            centro de la esfera (0,0,0) seria lo correcto
+	 * @param radio:
+	 *            radio de la esfera
+	 */
+	public Triangulo(Vector4 p1, Vector4 p2, Vector4 p3, Material m, Matrix T) {
+		this.p1 = p1;
+		this.p2 = p2;
+		this.p3 = p3;
+		super.T = T;
+		
+		// Update lower bound
+		double minX = Double.POSITIVE_INFINITY;
+		double minY = Double.POSITIVE_INFINITY;
+		double minZ = Double.POSITIVE_INFINITY;
+		ArrayList<Vector4> temp = new ArrayList<Vector4>();
+		temp.add(p1);
+		temp.add(p2);
+		temp.add(p3);
+		for(Vector4 e : temp){
+			if(e.getX()<minX){
+				minX = e.getX();
+			}
+			if(e.getY()<minY){
+				minY = e.getY();
+			}
+			if(e.getZ()<minZ){
+				minZ = e.getZ();
+			}
+		}
+		lowerBound = new Vector4(minX,minY,minZ,1);
+		
+		// Update upperBound
+		double maxX = Double.NEGATIVE_INFINITY;
+		double maxY = Double.NEGATIVE_INFINITY;
+		double maxZ = Double.NEGATIVE_INFINITY;
+		for(Vector4 e : temp){
+			if(e.getX()>maxX){
+				maxX = e.getX();
+			}
+			if(e.getY()>maxY){
+				maxY = e.getY();
+			}
+			if(e.getZ()>maxZ){
+				maxZ = e.getZ();
+			}
+		}
+		upperBound = new Vector4(maxX,maxY,maxZ,1);
+		
+		// Update material
+		super.material = m;
+	}
+	
 	/**
 	 * @param centro:
 	 *            centro de la esfera (0,0,0) seria lo correcto

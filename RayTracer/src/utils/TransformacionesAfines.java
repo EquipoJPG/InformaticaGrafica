@@ -91,7 +91,7 @@ public class TransformacionesAfines {
 	 */
 
 	public static Matrix affineMatrix(double xtraslation, double ytraslation, double ztraslation, double xscale,
-			double yscale, double zscale, boolean xsym, boolean ysym, boolean zsym, double xrot, double yrot,
+			double yscale, double zscale, double gscale, boolean xsym, boolean ysym, boolean zsym, double xrot, double yrot,
 			double zrot, double xshear, double yshear, double zshear) {
 		ArrayList<Matrix> total = new ArrayList<Matrix>();
 
@@ -100,6 +100,9 @@ public class TransformacionesAfines {
 
 		// Add scale matrix
 		total.add(getGeneralScale(xscale, yscale, zscale));
+		
+		// Add global scale matrix
+		total.add(getGlobalScale(gscale));
 
 		// Add symmetric matrices
 		if (xsym) {

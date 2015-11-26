@@ -101,7 +101,7 @@ public class TrazadorPAT {
 
 				}
 				int color = pixel.getRGB();
-				System.out.println("Pintando " + i + " " + j);
+				System.out.println("Pintando " + j + " " + i);
 				img.setRGB(j, i, color);
 			}
 		}

@@ -23,7 +23,7 @@
 		<caja>
 			<!-- esfera -->
 			<esfera x="50" y="50" z="50">	<!-- traslacion -->
-				<radio>15</radio>	<!-- escala global -->
+				<global>15</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -47,6 +47,7 @@
 				<bottomleft x="100" y="100" z="100"/>
 				<bottomright x="100" y="100" z="100"/>
 				
+				<global>15</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -69,6 +70,7 @@
 				<punto2 x="100" y="100" z="100"/>
 				<punto3 x="100" y="100" z="100"/>
 				
+				<global>15</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -86,10 +88,16 @@
 			</triangulo>
 			
 			<!-- figura -->
-			<figura path="untitled.ply"/>
+			<figura path="untitled.ply" x="100" y="100" z="100"/>
+				
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				
 				<!-- material -->
 				<material>
-					<color r="100" g="20" b="255"/>
+					<!-- <color r="100" g="20" b="255"/> --> <!-- No es necesario, PLY tiene vertices coloreados -->
 					<difusa>0.1</difusa>
 					<especular>0.9</especular>
 					<reflectante>1</reflectante>

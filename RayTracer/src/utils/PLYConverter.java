@@ -15,10 +15,10 @@ public class PLYConverter {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		Figura f = getFigure("untitled.ply");
+		Figura f = getFigura("untitled.ply");
 	}
 
-	public static Figura getFigure(String plyFile) {
+	public static Figura getFigura(String plyFile) {
 		Figura returned = new Figura();
 		boolean plyfile = false;
 		boolean data = false;

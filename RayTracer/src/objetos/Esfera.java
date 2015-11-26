@@ -1,5 +1,6 @@
 package objetos;
 
+import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
 
@@ -11,6 +12,34 @@ public class Esfera extends Objeto {
 	private Vector4 lowerBound;
 	private Vector4 upperBound;
 
+	/**
+	 * @param centro:
+	 *            centro de la esfera (0,0,0) seria lo correcto
+	 * @param radio:
+	 *            radio de la esfera
+	 */
+	public Esfera(Vector4 centro, double radio, Material m, Matrix T) {
+		this.centro = centro;
+		this.radio = radio;
+		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
+		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
+		super.material = m;
+		super.T = T;
+	}
+
+	/**
+	 * @param radio:
+	 *            radio de la esfera
+	 */
+	public Esfera(double radio, Material m, Matrix T) {
+		this.centro = new Vector4(0, 0, 0, 1);
+		this.radio = radio;
+		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
+		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
+		super.material = m;
+		super.T = T;
+	}
+	
 	/**
 	 * @param centro:
 	 *            centro de la esfera (0,0,0) seria lo correcto
