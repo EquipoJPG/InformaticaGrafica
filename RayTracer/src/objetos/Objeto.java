@@ -1,11 +1,25 @@
 package objetos;
 
+import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
 
 public abstract class Objeto {
 	
 	protected Material material;
+	protected Matrix T = utils.TransformacionesAfines.getIdentity();
+	
+	public Matrix getT(){
+		return T;
+	}
+	
+	public Matrix getInvT(){
+		return T.inverse();
+	}
+	
+	public void setT(Matrix T){
+		this.T = T;
+	}
 	
 	public Material getMaterial(){
 		return material;
