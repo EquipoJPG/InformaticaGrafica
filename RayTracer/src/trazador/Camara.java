@@ -62,4 +62,12 @@ public class Camara {
 		
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
 	}
+
+	public int getRows() {
+		return filas;
+	}
+
+	public int getCols() {
+		return columnas;
+	}
 }

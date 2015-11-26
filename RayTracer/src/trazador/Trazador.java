@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -13,6 +14,7 @@ import data.Vector4;
 import objetos.Caja;
 import objetos.Figura;
 import objetos.Objeto;
+import utils.XMLFormatter;
 
 public class Trazador {
 	
@@ -42,7 +44,6 @@ public class Trazador {
 	// puntos de interes
 	// TODO variables
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 5;
 	final private static Vector4 POV = new Vector4(240, 80, 100, 1);//(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(70, 70, 90, 1);
 	final private static int INTENSIDAD_LUZ = 4;
@@ -50,8 +51,8 @@ public class Trazador {
 	final private static double LUZ_AMBIENTAL = 0.3;
 	
 	// contenido de la escena
-	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
-	private static BufferedImage img = new BufferedImage(IMAGE_COLS, IMAGE_ROWS, BufferedImage.TYPE_INT_RGB);
+	private static List<Objeto> objetos;
+	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
 	private static boolean TERMINO_AMBIENTAL = true;
@@ -62,14 +63,16 @@ public class Trazador {
 	
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		String xml = "escena.xml";
+		
+		Camara camara = XMLFormatter.getCamara(xml);
+		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
+		objetos = XMLFormatter.getObjetos(xml);
 
 		System.out.printf("Preparando escena...");
 
 		/* Define la escena */
 		Foco luz = new Foco(POSICION_LUZ, COLOR_LUZ, INTENSIDAD_LUZ);
-		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV).normalise(), DISTANCIA_FOCAL, IMAGE_COLS,
-				IMAGE_ROWS, 4, 3);
-		
 		objetos = Escena.crear(POV);
 
 		System.out.println("OK");
