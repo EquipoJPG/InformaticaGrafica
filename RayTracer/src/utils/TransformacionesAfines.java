@@ -130,7 +130,7 @@ public class TransformacionesAfines {
 	}
 
 	public static Matrix getZRotation(double radian) {
-		double[][] values = { { Math.cos(radian), 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		double[][] values = { { Math.cos(radian), Math.sin(radian), 0, 0 }, { -1*Math.sin(radian), Math.cos(radian), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 }
