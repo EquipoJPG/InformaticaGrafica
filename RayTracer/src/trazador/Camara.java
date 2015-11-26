@@ -36,8 +36,8 @@ public class Camara {
 		
 		
 		/* u, v, w */
-		Vector4 up = new Vector4(1, 1, 1, 0);
-		w = Vector4.div(Vector4.negate(direccion), g.normaL2());	// w = -g / norm(g)
+		Vector4 up = new Vector4(0, 0, -1, 0);
+		w = Vector4.negate(direccion).normalise();	// w = -g / norm(g)
 		Vector4 aux = Vector4.cross(up, w);
 		u = aux.normalise();
 		v = Vector4.cross(w, u);

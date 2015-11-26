@@ -1,7 +1,7 @@
 <escena antialiasing="16" file="escena.png" rebotes="1" ambiente="0.3">
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="240" y="80" z="100">
+	<pov x="150" y="150" z="150">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>

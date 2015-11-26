@@ -165,6 +165,8 @@ public class XMLFormatter {
 
 			Vector4 g = Vector4.sub(new Vector4(0, 0, 0, 1), posicion).normalise();
 
+			System.out.println("Posicion: " + posicion.toString());
+			System.out.println("G: " + g.toString());
 			return new Camara(posicion, g, f, columnas, filas, anchura, altura);
 		}
 		return null;
