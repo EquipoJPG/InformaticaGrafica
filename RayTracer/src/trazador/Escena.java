@@ -56,20 +56,28 @@ public class Escena {
 //		Vector4 p3Triang1 = new Vector4(30, 30, 0, 1);
 //		Triangulo triangulo1 = new Triangulo(p1Plano1, p2Plano1, p3Plano1, new Material(Color.WHITE, 0.8, 0.2, 1));
 
-//		Esfera esferaT1 = new Esfera(p1Plano1, 5, new Material(Color.RED, 0.2, 0.2, 1));
-//		Esfera esferaT2 = new Esfera(p2Plano1, 5, new Material(Color.GREEN, 0.2, 0.2, 1));
-//		Esfera esferaT3 = new Esfera(p3Plano1, 5, new Material(Color.BLUE, 0.2, 0.2, 1));
-//		Esfera esferaT4 = new Esfera(p4Plano1, 5, new Material(Color.WHITE, 0.2, 0.2, 1));
-		
+		Vector4 origen = new Vector4(0,0,0,1);
+		Vector4 ejex = new Vector4(30,0,0,1);
+		Vector4 ejey = new Vector4(0,50,0,1);
+		Vector4 ejez = new Vector4(0,0,50,1);
+		Esfera esferaT1 = new Esfera(origen, 10, new Material(Color.RED, 0.2, 0.2, 0, 0, 10));
+		Esfera esferaT2 = new Esfera(ejex, 10, new Material(Color.GREEN, 0.2, 0.2, 0, 0, 10));
+		Esfera esferaT3 = new Esfera(ejey, 10, new Material(Color.BLUE, 0.2, 0.2, 0, 0, 10));
+		Esfera esferaT4 = new Esfera(ejez, 10, new Material(Color.WHITE, 0.2, 0.2, 0, 0, 10));
 		
 		// agrega todos los objetos
 //		objetos.add(esfera1);
-		objetos.add(esfera2);
-		objetos.add(sol);
+//		objetos.add(esfera2);
+//		objetos.add(sol);
 		
 		objetos.add(plano1);
 		objetos.add(plano2);
 		objetos.add(plano3);
+		
+		objetos.add(esferaT1);
+		objetos.add(esferaT2);
+		objetos.add(esferaT3);
+		objetos.add(esferaT4);
 		
 		return objetos;
 	}

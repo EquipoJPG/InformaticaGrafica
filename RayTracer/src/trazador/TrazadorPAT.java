@@ -43,17 +43,24 @@ public class TrazadorPAT {
 	// puntos de interes
 	// TODO variables
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 1;
-	final private static Vector4 POV = new Vector4(100, 0, 30, 1);//(80, -50, 80, 1);
+	final private static int DISTANCIA_FOCAL = 5;
+	final private static Vector4 POV = new Vector4(240, 80, 100, 1);//(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(70, 70, 90, 1);
 	final private static int INTENSIDAD_LUZ = 4;
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
-	final private static double LUZ_AMBIENTAL = 0.1;
-
+	final private static double LUZ_AMBIENTAL = 0.3;
+	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static BufferedImage img = new BufferedImage(IMAGE_COLS, IMAGE_ROWS, BufferedImage.TYPE_INT_RGB);
 
+	/* FLAGS DEBUG */
+	private static boolean TERMINO_AMBIENTAL = true;
+	private static boolean TERMINO_DIFUSO = true;
+	private static boolean TERMINO_ESPECULAR = false;
+	private static boolean TERMINO_REFLEJADO = false;
+	private static boolean TERMINO_REFRACTADO = false;
+	
 	public static void main(String[] args) {
 
 		System.out.printf("Preparando escena...");
@@ -176,8 +183,13 @@ public class TrazadorPAT {
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-			finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
-			finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
+			
+			if (TERMINO_AMBIENTAL) {
+				
+				/* Termino ambiental */
+				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
+				finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
+			}
 			
 			/* Comprueba si el objeto recibe luz en el punto de interseccion */
 			double epsilon = 1e-12;
@@ -205,49 +217,55 @@ public class TrazadorPAT {
 			Color colorRefractado = null;
 
 			if(!shadow){
-				/* Reflexion difusa */
-				Vector4 normal = objeto.normal(pIntersecFinal,rayo);
-	
-				double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-				if (angulo < 0) angulo = 0;
-				if (angulo > 1) angulo = 1;
-	
-				Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
-				difusa = ColorOperations.escalar(difusa, INTENSIDAD_LUZ);
-				difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
-				finalColor = ColorOperations.add(finalColor, difusa);
-				/* fin reflexion difusa */
+				
+				if (TERMINO_DIFUSO) {
+					
+					/* Reflexion difusa */
+					Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+		
+					double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
+					if (angulo < 0) angulo = 0;
+					if (angulo > 1) angulo = 1;
+		
+					Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
+					difusa = ColorOperations.escalar(difusa, INTENSIDAD_LUZ);
+					difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
+					finalColor = ColorOperations.add(finalColor, difusa);
+				}
 
-				/* Reflexion especular */
-				Rayo luz = new Rayo(POSICION_LUZ, Vector4.negate(sombra.getDireccion()));
-				Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
-				Vector4 R = especular.getDireccion().normalise();
-				Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
-	
-				double coseno = Vector4.dot(R, V);
-				if (coseno < 0) coseno = 0;
-	
-				double n = objeto.getMaterial().getShiny();
-				double terminoEspecular = Math.abs(Math.pow(coseno, n));
-	
-				Color specular = ColorOperations.escalar(COLOR_LUZ, terminoEspecular);
-				specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
-				finalColor = ColorOperations.add(finalColor, specular);
-				/* fin reflexion especular */
+				if (TERMINO_ESPECULAR) {
+					
+					/* Reflexion especular */
+					Rayo luz = new Rayo(POSICION_LUZ, Vector4.negate(sombra.getDireccion()));
+					Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
+					Vector4 R = especular.getDireccion().normalise();
+					Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
+		
+					double coseno = Vector4.dot(R, V);
+					if (coseno < 0) coseno = 0;
+		
+					double n = objeto.getMaterial().getShiny();
+					double terminoEspecular = Math.abs(Math.pow(coseno, n));
+		
+					Color specular = ColorOperations.escalar(COLOR_LUZ, terminoEspecular);
+					specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
+					finalColor = ColorOperations.add(finalColor, specular);
+				}
 				
 			}
 
 			/* Intenta lanzar nuevos rayos si todavia quedan rebotes */
 			if(rebotes < MAX_REBOTES_RAYO){
+				
 				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
-				if (objeto.getMaterial().isReflectante()) {
+				if (objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo reflejado = Rayo.rayoReflejado(rayo, objeto, pIntersecFinal);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
 				/* Si el material del objeto es refractante se lanza el rayo refractado */
-				if (objeto.getMaterial().isTransparente()) {
+				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
 					// TODO link a rayo refractado
 					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal);
 					colorRefractado = trazar(refractado, rebotes + 1);
