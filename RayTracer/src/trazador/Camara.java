@@ -39,8 +39,10 @@ public class Camara {
 		Vector4 up = new Vector4(0, 0, 1, 0);
 		w = Vector4.div(Vector4.negate(direccion), g.normaL2());	// w = -g / norm(g)
 		Vector4 aux = Vector4.cross(up, w);
-		u = Vector4.div(aux, aux.normaL2());
+		u = aux.normalise();
 		v = Vector4.cross(w, u);
+		
+		System.out.println("U: " + u.toString() + "\nV: " + v.toString() + "\nW: " + w.toString());
 	}
 	
 	/**
@@ -50,14 +52,10 @@ public class Camara {
 		double diffu = (double) anchura / (double) (columnas - 1);
 		double diffv = (double) altura / (double) (filas - 1);
 		
-//		System.out.println(diffu + " " + diffv);
-		
 		// antialiasing por supermestreo random
 		Random r = new Random();
 		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
-		
-//		System.out.println(diffu + " " + diffv + "\t" +varu*diffu + " " + varv*diffv);
 		
 		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
