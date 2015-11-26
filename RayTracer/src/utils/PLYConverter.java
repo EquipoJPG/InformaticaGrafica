@@ -162,7 +162,7 @@ public class PLYConverter {
 								int ib = (int) (b);
 								
 								Color c = new Color(ir,ig,ib);
-								Triangulo t = new Triangulo(p1,p2,p3,new Material(c,1,0,0));
+								Triangulo t = new Triangulo(p1,p2,p3,new Material(c,1,0,0,0,0));
 								
 								returned.addObjeto(t);
 							}
