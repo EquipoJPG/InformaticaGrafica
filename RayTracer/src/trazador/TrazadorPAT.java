@@ -44,7 +44,7 @@ public class TrazadorPAT {
 	// TODO variables
 	final private static int MAX_REBOTES_RAYO = 7;
 	final private static int DISTANCIA_FOCAL = 1;
-	final private static Vector4 POV = new Vector4(100, 100, 50, 1);//(80, -50, 80, 1);
+	final private static Vector4 POV = new Vector4(1, 0, 0, 1);//(80, -50, 80, 1);
 	final private static Vector4 POSICION_LUZ = new Vector4(70, 70, 90, 1);
 	final private static int INTENSIDAD_LUZ = 4;
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
