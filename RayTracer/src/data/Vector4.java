@@ -1,5 +1,7 @@
 package data;
 
+import Jama.Matrix;
+
 public class Vector4 {
 
 	/* Atributos de la clase PuntoVectorH */
@@ -204,4 +206,7 @@ public class Vector4 {
 		return !esVector(v);
 	}
 
+	public static Vector4 matrixToVector4(Matrix m){
+		return null;
+	}
 }
