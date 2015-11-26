@@ -130,7 +130,40 @@ public class TransformacionesAfines {
 	}
 
 	public static Matrix getZRotation(double radian) {
-		double[][] values = { { Math.cos(radian), Math.sin(radian), 0, 0 }, { -1*Math.sin(radian), Math.cos(radian), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		double[][] values = { { Math.cos(radian), Math.sin(radian), 0, 0 },
+				{ -1 * Math.sin(radian), Math.cos(radian), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
+
+	public static Matrix getXShear(double sxy, double sxz) {
+		double[][] values = { { 1, sxy, sxz, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+
+	public static Matrix getYShear(double syx, double syz) {
+		double[][] values = { { 1, 0, 0, 0 }, { syx, 1, syz, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+
+	public static Matrix getZShear(double szx, double szy) {
+		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { szx, szy, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+
+	public static Matrix getGeneralShear(double sxy, double sxz, double syx, double syz, double szx, double szy) {
+		double[][] values = { { 1, sxy, sxz, 0 }, { syx, 1, syz, 0 }, { szx, szy, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getGeneralShear(double kx, double ky, double kz) {
+		double[][] values = { { 1, kx, kx, 0 }, { ky, 1, ky, 0 }, { kz, kz, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	public static Matrix getGeneralShear(double k) {
+		double[][] values = { { 1, k, k, 0 }, { k, 1, k, 0 }, { k, k, 1, 0 }, { 0, 0, 0, 1 } };
+		return new Matrix(values);
+	}
+	
+	
 }
