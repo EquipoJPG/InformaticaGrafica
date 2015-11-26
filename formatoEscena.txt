@@ -1,0 +1,14 @@
+Punto de vista x y z
+
+Foco1 x y z
+...
+FocoN x y z
+
+OBJETOS:
+	Esfera centro radio
+	Plano topLeftCorner(x,y,z) topRightCorner(x,y,z) bottomLeftCorner(x,y,z) bottomRightCorner(x,y,z)
+	Triangulo p1(x,y,z) p2(x,y,z) p3(x,y,z) clockwise
+	
+Figura listaObjetos 
+
+Material color.r color.g color.b kd ks kr kt shiny
