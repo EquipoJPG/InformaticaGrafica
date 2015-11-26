@@ -431,7 +431,6 @@ public class XMLFormatter {
 				for (int j = 0; j < nl3_figuras.getLength(); j++) {
 					Element e = (Element) nl3_figuras.item(j);
 					String path = e.getAttribute("path");
-					Figura f = PLYConverter.getFigura(path);
 					
 					//////////////////////////////////////////////////////////
 					// traslacion
@@ -488,6 +487,9 @@ public class XMLFormatter {
 					// shiny
 					int shiny = Integer.parseInt(ee.getElementsByTagName("difusa").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
+					
+					Material m = new Material(null, difusa, especular, reflectante, transparente, shiny); 
+					Figura f = PLYConverter.getFigura(path, m);
 					
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z,
 							escalaX, escalaY, escalaZ,

@@ -16,44 +16,67 @@ import objetos.Figura;
 import objetos.Objeto;
 
 public class Trazador {
+	
+	// TODO nada de numeros dentro del proyecto, todo eso en ficheros
+	// TODO esqueleto segun raytracer.cpp
+	/*
+	 * SEGUN RayTracer.cpp
+	 * 
+	 * si el objeto es transparente o reflectante
+	 * 		reflejo = calcular rayo reflejado <- recursion
+	 * 		si es transparente
+	 * 			refraccion = calcular rayo refractado <- recursion
+	 * 		surfaceColor = reflejo * fresnel
+	 * 			 + refraccion * (1-fresnel) * transparente * surfaceColor
+	 * sino
+	 * 		surfaceColor = componente difusa
+	 */
 
 	/* Variables globales del trazador de rayos */
 
 	// imagen
 	final private static int IMAGE_COLS = 1024; // width
 	final private static int IMAGE_ROWS = 720; // height
-	private static String IMAGE_FILE_NAME = "escena.png";
-	final private static int ANTIALIASING = 7;
+	final private static String IMAGE_FILE_NAME = "escena.png";
+	final private static int ANTIALIASING = 16;
 
 	// puntos de interes
+	// TODO variables
 	final private static int MAX_REBOTES_RAYO = 7;
-	final private static int DISTANCIA_FOCAL = 30;
-	final private static Vector4 POV = new Vector4(40, 60, 40, 1);//(80, -50, 80, 1);
-	final private static Vector4 POSICION_LUZ = new Vector4(50, 50, 50, 1);
+	final private static int DISTANCIA_FOCAL = 5;
+	final private static Vector4 POV = new Vector4(240, 80, 100, 1);//(80, -50, 80, 1);
+	final private static Vector4 POSICION_LUZ = new Vector4(70, 70, 90, 1);
+	final private static int INTENSIDAD_LUZ = 4;
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
-	final private static double LUZ_AMBIENTAL = 0.1;
-
+	final private static double LUZ_AMBIENTAL = 0.3;
+	
 	// contenido de la escena
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static BufferedImage img = new BufferedImage(IMAGE_COLS, IMAGE_ROWS, BufferedImage.TYPE_INT_RGB);
 
+	/* FLAGS DEBUG */
+	private static boolean TERMINO_AMBIENTAL = true;
+	private static boolean TERMINO_DIFUSO = true;
+	private static boolean TERMINO_ESPECULAR = false;
+	private static boolean TERMINO_REFLEJADO = false;
+	private static boolean TERMINO_REFRACTADO = false;
+	
 	public static void main(String[] args) {
 
 		System.out.printf("Preparando escena...");
 
 		/* Define la escena */
-		Foco luz = new Foco(POSICION_LUZ, COLOR_LUZ);
-		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV), DISTANCIA_FOCAL, IMAGE_COLS,
-				IMAGE_ROWS);
+		Foco luz = new Foco(POSICION_LUZ, COLOR_LUZ, INTENSIDAD_LUZ);
+		Camara camara = new Camara(POV, Vector4.sub(new Vector4(0, 0, 0, 1), POV).normalise(), DISTANCIA_FOCAL, IMAGE_COLS,
+				IMAGE_ROWS, 4, 3);
 		
-//		objetos = EscenaCajas.crear3(POV);
-		IMAGE_FILE_NAME = "escena.png";
-//		objetos = Escena.crear(POV);
-		objetos.add(utils.PLYConverter.getFigure("untitled.ply"));
+		objetos = Escena.crear(POV);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
 
+		System.out.println(img.getWidth());
+		System.out.println(img.getHeight());
 		/*
 		 * Para cada pixel de la pantalla se lanza un rayo y se buscan los
 		 * objetos de la escena con los que intersecciona
@@ -66,18 +89,19 @@ public class Trazador {
 
 				for (int k = 0; k < ANTIALIASING; k++) {
 					/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
-					Rayo rayoPrimario = camara.rayoToPixel(ii, jj);
+					Rayo rayoPrimario = camara.rayoToPixel(jj, ii);
 
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */
 					Color colorPixel = trazar(rayoPrimario, 0);
 					if (pixel != null && colorPixel != null) {
-						pixel = mix(pixel, colorPixel);
+						pixel = ColorOperations.addMedios(pixel, colorPixel);
 					} else {
 						pixel = colorPixel;
 					}
 
 				}
 				int color = pixel.getRGB();
+				System.out.println("Pintando " + j + " " + i);
 				img.setRGB(j, i, color);
 			}
 		}
@@ -158,14 +182,18 @@ public class Trazador {
 
 		Color finalColor = Color.BLACK;
 		/*
-		 * Si existe al menos un objeto visible, objeto ser� distinto de null, y
+		 * Si existe al menos un objeto visible, objeto sera distinto de null, y
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-
-			/* Color inicial */
-			//finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
-
+			
+			if (TERMINO_AMBIENTAL) {
+				
+				/* Termino ambiental */
+				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
+				finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
+			}
+			
 			/* Comprueba si el objeto recibe luz en el punto de interseccion */
 			double epsilon = 1e-12;
 			Vector4 direccion = Vector4.sub(POSICION_LUZ, pIntersecFinal).normalise();
@@ -175,122 +203,81 @@ public class Trazador {
 			double maxDistancia = Vector4.distancia(sombra.getOrigen(), POSICION_LUZ);
 			boolean shadow = false;
 			
-			/* Para cada objeto de la escena, se intenta interseccionar */
-			for (int k = 0; k < objetos.size(); k++) {
-
-				Double landa = objetos.get(k).interseccionSombra(sombra);
-				if (landa != null) {
-
-					if (landa >= 0) {
-
-						/* Se comprueba cual es el objeto visible mas cercano */
-						Vector4 interseccionSombra = Rayo.getInterseccion(sombra, landa);
-						double dist = Vector4.distancia(sombra.getOrigen(), interseccionSombra);
-
-						/* Se extrae el objeto mas cercano */
-						if (dist <= maxDistancia) {
-							shadow = true;
-							break;
-						}
-					}
-				}
-			}
-			/*
 			for(Objeto o : objetos){
-				if(o != objeto){
-					Double landa = o.interseccionSombra(sombra);
-					if(landa != null){
-						if(o instanceof Figura){
-							Figura f = (Figura) objeto;
-							o = f.getObjeto(sombra);
-						}
-						if(o instanceof Caja){
-							Caja c = (Caja) objeto;
-							o = c.getObjeto(sombra);
-						}
-						Vector4 aux = Rayo.getInterseccion(sombra, landa);
-						double dist = Vector4.distancia(sombra.getOrigen(), aux);
-						
-						if(dist < maxDistancia){
-							shadow = true;
-							break;
-						}
+				Double landa = o.interseccionSombra(sombra);
+				if(landa != null){
+					Vector4 aux = Rayo.getInterseccion(sombra, landa);
+					double dist = Vector4.distancia(sombra.getOrigen(), aux);
+					
+					if(dist < maxDistancia){
+						shadow = true;
+						break;
 					}
 				}
 			}
-			*/
 
-			int red, green, blue;
+			Color colorReflejado = null;
+			Color colorRefractado = null;
+
 			if(!shadow){
 				
-				/* Reflexion difusa */
-				Vector4 normal = objeto.normal(pIntersecFinal,rayo);
-	
-				double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-				if (angulo < 0) angulo = 0;
-				if (angulo > 1) angulo = 1;
-	
-				red = (int) (objeto.getMaterial().getColor().getRed() * angulo);
-				green = (int) (objeto.getMaterial().getColor().getGreen() * angulo);
-				blue = (int) (objeto.getMaterial().getColor().getBlue() * angulo);
-	
-				Color difusa = new Color(red, green, blue);
-				finalColor = difusa;
-				/* fin reflexion difusa */
+				if (TERMINO_DIFUSO) {
+					
+					/* Reflexion difusa */
+					Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+		
+					double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
+					if (angulo < 0) angulo = 0;
+					if (angulo > 1) angulo = 1;
+		
+					Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
+					difusa = ColorOperations.escalar(difusa, INTENSIDAD_LUZ);
+					difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
+					finalColor = ColorOperations.add(finalColor, difusa);
+				}
 
-				/* Reflexion especular */
-				Rayo reflejado = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
-				Vector4 R = reflejado.getDireccion().normalise();
-				Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
-	
-				double coseno = Vector4.dot(R, V);
-				if (coseno < 0) coseno = 0;
-	
-				double n = objeto.getMaterial().getShiny();
-				double terminoEspecular = Math.pow(coseno, n);
-	
-				red = (int) (255 * Math.abs(terminoEspecular));
-				green = (int) (255 * Math.abs(terminoEspecular));
-				blue = (int) (255 * Math.abs(terminoEspecular));
+				if (TERMINO_ESPECULAR) {
+					
+					/* Reflexion especular */
+					Rayo luz = new Rayo(POSICION_LUZ, Vector4.negate(sombra.getDireccion()));
+					Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
+					Vector4 R = especular.getDireccion().normalise();
+					Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
+		
+					double coseno = Vector4.dot(R, V);
+					if (coseno < 0) coseno = 0;
+		
+					double n = objeto.getMaterial().getShiny();
+					double terminoEspecular = Math.abs(Math.pow(coseno, n));
+		
+					Color specular = ColorOperations.escalar(COLOR_LUZ, terminoEspecular);
+					specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
+					finalColor = ColorOperations.add(finalColor, specular);
+				}
 				
-				Color specular = new Color(red, green, blue);
-				finalColor = ColorOperations.add(ColorOperations.escalar(finalColor, objeto.getMaterial().getKd()),
-						ColorOperations.escalar(specular, objeto.getMaterial().getKs()));
-				/* fin reflexion especular */
-
-				finalColor = ColorOperations.add(finalColor, luzAmbiental(LUZ_AMBIENTAL, objeto));
-			}
-			else{
-				
-				/* Si un punto no esta iluminado recibe luz ambiental para no quedar a negro */
-				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);
 			}
 
 			/* Intenta lanzar nuevos rayos si todavia quedan rebotes */
-			if (rebotes < MAX_REBOTES_RAYO) {
-				
-				Color colorReflejado = null;
-				Color colorRefractado = null;
+			if(rebotes < MAX_REBOTES_RAYO){
 				
 				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
-				if (objeto.getMaterial().isReflectante()) {
+				if (objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo reflejado = Rayo.rayoReflejado(rayo, objeto, pIntersecFinal);
 					colorReflejado = trazar(reflejado, rebotes + 1);
-					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKd());
+					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
-				
 				/* Si el material del objeto es refractante se lanza el rayo refractado */
-				if (objeto.getMaterial().isTransparente()) {
+				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
 					// TODO link a rayo refractado
 					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal);
 					colorRefractado = trazar(refractado, rebotes + 1);
-					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKs());
+					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
 				
 				/* (FRESNEL?) Mezcla los colores obtenidos por el rayo reflejado y refractado */
 				if (colorReflejado != null && colorRefractado != null) {
-					Color fresnelColor = ColorOperations.fresnel(colorReflejado,colorRefractado,objeto.getMaterial().getKd());
+					Color fresnelColor = ColorOperations.add(colorReflejado, colorRefractado);
 					finalColor = ColorOperations.add(finalColor, fresnelColor);
 				}
 				else if (colorReflejado != null ) {
@@ -312,28 +299,6 @@ public class Trazador {
 	 */
 	private static Color luzAmbiental(double luzAmbiental, Objeto objeto) {
 		Color c = objeto.getMaterial().getColor();
-		int r = (int) (c.getRed() * luzAmbiental);
-		int b = (int) (c.getBlue() * luzAmbiental);
-		int g = (int) (c.getGreen() * luzAmbiental);
-		return new Color(r, g, b);
-	}
-
-	/**
-	 * Mezcla los colores dados
-	 */
-	private static Color mix(Color pixel, Color acum) {
-		int pixelr = pixel.getRed();
-		int pixelb = pixel.getBlue();
-		int pixelg = pixel.getGreen();
-
-		int acumr = acum.getRed();
-		int acumb = acum.getBlue();
-		int acumg = acum.getGreen();
-
-		int finalr = (pixelr + acumr) / 2;
-		int finalb = (pixelb + acumb) / 2;
-		int finalg = (pixelg + acumg) / 2;
-
-		return new Color(finalr, finalg, finalb);
+		return ColorOperations.escalar(c, luzAmbiental);
 	}
 }
