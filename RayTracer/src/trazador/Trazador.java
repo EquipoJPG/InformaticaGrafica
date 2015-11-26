@@ -78,8 +78,6 @@ public class Trazador {
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
 
-		System.out.println(img.getWidth());
-		System.out.println(img.getHeight());
 		/*
 		 * Para cada pixel de la pantalla se lanza un rayo y se buscan los
 		 * objetos de la escena con los que intersecciona
@@ -92,7 +90,7 @@ public class Trazador {
 
 				for (int k = 0; k < ANTIALIASING; k++) {
 					/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
-					Rayo rayoPrimario = camara.rayoToPixel(jj, ii);
+					Rayo rayoPrimario = camara.rayoToPixel(ii, jj);
 
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */
 					Color colorPixel = trazar(rayoPrimario, 0);
@@ -104,7 +102,6 @@ public class Trazador {
 
 				}
 				int color = pixel.getRGB();
-				System.out.println("Pintando " + j + " " + i);
 				img.setRGB(j, i, color);
 			}
 		}
