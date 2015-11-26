@@ -131,6 +131,7 @@ public class XMLFormatter {
 				NodeList nl3_planos = ((Element) nl2.item(i)).getElementsByTagName("plano");
 				NodeList nl3_figuras = ((Element) nl2.item(i)).getElementsByTagName("figura");
 
+				// TODO esferas
 				for (int j = 0; j < nl3_esferas.getLength(); j++) {
 					Element e = (Element) nl3_esferas.item(j);
 
@@ -196,6 +197,8 @@ public class XMLFormatter {
 					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
 					//////////////////////////////////////////////////////////////////////////////
 				}
+				
+				// TODO triangulos
 				for (int j = 0; j < nl3_triangulos.getLength(); j++) {
 					Element e = (Element) nl3_triangulos.item(j);
 					
@@ -285,6 +288,8 @@ public class XMLFormatter {
 					//////////////////////////////////////////////////////////////////////////////
 
 				}
+				
+				// TODO planos
 				for (int j = 0; j < nl3_planos.getLength(); j++) {
 					Element e = (Element) nl3_planos.item(j);
 					
@@ -381,6 +386,8 @@ public class XMLFormatter {
 					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
 					//////////////////////////////////////////////////////////////////////////////
 				}
+				
+				// TODO figuras
 				for (int j = 0; j < nl3_figuras.getLength(); j++) {
 					Element e = (Element) nl3_figuras.item(j);
 					String path = e.getAttribute("path");
