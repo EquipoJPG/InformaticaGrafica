@@ -88,8 +88,9 @@
 			</triangulo>
 			
 			<!-- figura -->
-			<figura path="untitled.ply" x="100" y="100" z="100"/>
+			<figura path="untitled.ply" x="100" y="100" z="100">
 				
+				<global>15</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -104,6 +105,7 @@
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 				</material>
+			</figura>
 		</caja>
 	</cajas>
 	

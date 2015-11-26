@@ -28,6 +28,19 @@ import trazador.Foco;
 
 public class XMLFormatter {
 
+	public static void main(String[] args) {
+		String xml = "escena.xml";
+		Camara c = getCamara(xml);
+		List<Foco> focos = getFocos(xml);
+		List<Objeto> objetos = getObjetos(xml);
+
+		System.out.println(c.toString());
+		for (Foco f : focos)
+			System.out.println(f.toString());
+		for (Objeto o : objetos)
+			System.out.println(o.toString());
+	}
+
 	/**
 	 * @param xml
 	 * @return
@@ -188,67 +201,54 @@ public class XMLFormatter {
 					double difusa = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
 
 					// especular
-					double especular = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double especular = Double
+							.parseDouble(ee.getElementsByTagName("especular").item(0).getTextContent());
 
 					// reflectante
-					double reflectante = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double reflectante = Double
+							.parseDouble(ee.getElementsByTagName("reflectante").item(0).getTextContent());
 
 					// transparente
 					double transparente = Double
-							.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+							.parseDouble(ee.getElementsByTagName("transparente").item(0).getTextContent());
 
 					// shiny
-					int shiny = Integer.parseInt(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
-					
+
 					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
-					Matrix T = TransformacionesAfines.affineMatrix(x, y, z,
-							escalaX, escalaY, escalaZ,
-							global,
-							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), 
-							rotacionX, rotacionY, rotacionZ, 
+					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
+							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
-					
+
 					Esfera esfera = new Esfera(1, m, T);
 					objetos.add(esfera);
 				}
-				
+
 				// TODO triangulos
 				for (int j = 0; j < nl3_triangulos.getLength(); j++) {
 					Element e = (Element) nl3_triangulos.item(j);
-					
+
 					/////////////////////////////////////////////////////////
 					Element ee = (Element) e.getElementsByTagName("punto1").item(0);
-					Vector4 punto1 = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					
+					Vector4 punto1 = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+
 					ee = (Element) e.getElementsByTagName("punto2").item(0);
-					Vector4 punto2 = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					
+					Vector4 punto2 = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+
 					ee = (Element) e.getElementsByTagName("punto3").item(0);
-					Vector4 punto3 = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					////////////////////////////////////////////////////////
+					Vector4 punto3 = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+							////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////
 					// traslacion
 					double x = Double.parseDouble(e.getAttribute("x"));
 					double y = Double.parseDouble(e.getAttribute("y"));
 					double z = Double.parseDouble(e.getAttribute("z"));
-					
+
 					// escala global
 					ee = (Element) e.getElementsByTagName("global").item(0);
 					double global = Double.parseDouble(ee.getTextContent());
@@ -291,75 +291,58 @@ public class XMLFormatter {
 					double difusa = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
 
 					// especular
-					double especular = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double especular = Double
+							.parseDouble(ee.getElementsByTagName("especular").item(0).getTextContent());
 
 					// reflectante
-					double reflectante = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double reflectante = Double
+							.parseDouble(ee.getElementsByTagName("reflectante").item(0).getTextContent());
 
 					// transparente
 					double transparente = Double
-							.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+							.parseDouble(ee.getElementsByTagName("transparente").item(0).getTextContent());
 
 					// shiny
-					int shiny = Integer.parseInt(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
 
 					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
-					Matrix T = TransformacionesAfines.affineMatrix(x, y, z,
-							escalaX, escalaY, escalaZ,
-							global,
-							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), 
-							rotacionX, rotacionY, rotacionZ, 
+					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
+							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
-					
+
 					Triangulo triangulo = new Triangulo(punto1, punto2, punto3, m, T);
 					objetos.add(triangulo);
 				}
-				
+
 				// TODO planos
 				for (int j = 0; j < nl3_planos.getLength(); j++) {
 					Element e = (Element) nl3_planos.item(j);
-					
+
 					/////////////////////////////////////////////////////////
 					Element ee = (Element) e.getElementsByTagName("topleft").item(0);
-					Vector4 topleft = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					
+					Vector4 topleft = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+
 					ee = (Element) e.getElementsByTagName("topright").item(0);
-					Vector4 topright = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					
+					Vector4 topright = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+
 					ee = (Element) e.getElementsByTagName("bottomleft").item(0);
-					Vector4 bottomleft = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					
+					Vector4 bottomleft = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+
 					ee = (Element) e.getElementsByTagName("bottomright").item(0);
-					Vector4 bottomright = new Vector4(
-							Double.parseDouble(e.getAttribute("x")),
-							Double.parseDouble(e.getAttribute("y")),
-							Double.parseDouble(e.getAttribute("z")),
-							1
-							);
-					////////////////////////////////////////////////////////
+					Vector4 bottomright = new Vector4(Double.parseDouble(e.getAttribute("x")),
+							Double.parseDouble(e.getAttribute("y")), Double.parseDouble(e.getAttribute("z")), 1);
+							////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////
 					// traslacion
 					double x = Double.parseDouble(e.getAttribute("x"));
 					double y = Double.parseDouble(e.getAttribute("y"));
 					double z = Double.parseDouble(e.getAttribute("z"));
-					
+
 					// escala global
 					ee = (Element) e.getElementsByTagName("global").item(0);
 					double global = Double.parseDouble(ee.getTextContent());
@@ -402,71 +385,70 @@ public class XMLFormatter {
 					double difusa = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
 
 					// especular
-					double especular = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double especular = Double
+							.parseDouble(ee.getElementsByTagName("especular").item(0).getTextContent());
 
 					// reflectante
-					double reflectante = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double reflectante = Double
+							.parseDouble(ee.getElementsByTagName("reflectante").item(0).getTextContent());
 
 					// transparente
 					double transparente = Double
-							.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+							.parseDouble(ee.getElementsByTagName("transparente").item(0).getTextContent());
 
 					// shiny
-					int shiny = Integer.parseInt(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
-					
+
 					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
-					Matrix T = TransformacionesAfines.affineMatrix(x, y, z,
-							escalaX, escalaY, escalaZ,
-							global,
-							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), 
-							rotacionX, rotacionY, rotacionZ, 
+					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
+							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
-					
+
 					Plano plano = new Plano(topleft, topright, bottomleft, bottomright, m, T);
 					objetos.add(plano);
 				}
-				
+
 				// TODO figuras
 				for (int j = 0; j < nl3_figuras.getLength(); j++) {
 					Element e = (Element) nl3_figuras.item(j);
 					String path = e.getAttribute("path");
-					
+
 					//////////////////////////////////////////////////////////
 					// traslacion
 					double x = Double.parseDouble(e.getAttribute("x"));
 					double y = Double.parseDouble(e.getAttribute("y"));
 					double z = Double.parseDouble(e.getAttribute("z"));
-					
+
 					// escala global
 					Element ee = (Element) e.getElementsByTagName("global").item(0);
 					double global = Double.parseDouble(ee.getTextContent());
-					
+
 					// escala local
 					ee = (Element) e.getElementsByTagName("escala").item(0);
 					double escalaX = Double.parseDouble(ee.getAttribute("x"));
 					double escalaY = Double.parseDouble(ee.getAttribute("y"));
 					double escalaZ = Double.parseDouble(ee.getAttribute("z"));
-					
+
 					// rotacion
 					ee = (Element) e.getElementsByTagName("rotacion").item(0);
 					double rotacionX = Double.parseDouble(ee.getAttribute("x"));
 					double rotacionY = Double.parseDouble(ee.getAttribute("y"));
 					double rotacionZ = Double.parseDouble(ee.getAttribute("z"));
-					
+
 					// simetria
 					ee = (Element) e.getElementsByTagName("simetria").item(0);
 					int simetriaX = Integer.parseInt(ee.getAttribute("x"));
 					int simetriaY = Integer.parseInt(ee.getAttribute("y"));
 					int simetriaZ = Integer.parseInt(ee.getAttribute("z"));
-					
+
 					// cizalla
 					ee = (Element) e.getElementsByTagName("cizalla").item(0);
 					double cizallaX = Double.parseDouble(ee.getAttribute("x"));
 					double cizallaY = Double.parseDouble(ee.getAttribute("y"));
 					double cizallaZ = Double.parseDouble(ee.getAttribute("z"));
 					///////////////////////////////////////////////////////////////////
-					
+
 					//////////////////////////////////////////////////////////////////
 					// material
 					ee = (Element) e.getElementsByTagName("material").item(0);
@@ -475,29 +457,28 @@ public class XMLFormatter {
 					double difusa = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
 
 					// especular
-					double especular = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double especular = Double
+							.parseDouble(ee.getElementsByTagName("especular").item(0).getTextContent());
 
 					// reflectante
-					double reflectante = Double.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					double reflectante = Double
+							.parseDouble(ee.getElementsByTagName("reflectante").item(0).getTextContent());
 
 					// transparente
 					double transparente = Double
-							.parseDouble(ee.getElementsByTagName("difusa").item(0).getTextContent());
+							.parseDouble(ee.getElementsByTagName("transparente").item(0).getTextContent());
 
 					// shiny
-					int shiny = Integer.parseInt(ee.getElementsByTagName("difusa").item(0).getTextContent());
+					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
-					
-					Material m = new Material(null, difusa, especular, reflectante, transparente, shiny); 
+
+					Material m = new Material(null, difusa, especular, reflectante, transparente, shiny);
 					Figura f = PLYConverter.getFigura(path, m);
-					
-					Matrix T = TransformacionesAfines.affineMatrix(x, y, z,
-							escalaX, escalaY, escalaZ,
-							global,
-							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), 
-							rotacionX, rotacionY, rotacionZ, 
+
+					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
+							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
-					
+
 					f.setT(T);
 					objetos.add(f);
 				}

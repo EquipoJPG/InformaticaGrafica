@@ -35,12 +35,12 @@ public class TransformacionesAfines {
 		return Vector4.matrixToVector4(c);
 	}
 
-	public static Matrix combine(Matrix[] matArray) {
+	public static Matrix combine(ArrayList<Matrix> matArray) {
 		Matrix returned = null;
-		if (matArray.length >= 2) {
-			returned = matArray[0];
-			for (int i = 1; i < matArray.length; i++) {
-				returned = returned.times(matArray[i]);
+		if (matArray.size() >= 2) {
+			returned = matArray.get(0);
+			for (int i = 1; i < matArray.size(); i++) {
+				returned = returned.times(matArray.get(i));
 			}
 		} else {
 			try {
@@ -145,7 +145,7 @@ public class TransformacionesAfines {
 		total.add(getGeneralShear(xshear, yshear, zshear));
 
 		// Return value
-		return combine((Matrix[]) (total.toArray()));
+		return combine(total);
 	}
 
 	public static Matrix getIdentity() {
