@@ -217,20 +217,21 @@ public class Trazador {
 				}
 				
 				if(!shadow){
-				if (TERMINO_DIFUSO) {
-					
-					/* Reflexion difusa */
-					Vector4 normal = objeto.normal(pIntersecFinal,rayo);
-		
-					double angulo = Vector4.dot(sombra.getDireccion(), normal);
-					if (angulo < 0) angulo = 0;
-					if (angulo > 1) angulo = 1;
-		
-					Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
-					difusa = ColorOperations.escalar(difusa, f.getIntensidad());
-					difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
-					finalColor = ColorOperations.add(finalColor, difusa);
-				}
+					if (TERMINO_DIFUSO) {
+						
+						/* Reflexion difusa */
+						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+			
+						double angulo = Vector4.dot(sombra.getDireccion(), normal);
+						if (angulo < 0) angulo = 0;
+						if (angulo > 1) angulo = 1;
+			
+//						Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
+//						difusa = ColorOperations.escalar(difusa, f.getIntensidad());
+//						difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
+						Color difusa = ColorOperations.difuso(objeto, f, angulo);
+						finalColor = ColorOperations.add(finalColor, difusa);
+					}
 					if (TERMINO_ESPECULAR) {
 						
 						/* Reflexion especular */

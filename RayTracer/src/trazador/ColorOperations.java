@@ -2,7 +2,33 @@ package trazador;
 
 import java.awt.Color;
 
+import objetos.Objeto;
+
 public class ColorOperations {
+	
+	/**
+	 * color = obj.color * (f.intensidad * f.color) * angulo * kd
+	 * @param obj
+	 * @param f
+	 * @param angulo
+	 * @return
+	 */
+	public static Color difuso(Objeto obj, Foco f, double angulo){
+		Color c = obj.getMaterial().getColor();
+		double kd = obj.getMaterial().getKd();
+		int intensidad = f.getIntensidad();
+		
+		double r = f.getColor().getRed() / 255;
+		double g = f.getColor().getGreen() / 255;
+		double b = f.getColor().getBlue() / 255;
+		
+		c = new Color(
+				clamp((int) (c.getRed() * angulo * r * kd * intensidad), 0, 255),
+				clamp((int) (c.getGreen() * angulo * g * kd * intensidad), 0, 255),
+				clamp((int) (c.getBlue() * angulo * b * kd * intensidad), 0, 255)
+				);
+		return c;
+	}
 	
 	public static Color add (Color c1, Color c2){
 		int red = clamp((c1.getRed() + c2.getRed()), 0, 255);
