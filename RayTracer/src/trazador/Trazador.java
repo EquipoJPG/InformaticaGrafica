@@ -51,7 +51,7 @@ public class Trazador {
 	/* FLAGS DEBUG */
 	private static boolean TERMINO_AMBIENTAL = true;
 	private static boolean TERMINO_DIFUSO = true;
-	private static boolean TERMINO_ESPECULAR = false;
+	private static boolean TERMINO_ESPECULAR = true;
 	private static boolean TERMINO_REFLEJADO = false;
 	private static boolean TERMINO_REFRACTADO = false;
 	
@@ -216,21 +216,21 @@ public class Trazador {
 					}
 				}
 				
-				if(!shadow){	
-					if (TERMINO_DIFUSO) {
-						
-						/* Reflexion difusa */
-						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
-			
-						double angulo = Math.cos(Vector4.angulo(sombra.getDireccion(), normal));
-						if (angulo < 0) angulo = 0;
-						if (angulo > 1) angulo = 1;
-			
-						Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
-						difusa = ColorOperations.escalar(difusa, f.getIntensidad());
-						difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
-						finalColor = ColorOperations.add(finalColor, difusa);
-					}
+				if(!shadow){
+				if (TERMINO_DIFUSO) {
+					
+					/* Reflexion difusa */
+					Vector4 normal = objeto.normal(pIntersecFinal,rayo);
+		
+					double angulo = Vector4.dot(sombra.getDireccion(), normal);
+					if (angulo < 0) angulo = 0;
+					if (angulo > 1) angulo = 1;
+		
+					Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
+					difusa = ColorOperations.escalar(difusa, f.getIntensidad());
+					difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
+					finalColor = ColorOperations.add(finalColor, difusa);
+				}
 					if (TERMINO_ESPECULAR) {
 						
 						/* Reflexion especular */
