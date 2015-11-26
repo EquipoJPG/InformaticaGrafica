@@ -27,26 +27,26 @@ public class Escena {
 		// PLANOS
 		
 		// pared izquierda (y = 0)
-		Vector4 p1Plano2 = new Vector4(5000, 0, 5000, 1);
-		Vector4 p2Plano2 = new Vector4(0, 0, 5000, 1);
-		Vector4 p3Plano2 = new Vector4(5000, 0, 0, 1);
+		Vector4 p1Plano2 = new Vector4(50, 0, 50, 1);
+		Vector4 p2Plano2 = new Vector4(0, 0, 50, 1);
+		Vector4 p3Plano2 = new Vector4(50, 0, 0, 1);
 		Vector4 p4Plano2 = new Vector4(0, 0, 0, 1);
 		Plano plano2 = new Plano(p1Plano2, p2Plano2,
 				p3Plano2, p4Plano2, new Material(Color.GREEN, 0.2, 0.8, 0, 0, 200));
 		
 		// pared derecha (x = 0)
-		Vector4 p1Plano3 = new Vector4(0, 0, 5000, 1);
-		Vector4 p2Plano3 = new Vector4(0, 5000, 5000, 1);
+		Vector4 p1Plano3 = new Vector4(0, 0, 50, 1);
+		Vector4 p2Plano3 = new Vector4(0, 50, 50, 1);
 		Vector4 p3Plano3 = new Vector4(0, 0, 0, 1);
-		Vector4 p4Plano3 = new Vector4(0, 5000, 0, 1);
+		Vector4 p4Plano3 = new Vector4(0, 50, 0, 1);
 		Plano plano3 = new Plano(p1Plano3, p2Plano3,
 				p3Plano3, p4Plano3, new Material(Color.BLUE, 0.5, 0.5, 0, 0, 200));
 		
 		// suelo (z = 0)
 		Vector4 p1Plano1 = new Vector4(0, 0, 0, 1);
-		Vector4 p2Plano1 = new Vector4(0, 5000, 0, 1);
-		Vector4 p3Plano1 = new Vector4(5000, 0, 0, 1);
-		Vector4 p4Plano1 = new Vector4(5000, 5000, 0, 1);
+		Vector4 p2Plano1 = new Vector4(0, 50, 0, 1);
+		Vector4 p3Plano1 = new Vector4(50, 0, 0, 1);
+		Vector4 p4Plano1 = new Vector4(50, 50, 0, 1);
 		Plano plano1 = new Plano(p1Plano1, p2Plano1,
 				p3Plano1, p4Plano1, new Material(Color.RED, 0.5, 0.5, 0.1, 0, 200));
 		
