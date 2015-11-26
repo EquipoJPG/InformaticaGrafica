@@ -17,6 +17,7 @@ import objetos.Objeto;
 
 public class TrazadorPAT {
 	
+	// TODO nada de numeros dentro del proyecto, todo eso en ficheros
 	// TODO esqueleto segun raytracer.cpp
 	/*
 	 * SEGUN RayTracer.cpp
@@ -34,17 +35,17 @@ public class TrazadorPAT {
 	/* Variables globales del trazador de rayos */
 
 	// imagen
-	final private static int IMAGE_COLS = 1024*2; // width
-	final private static int IMAGE_ROWS = 720*2; // height
+	final private static int IMAGE_COLS = 1024; // width
+	final private static int IMAGE_ROWS = 720; // height
 	final private static String IMAGE_FILE_NAME = "escena.png";
-	final private static int ANTIALIASING = 9;
+	final private static int ANTIALIASING = 16;
 
 	// puntos de interes
 	// TODO variables
 	final private static int MAX_REBOTES_RAYO = 7;
 	final private static int DISTANCIA_FOCAL = 1;
-	final private static Vector4 POV = new Vector4(60, 60, 60, 1);//(80, -50, 80, 1);
-	final private static Vector4 POSICION_LUZ = new Vector4(70, 100, 90, 1);
+	final private static Vector4 POV = new Vector4(100, 0, 30, 1);//(80, -50, 80, 1);
+	final private static Vector4 POSICION_LUZ = new Vector4(70, 70, 90, 1);
 	final private static int INTENSIDAD_LUZ = 4;
 	final private static Color COLOR_LUZ = new Color(255, 255, 255);
 	final private static double LUZ_AMBIENTAL = 0.1;
