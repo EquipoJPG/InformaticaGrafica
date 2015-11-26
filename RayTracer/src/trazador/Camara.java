@@ -22,9 +22,8 @@ public class Camara {
 	 * distancia @param f de la pantalla con @param px_width pixeles de anchura
 	 * y @param px_height pixeles de altura.
 	 * 
-	 * La anchura y altura reales de la pantalla son el doble de px.
 	 */
-	public Camara(Vector4 posicion, Vector4 g, double f, int columnas, int filas){
+	public Camara(Vector4 posicion, Vector4 g, double f, int columnas, int filas, int anchura, int altura){
 		this.posicion = posicion;
 		this.direccion = g;
 		this.f = f;
@@ -32,8 +31,8 @@ public class Camara {
 		this.filas = filas;
 		this.columnas = columnas;
 		
-		this.anchura = columnas;
-		this.altura = filas;
+		this.anchura = anchura;
+		this.altura = altura;
 		
 		
 		/* u, v, w */
@@ -42,11 +41,6 @@ public class Camara {
 		Vector4 aux = Vector4.cross(up, w);
 		u = Vector4.div(aux, aux.normaL2());
 		v = Vector4.cross(w, u);
-		
-		System.out.println("G: " + g.getX() + " " + g.getY() + " " + g.getZ());
-		System.out.println("U: " + u.getX() + " " + u.getY() + " " + u.getZ());
-		System.out.println("V: " + v.getX() + " " + v.getY() + " " + v.getZ());
-		System.out.println("W: " + w.getX() + " " + w.getY() + " " + w.getZ());
 	}
 	
 	/**
@@ -56,14 +50,17 @@ public class Camara {
 		double diffu = (double) anchura / (double) (columnas - 1);
 		double diffv = (double) altura / (double) (filas - 1);
 		
+//		System.out.println(diffu + " " + diffv);
+		
+		// antialiasing por supermestreo random
 		Random r = new Random();
 		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		
+//		System.out.println(diffu + " " + diffv + "\t" +varu*diffu + " " + varv*diffv);
+		
 		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
 		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
-		
-//		System.out.println(mundo.getX() + " " + mundo.getY() + " " + mundo.getZ());
 		
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
 	}

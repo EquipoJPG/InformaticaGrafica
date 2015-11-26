@@ -19,10 +19,10 @@ public class Escena {
 		// esferas
 //		Esfera esfera1 = new Esfera(3, new Material(Color.RED, 0.9, 0.4, 50));
 		Material mesf2 = new Material(Color.CYAN, 0.4, 0.1, 0.5, 0, 70);
-		Esfera esfera2 = new Esfera(new Vector4(600, 600, 600, 1), 100, mesf2);
+		Esfera esfera2 = new Esfera(new Vector4(30, 30, 30, 1), 15, mesf2);
 		
-		Material luz = new Material(Color.RED, 0.4, 0.6, 0.6, 0.1, 200);
-		Esfera sol = new Esfera(new Vector4(1500, 1500, 1500, 0), 200, luz);
+		Material luz = new Material(Color.RED, 0.4, 0.6, 0, 0, 200);
+		Esfera sol = new Esfera(new Vector4(70, 70, 70, 0), 15, luz);
 
 		// PLANOS
 		
