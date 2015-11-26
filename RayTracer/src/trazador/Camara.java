@@ -4,6 +4,7 @@ import java.util.Random;
 
 import data.Rayo;
 import data.Vector4;
+import utils.CambioDeBase;
 
 public class Camara {
 	
@@ -59,7 +60,7 @@ public class Camara {
 		
 		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
 //		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
-		Vector4 mundo = Vector4.cambioDeBase(local, u, v, w, posicion);
+		Vector4 mundo = CambioDeBase.cambioDeBase(local, u, v, w, posicion);
 		
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
 	}

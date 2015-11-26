@@ -84,7 +84,7 @@ public class Trazador {
 				Color pixel = null;
 
 				for (int k = 0; k < ANTIALIASING; k++) {
-					/* Se crea el rayo que sale del ojo hacia el pixel(i,j) */
+					/* Se crea el rayo que sale del ojo hacia el pixel(j,i) */
 					Rayo rayoPrimario = camara.rayoToPixel(jj, ii);
 
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */

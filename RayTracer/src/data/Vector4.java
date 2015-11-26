@@ -54,6 +54,14 @@ public class Vector4 {
 	public void setZ(double z) {
 		this.z = z;
 	}
+	
+	public int getH() {
+		return h;
+	}
+
+	public void setZ(int h) {
+		this.h = h;
+	}
 
 	/**
 	 * @param v:
@@ -160,28 +168,6 @@ public class Vector4 {
 
 	public Vector4 normalise() {
 		return Vector4.div(this, this.normaL2());
-	}
-
-	/**
-	 * @param p:
-	 *            punto que cambiar de base
-	 * @param u:
-	 *            primera row
-	 * @param v:
-	 *            segunda row
-	 * @param w:
-	 *            tercera row
-	 * @param e:
-	 *            cuarta row
-	 * @return
-	 */
-	public static Vector4 cambioDeBase(Vector4 p, Vector4 u, Vector4 v, Vector4 w, Vector4 e) {
-		double x = p.x * u.x + p.y * v.x + p.z * w.x + p.h * e.x;
-		double y = p.x * u.y + p.y * v.y + p.z * w.y + p.h * e.y;
-		double z = p.x * u.z + p.y * v.z + p.z * w.z + p.h * e.z;
-		int h = (int) ((int) p.x * u.h + p.y * v.h + p.z * w.h + p.h * e.h);
-
-		return new Vector4(x, y, z, h);
 	}
 
 	/**
