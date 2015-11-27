@@ -1,4 +1,4 @@
-<escena antialiasing="16" file="escena.png" rebotes="7" ambiente="0.3">
+<escena antialiasing="16" file="escena.png" rebotes="7" ambiente="0.3" epsilon="1e-6">
 
 	<debug>
 		<ambiente>1</ambiente>

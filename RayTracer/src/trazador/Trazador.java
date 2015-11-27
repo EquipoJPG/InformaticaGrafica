@@ -17,7 +17,6 @@ import utils.XMLFormatter;
 
 public class Trazador {
 	
-	// TODO nada de numeros dentro del proyecto, todo eso en ficheros
 	// TODO esqueleto segun raytracer.cpp
 	/*
 	 * SEGUN RayTracer.cpp
@@ -40,6 +39,7 @@ public class Trazador {
 
 	private static int MAX_REBOTES_RAYO;
 	private static double LUZ_AMBIENTAL;
+	public static double EPSILON;
 	
 	// contenido de la escena
 	private static List<Objeto> objetos;
@@ -68,6 +68,7 @@ public class Trazador {
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
 		XMLFormatter.setFlags(xml);
+		EPSILON = XMLFormatter.getEpsilon(xml);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -195,7 +196,7 @@ public class Trazador {
 			for(Foco f : focos){
 				
 				/* Comprueba si el objeto recibe luz en el punto de interseccion */
-				double epsilon = 1e-6;
+				double epsilon = EPSILON;
 				Vector4 direccion = Vector4.sub(f.getPosicion(), pIntersecFinal).normalise();
 				Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);

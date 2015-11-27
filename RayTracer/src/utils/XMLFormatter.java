@@ -112,6 +112,18 @@ public class XMLFormatter {
 
 		return Double.parseDouble(doc.getDocumentElement().getAttribute("ambiente"));
 	}
+	
+	/**
+	 * Obtiene el epsilon
+	 * @param xml
+	 * @return
+	 */
+	public static double getEpsilon(String xml) {
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+
+		return Double.parseDouble(doc.getDocumentElement().getAttribute("epsilon"));
+	}
 
 	/**
 	 * Obtiene el fichero de salida

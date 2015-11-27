@@ -1,6 +1,7 @@
 package data;
 
 import objetos.Objeto;
+import trazador.Trazador;
 
 public class Rayo {
 
@@ -104,7 +105,7 @@ public class Rayo {
 		reflejado = Vector4.negate(reflejado);
 		
 		/* Construccion del rayo devuelto */
-		double epsilon = 1e-12;
+		double epsilon = Trazador.EPSILON;
 		Rayo returned = new Rayo(Vector4.add(i, Vector4.mulEscalar(reflejado, epsilon)),reflejado);
 		return returned;
 	}
