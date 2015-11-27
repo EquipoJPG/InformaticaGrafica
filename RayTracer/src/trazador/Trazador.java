@@ -77,10 +77,11 @@ public class Trazador {
 		 * Para cada pixel de la pantalla se lanza un rayo y se buscan los
 		 * objetos de la escena con los que intersecciona
 		 */
-		for (int j = 0; j < camara.getCols(); j++) {
-			int jj = j - camara.getCols() / 2;
-			for (int i = 0; i < camara.getRows(); i++) {
-				int ii = i - camara.getRows() / 2;
+		for (int i = 0; i < camara.getRows(); i++) {
+			int ii = i - camara.getRows() / 2;
+			
+			for (int j = 0; j < camara.getCols(); j++) {
+				int jj = j - camara.getCols() / 2;
 				Color pixel = null;
 
 				for (int k = 0; k < ANTIALIASING; k++) {
@@ -226,9 +227,6 @@ public class Trazador {
 						if (angulo < 0) angulo = 0;
 						if (angulo > 1) angulo = 1;
 			
-//						Color difusa = ColorOperations.escalar(objeto.getMaterial().getColor(), angulo);
-//						difusa = ColorOperations.escalar(difusa, f.getIntensidad());
-//						difusa = ColorOperations.escalar(difusa, objeto.getMaterial().getKd());
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
