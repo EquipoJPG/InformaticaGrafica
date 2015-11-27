@@ -127,9 +127,9 @@ public class Esfera extends Objeto {
 			double min = Math.min(lambda1, lambda2);
 			double max = Math.max(lambda1, lambda2);
 
-			if (min < 0 && max >= 0)
+			if (min <= 0 && max >= 0)
 				return max;
-			else if (min < 0 && max < 0)
+			else if (min <= 0 && max <= 0)
 				return null;
 			else
 				return min;

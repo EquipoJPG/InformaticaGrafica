@@ -196,7 +196,7 @@ public class Trazador {
 			for(Foco f : focos){
 				
 				/* Comprueba si el objeto recibe luz en el punto de interseccion */
-				double epsilon = 1e-12;
+				double epsilon = 1e-6;
 				Vector4 direccion = Vector4.sub(f.getPosicion(), pIntersecFinal).normalise();
 				Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);
