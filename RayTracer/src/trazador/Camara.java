@@ -26,7 +26,7 @@ public class Camara {
 	 */
 	public Camara(Vector4 posicion, Vector4 g, double f, int columnas, int filas, int anchura, int altura){
 		this.posicion = posicion;
-		this.direccion = g;
+		this.direccion = g.normalise();
 		this.f = f;
 		
 		this.filas = filas;
@@ -38,12 +38,21 @@ public class Camara {
 		
 		/* u, v, w */
 		Vector4 up = new Vector4(0, 0, 1, 0);
-		w = Vector4.negate(direccion).normalise();	// w = -g / norm(g)
-		Vector4 aux = Vector4.cross(up, w);
-		u = aux.normalise();
-		v = Vector4.cross(u, w);	// TODO WTF
 		
-		System.out.println("U: " + u.toString() + "\nV: " + v.toString() + "\nW: " + w.toString());
+		// original
+		Vector4 _w = Vector4.negate(g);
+		Vector4 _u = Vector4.cross(up, _w);
+		_u = _u.normalise();
+		Vector4 _v = Vector4.cross(_w, _u);
+		
+		System.out.println("ORIGINAL: \nU: " + _u + "\nV: " + _v + "\nW: " + _w);
+		
+		w = Vector4.negate(g);
+		u = Vector4.cross(up, w).normalise();
+		v = Vector4.cross(u, w).normalise();
+		
+		System.out.println("U: " + u + "\nV: " + v + "\nW: " + w);
+		
 	}
 	
 	/**

@@ -52,7 +52,7 @@ public class Trazador {
 	private static boolean TERMINO_AMBIENTAL = true;
 	private static boolean TERMINO_DIFUSO = true;
 	private static boolean TERMINO_ESPECULAR = true;
-	private static boolean TERMINO_REFLEJADO = false;
+	private static boolean TERMINO_REFLEJADO = true;
 	private static boolean TERMINO_REFRACTADO = false;
 	
 	public static void main(String[] args) {
@@ -234,7 +234,7 @@ public class Trazador {
 						
 						/* Reflexion especular */
 						Rayo luz = new Rayo(f.getPosicion(), Vector4.negate(sombra.getDireccion()));
-						Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
+						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal); // TODO sombra -> luz
 						Vector4 R = especular.getDireccion().normalise();
 						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 			
@@ -257,7 +257,8 @@ public class Trazador {
 				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
 				if (objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
-					Rayo reflejado = Rayo.rayoReflejado(rayo, objeto, pIntersecFinal);
+					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
+					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal); // TODO vista -> rayo
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}

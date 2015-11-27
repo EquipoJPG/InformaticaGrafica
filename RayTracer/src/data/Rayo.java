@@ -86,27 +86,10 @@ public class Rayo {
 		
 		Vector4 origen = Vector4.add(i, Vector4.mulEscalar(T, bias));
 		return new Rayo(origen, T);
-		
-//		/* Calcular variables */
-//		Vector4 normal = o.normal(i,original);
-//		double anguloIncidencia = Vector4.angulo(original.direccion, normal);
-//		double kRefr = o.getMaterial().getKs();
-//		double anguloRefractado = Math.asin(Math.sin(anguloIncidencia) / kRefr);
-//		
-//		/* Vector del rayo refractado */
-//		Vector4 primerTerm = Vector4.mulEscalar(normal,
-//				kRefr * Math.cos(anguloIncidencia) - Math.cos(anguloRefractado));
-//		Vector4 segundoTerm = Vector4.mulEscalar(original.getDireccion(), kRefr);
-//		Vector4 direccion = Vector4.sub(primerTerm, segundoTerm);
-//		direccion = direccion.normalise();
-//		
-//		/* Construccion del rayo devuelto */
-//		Rayo returned = new Rayo(i, direccion);
-//		return returned;
 	}
 
 	/**
-	 * Rayo reflejado(IL, N) = IL - 2N(IL.N)
+	 * Rayo reflejado(IL, N) = 2N(IL.N) -IL <- negado de lo que pone en las diapas
 	 */
 	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i) {
 		Vector4 luz = sombra.getDireccion();
@@ -118,6 +101,7 @@ public class Rayo {
 		
 		Vector4 reflejado = Vector4.sub(luz, _2ndot);
 		reflejado = reflejado.normalise();
+		reflejado = Vector4.negate(reflejado);
 		
 		/* Construccion del rayo devuelto */
 		double epsilon = 1e-12;
