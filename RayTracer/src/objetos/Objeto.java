@@ -43,5 +43,7 @@ public abstract class Objeto {
 	public abstract Vector4 getLowerBound();
 	
 	public abstract Vector4 getUpperBound();
+	
+	public abstract boolean estaDentro(Rayo r, double lambda);
 
 }

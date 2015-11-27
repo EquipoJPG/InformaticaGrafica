@@ -225,5 +225,9 @@ public class Triangulo extends Objeto {
 		return upperBound;
 	}
 
+	@Override
+	public boolean estaDentro(Rayo r, double lambda){
+		return false;
+	}
 
 }

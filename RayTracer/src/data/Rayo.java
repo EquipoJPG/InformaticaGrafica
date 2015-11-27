@@ -66,13 +66,13 @@ public class Rayo {
 		Vector4 normal = o.normal(i, vistaNegado);
 		boolean inside = Vector4.dot(normal, vista.getDireccion())> 0;	// true si estamos dentro del objeto
 		
-		double indexRefraccion = 1;
-		if(inside){
-			indexRefraccion = indexRefraccion / ior;
-		}
-		else{
-			indexRefraccion = ior / indexRefraccion;
-		}
+		double thetaI = Vector4.angulo(normal, vistaNegado.direccion);
+		double ni = Math.sin(thetaI);
+		
+		double nt = 1;
+		if(inside) nt = ior;
+		
+		double indexRefraccion = ni/nt;
 		
 		double cosIncidente = Vector4.dot(normal, vistaNegado.getDireccion());
 		double cosTransmitido1 = 1 - Math.pow(indexRefraccion, 2) * (1 - Math.pow(cosIncidente, 2));

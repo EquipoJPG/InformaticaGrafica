@@ -132,7 +132,7 @@ public class Trazador {
 
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
-		double lambda;
+		double lambda = -1;
 		Vector4 pIntersec = null;
 		Vector4 pIntersecFinal = null;
 
@@ -183,7 +183,7 @@ public class Trazador {
 		 */
 		if (objeto != null) {
 			
-			if (TERMINO_AMBIENTAL) {
+			if (!objeto.estaDentro(rayo, lambda) && TERMINO_AMBIENTAL) {
 				
 				/* Termino ambiental */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
@@ -218,7 +218,7 @@ public class Trazador {
 				}
 				
 				if(!shadow){
-					if (TERMINO_DIFUSO) {
+					if (!objeto.estaDentro(rayo, lambda) && TERMINO_DIFUSO) {
 						
 						/* Reflexion difusa */
 						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
@@ -227,11 +227,10 @@ public class Trazador {
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (TERMINO_ESPECULAR) {
+					if (!objeto.estaDentro(rayo, lambda) && TERMINO_ESPECULAR) {
 						
 						/* Reflexion especular */
-						Rayo luz = new Rayo(f.getPosicion(), Vector4.negate(sombra.getDireccion()));
-						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal); // TODO sombra -> luz
+						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
 						Vector4 R = especular.getDireccion().normalise();
 						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 			
@@ -252,10 +251,10 @@ public class Trazador {
 			if(rebotes < MAX_REBOTES_RAYO){
 				
 				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
-				if (objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
+				if (!objeto.estaDentro(rayo, lambda) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
-					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal); // TODO vista -> rayo
+					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
@@ -267,7 +266,7 @@ public class Trazador {
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
 				
-				/* (FRESNEL?) Mezcla los colores obtenidos por el rayo reflejado y refractado */
+				/* agregar reflejado y transmitido */
 				if (colorReflejado != null && colorRefractado != null) {
 					Color fresnelColor = ColorOperations.add(colorReflejado, colorRefractado);
 					finalColor = ColorOperations.add(finalColor, fresnelColor);

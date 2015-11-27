@@ -157,4 +157,10 @@ public class Esfera extends Objeto {
 	public Vector4 getUpperBound() {
 		return upperBound;
 	}
+	
+	@Override
+	public boolean estaDentro(Rayo r, double lambda){
+		double distancia = Vector4.distancia(centro, r.getOrigen());
+		return distancia < radio;
+	}
 }

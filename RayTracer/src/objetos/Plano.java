@@ -223,5 +223,10 @@ public class Plano extends Objeto {
 	public Vector4 getUpperBound() {
 		return upperBound;
 	}
+	
+	@Override
+	public boolean estaDentro(Rayo r, double lambda){
+		return false;
+	}
 
 }

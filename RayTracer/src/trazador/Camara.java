@@ -67,8 +67,8 @@ public class Camara {
 		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		
-		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
-//		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
+//		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
+		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
 		Vector4 mundo = CambioDeBase.cambioDeBase(local, u, v, w, posicion);
 		
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
