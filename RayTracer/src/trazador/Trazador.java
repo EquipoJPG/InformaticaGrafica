@@ -52,7 +52,7 @@ public class Trazador {
 	private static boolean TERMINO_AMBIENTAL = true;
 	private static boolean TERMINO_DIFUSO = true;
 	private static boolean TERMINO_ESPECULAR = true;
-	private static boolean TERMINO_REFLEJADO = true;
+	private static boolean TERMINO_REFLEJADO = false;
 	private static boolean TERMINO_REFRACTADO = false;
 	
 	public static void main(String[] args) {
@@ -223,10 +223,7 @@ public class Trazador {
 						/* Reflexion difusa */
 						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
 			
-						double angulo = Vector4.dot(sombra.getDireccion(), normal);
-						if (angulo < 0) angulo = 0;
-						if (angulo > 1) angulo = 1;
-			
+						double angulo = Math.max(Vector4.dot(sombra.getDireccion(), normal), 0);
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
