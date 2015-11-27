@@ -38,8 +38,6 @@ public class Trazador {
 	private static String IMAGE_FILE_NAME;
 	private static int ANTIALIASING;
 
-	// puntos de interes
-	// TODO variables
 	private static int MAX_REBOTES_RAYO;
 	private static double LUZ_AMBIENTAL;
 	
@@ -49,11 +47,11 @@ public class Trazador {
 	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
-	private static boolean TERMINO_AMBIENTAL = true;
-	private static boolean TERMINO_DIFUSO = true;
-	private static boolean TERMINO_ESPECULAR = true;
-	private static boolean TERMINO_REFLEJADO = false;
-	private static boolean TERMINO_REFRACTADO = false;
+	public static boolean TERMINO_AMBIENTAL;
+	public static boolean TERMINO_DIFUSO;
+	public static boolean TERMINO_ESPECULAR;
+	public static boolean TERMINO_REFLEJADO;
+	public static boolean TERMINO_REFRACTADO;
 	
 	public static void main(String[] args) {
 		String xml = "escena.xml";
@@ -69,6 +67,7 @@ public class Trazador {
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
+		XMLFormatter.setFlags(xml);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
