@@ -45,13 +45,22 @@ public class TrazadorCaja {
 	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
-	public static boolean TERMINO_AMBIENTAL = true;
-	public static boolean TERMINO_DIFUSO = true;
-	public static boolean TERMINO_ESPECULAR = true;
-	public static boolean TERMINO_REFLEJADO = true;
+	public static boolean TERMINO_AMBIENTAL;
+	public static boolean TERMINO_DIFUSO;
+	public static boolean TERMINO_ESPECULAR;
+	public static boolean TERMINO_REFLEJADO;
 	public static boolean TERMINO_REFRACTADO;
 
 	public static void main(String[] args) {
+		long startTime = System.nanoTime();
+		mainWork();
+		long endTime = System.nanoTime();
+
+		long duration = (endTime - startTime) / (long) (1000000.0);
+		System.out.println("Execution time: " + duration + " miliseconds");
+	}
+
+	public static void mainWork() {
 		String xml = "escena2.xml";
 
 		System.out.printf("Preparando escena...");
@@ -61,7 +70,7 @@ public class TrazadorCaja {
 		objetos = XMLFormatter.getObjetos(xml);
 		ArrayList<Objeto> temp = new ArrayList<Objeto>();
 		Caja definitiva = new Caja();
-		for(Objeto o : objetos){
+		for (Objeto o : objetos) {
 			Caja p = new Caja(o);
 			definitiva.addObjeto(p);
 		}
@@ -73,7 +82,14 @@ public class TrazadorCaja {
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
-		XMLFormatter.setFlags(xml);
+		boolean[] flags = XMLFormatter.setFlags(xml);
+		if (flags != null) {
+			TERMINO_AMBIENTAL = flags[0];
+			TERMINO_DIFUSO = flags[1];
+			TERMINO_ESPECULAR = flags[2];
+			TERMINO_REFLEJADO = flags[3];
+			TERMINO_REFRACTADO = flags[4];
+		}
 		EPSILON = XMLFormatter.getEpsilon(xml);
 
 		System.out.println("OK");
@@ -170,7 +186,6 @@ public class TrazadorCaja {
 				}
 			}
 		}
-		
 
 		/*
 		 * pIntersecFinl contiene el punto de interseccion objeto contiene el
@@ -183,9 +198,9 @@ public class TrazadorCaja {
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-			//System.out.println(objeto.estaDentro(rayo));
+			// System.out.println(objeto.estaDentro(rayo));
 			if (!objeto.estaDentro(rayo) && TERMINO_AMBIENTAL) {
-				
+
 				/* Termino ambiental */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto); // ka*ia
 				finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
@@ -265,7 +280,7 @@ public class TrazadorCaja {
 				if (!objeto.estaDentro(rayo) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
-					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal,EPSILON);
+					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal, EPSILON);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}

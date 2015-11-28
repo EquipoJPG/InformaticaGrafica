@@ -50,6 +50,15 @@ public class Trazador {
 	public static boolean TERMINO_REFRACTADO;
 
 	public static void main(String[] args) {
+		long startTime = System.nanoTime();
+		mainWork();
+		long endTime = System.nanoTime();
+
+		long duration = (endTime - startTime) / (long) (1000000.0);
+		System.out.println("Execution time: " + duration + " miliseconds");
+	}
+
+	public static void mainWork() {
 		String xml = "escena.xml";
 
 		System.out.printf("Preparando escena...");
@@ -63,7 +72,14 @@ public class Trazador {
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
-		XMLFormatter.setFlags(xml);
+		boolean[] flags = XMLFormatter.setFlags(xml);
+		if(flags!=null){
+			TERMINO_AMBIENTAL = flags[0];
+			TERMINO_DIFUSO = flags[1];
+			TERMINO_ESPECULAR = flags[2];
+			TERMINO_REFLEJADO = flags[3];
+			TERMINO_REFRACTADO = flags[4];
+		}
 		EPSILON = XMLFormatter.getEpsilon(xml);
 
 		System.out.println("OK");

@@ -25,7 +25,6 @@ import objetos.Plano;
 import objetos.Triangulo;
 import trazador.Camara;
 import trazador.Foco;
-import trazador.Trazador;
 
 public class XMLFormatter {
 
@@ -52,7 +51,7 @@ public class XMLFormatter {
 	/**
 	 * Setea las flags de debug del programa
 	 */
-	public static void setFlags(String xml) {
+	public static boolean[] setFlags(String xml) {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
 
@@ -66,11 +65,17 @@ public class XMLFormatter {
 			int reflejo = Integer.parseInt(e.getElementsByTagName("reflejo").item(0).getTextContent());
 			int transparente = Integer.parseInt(e.getElementsByTagName("transparente").item(0).getTextContent());
 			
-			Trazador.TERMINO_AMBIENTAL = (ambiente == 1);
-			Trazador.TERMINO_DIFUSO = (difusa == 1);
-			Trazador.TERMINO_ESPECULAR = (especular == 1);
-			Trazador.TERMINO_REFLEJADO = (reflejo == 1);
-			Trazador.TERMINO_REFRACTADO = (transparente == 1);
+			boolean returned[] = new boolean[5];
+			returned[0] = (ambiente == 1);
+			returned[1] = (difusa == 1);
+			returned[2] = (especular == 1);
+			returned[3] = (reflejo == 1);
+			returned[4] = (transparente == 1);
+			
+			return returned;
+		}
+		else{
+			return null;
 		}
 	}
 
