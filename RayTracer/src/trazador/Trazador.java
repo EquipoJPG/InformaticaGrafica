@@ -226,7 +226,7 @@ public class Trazador {
 					if (!objeto.estaDentro(rayo) && TERMINO_ESPECULAR) {
 
 						/* Reflexion especular */
-						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
+						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal,EPSILON);
 						Vector4 R = especular.getDireccion().normalise();
 						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 
@@ -254,7 +254,7 @@ public class Trazador {
 				if (!objeto.estaDentro(rayo) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
-					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal);
+					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal,EPSILON);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}

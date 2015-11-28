@@ -92,7 +92,7 @@ public class Rayo {
 	/**
 	 * Rayo reflejado(IL, N) = 2N(IL.N) -IL <- negado de lo que pone en las diapas
 	 */
-	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i) {
+	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i, double eps) {
 		Vector4 luz = sombra.getDireccion();
 		Vector4 normal = o.normal(i,sombra);
 		
@@ -105,7 +105,7 @@ public class Rayo {
 		reflejado = Vector4.negate(reflejado);
 		
 		/* Construccion del rayo devuelto */
-		double epsilon = Trazador.EPSILON;
+		double epsilon = eps;
 		Rayo returned = new Rayo(Vector4.add(i, Vector4.mulEscalar(reflejado, epsilon)),reflejado);
 		return returned;
 	}
