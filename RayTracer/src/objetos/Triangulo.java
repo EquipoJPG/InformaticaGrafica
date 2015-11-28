@@ -3,6 +3,7 @@ package objetos;
 import java.util.ArrayList;
 
 import Jama.Matrix;
+import data.Par;
 import data.Rayo;
 import data.Vector4;
 import utils.TransformacionesAfines;
@@ -124,7 +125,7 @@ public class Triangulo extends Objeto {
 	}
 
 	@Override
-	public Double interseccion(Rayo ray) {
+	public Par interseccion(Rayo ray) {
 		// TODO Modificar rayo con la inversa de la transformacion
 		Vector4 a = ray.getOrigen();
 		Vector4 d = ray.getDireccion();
@@ -159,11 +160,11 @@ public class Triangulo extends Objeto {
 			}
 
 		}
-		return lambda;
+		return new Par(lambda,this);
 	}
 
 	@Override
-	public Double interseccionSombra(Rayo ray) {
+	public Par interseccionSombra(Rayo ray) {
 		// TODO Modificar rayo con la inversa de la transformacion
 		Vector4 a = ray.getOrigen();
 		Vector4 d = ray.getDireccion();
@@ -204,7 +205,7 @@ public class Triangulo extends Objeto {
 
 		}
 
-		return lambda;
+		return new Par(lambda,this);
 	}
 
 	public Vector4 normal(Vector4 interseccion) {
@@ -271,7 +272,7 @@ public class Triangulo extends Objeto {
 	}
 	
 	@Override
-	public boolean estaDentro(Rayo r, double lambda){
+	public boolean estaDentro(Rayo r){
 		return false;
 	}
 

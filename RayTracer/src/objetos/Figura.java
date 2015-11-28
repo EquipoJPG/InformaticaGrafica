@@ -3,6 +3,7 @@ package objetos;
 import java.util.ArrayList;
 
 import Jama.Matrix;
+import data.Par;
 import data.Rayo;
 import data.Vector4;
 import utils.TransformacionesAfines;
@@ -13,6 +14,8 @@ public class Figura extends Objeto {
 	private ArrayList<Objeto> lista;
 	private Vector4 lowerBound; // Tiene las minimas variables
 	private Vector4 upperBound; // Tiene las maximas variables
+	private Objeto lastObjetoIntersectado = null;
+	private Rayo lastRayoUsado = null;
 
 	public Figura() {
 		lista = new ArrayList<Objeto>();
@@ -37,149 +40,111 @@ public class Figura extends Objeto {
 		updateBounds();
 	}
 
-	public Objeto getObjeto(Rayo ray) {
+	@Override
+	public Par interseccion(Rayo ray) {
 		if (lista.size() == 0) {
 			return null;
 		} else {
-			Double returned = null;
-			Objeto returnedObj = null;
+			Par returned = null;
 			for (Objeto o : lista) {
-				Double iterInterseccion = o.interseccion(ray);
-				// Comprobar si hay interseccion con ese objeto
-				if (iterInterseccion != null) {
-					// Comprobar si la landa es mayor o igual que 0
-					if (iterInterseccion >= 0) {
-						// Si no tenemos valor para devolver guardado,
-						// almacenamos el nuevo
-						if (returned == null) {
-							returned = iterInterseccion;
-							returnedObj = o;
-						} else {
-							// Si tenemos valor guardado y el nuevo es menor
-							// guardar el nuevo
-							if (iterInterseccion < returned) {
-								returned = iterInterseccion;
-								returnedObj = o;
+				Par ret = o.interseccion(ray);
+				if (ret != null) {
+					Double iterIntersecciong = ret.getInterseccion();
+					// Comprobar si hay interseccion con ese objeto
+					if (iterIntersecciong != null) {
+						double iterInterseccion = (double) iterIntersecciong;
+						// Comprobar si la landa es mayor o igual que 0
+						if (iterInterseccion >= 0) {
+							// Si no tenemos valor para devolver guardado,
+							// almacenamos el nuevo
+							if (returned == null) {
+								returned = ret;
+							} else {
+								// Si tenemos valor guardado y el nuevo es menor
+								// guardar el nuevo
+								if (iterInterseccion < returned.getInterseccion()) {
+									returned = ret;
+								}
 							}
 						}
 					}
 				}
 			}
-			return returnedObj;
-		}
-	}
-	
-	public Objeto getObjetoSombra(Rayo ray) {
-		if (lista.size() == 0) {
-			return null;
-		} else {
-			Double returned = null;
-			Objeto returnedObj = null;
-			for (Objeto o : lista) {
-				Double iterInterseccion = o.interseccionSombra(ray);
-				// Comprobar si hay interseccion con ese objeto
-				if (iterInterseccion != null) {
-					// Comprobar si la landa es mayor o igual que 0
-					if (iterInterseccion >= 0) {
-						// Si no tenemos valor para devolver guardado,
-						// almacenamos el nuevo
-						if (returned == null) {
-							returned = iterInterseccion;
-							returnedObj = o;
-						} else {
-							// Si tenemos valor guardado y el nuevo es menor
-							// guardar el nuevo
-							if (iterInterseccion < returned) {
-								returned = iterInterseccion;
-								returnedObj = o;
-							}
-						}
-					}
-				}
+			if(returned!=null){
+				lastObjetoIntersectado = returned.getObjeto();
+				lastRayoUsado = ray;
 			}
-			return returnedObj;
+			return returned;
 		}
 	}
 
 	@Override
-	public Double interseccion(Rayo ray) {
+	public Par interseccionSombra(Rayo ray) {
 		if (lista.size() == 0) {
 			return null;
 		} else {
-			Double returned = null;
+			Par returned = null;
 			for (Objeto o : lista) {
-				Double iterIntersecciong = o.interseccion(ray);
-				// Comprobar si hay interseccion con ese objeto
-				if (iterIntersecciong != null) {
-					double iterInterseccion = (double) iterIntersecciong;
-					// Comprobar si la landa es mayor o igual que 0
-					if (iterInterseccion >= 0) {
-						// Si no tenemos valor para devolver guardado,
-						// almacenamos el nuevo
-						if (returned == null) {
-							returned = iterInterseccion;
-						} else {
-							// Si tenemos valor guardado y el nuevo es menor
-							// guardar el nuevo
-							if (iterInterseccion < returned) {
-								returned = iterInterseccion;
+				Par ret = o.interseccionSombra(ray);
+				if (ret != null) {
+					Double iterIntersecciong = ret.getInterseccion();
+					// Comprobar si hay interseccion con ese objeto
+					if (iterIntersecciong != null) {
+						double iterInterseccion = (double) iterIntersecciong;
+						// Comprobar si la landa es mayor o igual que 0
+						if (iterInterseccion >= 0) {
+							// Si no tenemos valor para devolver guardado,
+							// almacenamos el nuevo
+							if (returned == null) {
+								returned = ret;
+							} else {
+								// Si tenemos valor guardado y el nuevo es menor
+								// guardar el nuevo
+								if (iterInterseccion < returned.getInterseccion()) {
+									returned = ret;
+								}
 							}
 						}
 					}
 				}
+			}
+			if(returned!=null){
+				lastObjetoIntersectado = returned.getObjeto();
+				lastRayoUsado = ray;
 			}
 			return returned;
 		}
 	}
 
 	public Vector4 normal(Vector4 in, Rayo ray) {
-		if (lista.size() == 0 || ray == null) {
-			return null;
+		/* Comprobar si lo que nos hemos guardado nos sirve */
+		if (lastRayoUsado != null && ray.equals(lastRayoUsado)) {
+			// Si es el mismo rayo, podemos devolver la normal
+			// del ultimo objeto que nos guardamos
+			return lastObjetoIntersectado.normal(in, ray);
 		} else {
-			Objeto ourObject = null;
-			for (Objeto obj : lista) {
-				Double iterInterseccion = obj.interseccion(ray);
-				if (iterInterseccion != null) {
-					if (in.equals(iterInterseccion)) {
-						ourObject = obj;
-					}
-				}
-			}
-			if (ourObject == null) {
+			// Si no coincide pues habra que buscarlo
+			if (lista.size() == 0 || ray == null) {
 				return null;
 			} else {
-				return ourObject.normal(in, ray);
-			}
-		}
-	}
-
-	@Override
-	public Double interseccionSombra(Rayo ray) {
-		if (lista.size() == 0) {
-			return null;
-		} else {
-			Double returned = null;
-			for (Objeto o : lista) {
-				Double iterInterseccion = o.interseccionSombra(ray);
-				// Comprobar si hay interseccion con ese objeto
-				if (iterInterseccion != null) {
-					// Comprobar si la landa es mayor o igual que 0
-					if (iterInterseccion >= 0) {
-						// Si no tenemos valor para devolver guardado,
-						// almacenamos el nuevo
-						if (returned == null) {
-							returned = iterInterseccion;
-						} else {
-							// Si tenemos valor guardado y el nuevo es menor
-							// guardar el nuevo
-							if (iterInterseccion < returned) {
-								returned = iterInterseccion;
+				Objeto ourObject = null;
+				for (Objeto obj : lista) {
+					Par p = obj.interseccion(ray);
+					if (p != null) {
+						Double iterInterseccion = p.getInterseccion();
+						if (iterInterseccion != null) {
+							if (in.equals(iterInterseccion)) {
+								ourObject = p.getObjeto();
 							}
 						}
 					}
 				}
+				if (ourObject == null) {
+					return null;
+				} else {
+					return ourObject.normal(in, ray);
+				}
 			}
-			return returned;
 		}
 	}
 
@@ -249,17 +214,41 @@ public class Figura extends Objeto {
 		}
 		upperBound = new Vector4(maxX, maxY, maxZ, 1);
 	}
-	
+
 	@Override
-	public void setT(Matrix T){
+	public void setT(Matrix T) {
 		// Don't do anything
 		this.T = TransformacionesAfines.getIdentity();
 	}
-	
+
 	@Override
 	public void addTransformation(Matrix m) {
-		for(Objeto a : lista){
+		for (Objeto a : lista) {
 			a.addTransformation(m);
-		};
+		}
+		;
+	}
+
+	@Override
+	public boolean estaDentro(Rayo r) {
+		if (lista.size() == 0 || r == null) {
+			return false;
+		} else {
+			boolean returned = false;
+			for (Objeto obj : lista) {
+				if(obj instanceof Triangulo || obj instanceof Plano){
+					//do nothing
+				}
+				else{
+					Par p = obj.interseccion(r);
+					if (p != null) {
+						if(p.getObjeto()!=null){
+							returned = p.getObjeto().estaDentro(r);
+						}
+					}
+				}
+			}
+			return returned;
+		}
 	}
 }

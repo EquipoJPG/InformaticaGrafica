@@ -3,6 +3,7 @@ package objetos;
 import java.util.ArrayList;
 
 import Jama.Matrix;
+import data.Par;
 import data.Rayo;
 import data.Vector4;
 import utils.TransformacionesAfines;
@@ -14,6 +15,12 @@ public class Caja extends Objeto {
 	private Vector4 upperBound;
 	private Figura conjuntoObjetos;
 
+	public Caja(){
+		lowerBound = null;
+		upperBound = null;
+		conjuntoObjetos = new Figura();
+	}
+	
 	public Caja(Figura f) {
 		lowerBound = f.getLowerBound();
 		upperBound = f.getUpperBound();
@@ -39,7 +46,7 @@ public class Caja extends Objeto {
 	}
 
 	@Override
-	public Double interseccion(Rayo ray) {
+	public Par interseccion(Rayo ray) {
 		boolean h = false;
 		Vector4 p = ray.getOrigen();
 		if (estaDentroDeLaCaja(p)) {
@@ -85,7 +92,7 @@ public class Caja extends Objeto {
 	}
 
 	@Override
-	public Double interseccionSombra(Rayo ray) {
+	public Par interseccionSombra(Rayo ray) {
 		boolean h = false;
 		Vector4 p = ray.getOrigen();
 		if (estaDentroDeLaCaja(p)) {
@@ -135,14 +142,6 @@ public class Caja extends Objeto {
 		return upperBound;
 	}
 
-	public Objeto getObjeto(Rayo ray) {
-		return conjuntoObjetos.getObjeto(ray);
-	}
-	
-	public Objeto getObjetoSombra(Rayo ray) {
-		return conjuntoObjetos.getObjeto(ray);
-	}
-
 	/**
 	 * Devuelve true si el punto esta dentro de la caja
 	 * False en caso contrario
@@ -179,5 +178,10 @@ public class Caja extends Objeto {
 	@Override
 	public void addTransformation(Matrix m) {
 		conjuntoObjetos.addTransformation(m);
+	}
+
+	@Override
+	public boolean estaDentro(Rayo r) {
+		return conjuntoObjetos.estaDentro(r);
 	}
 }

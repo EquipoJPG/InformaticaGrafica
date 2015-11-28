@@ -9,18 +9,15 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import data.Par;
 import data.Rayo;
 import data.Vector4;
 import objetos.Caja;
-import objetos.Esfera;
-import objetos.Figura;
-import objetos.Material;
 import objetos.Objeto;
 import utils.XMLFormatter;
 
 public class TrazadorCaja {
 
-	// TODO nada de numeros dentro del proyecto, todo eso en ficheros
 	// TODO esqueleto segun raytracer.cpp
 	/*
 	 * SEGUN RayTracer.cpp
@@ -38,10 +35,9 @@ public class TrazadorCaja {
 	private static String IMAGE_FILE_NAME;
 	private static int ANTIALIASING;
 
-	// puntos de interes
-	// TODO variables
 	private static int MAX_REBOTES_RAYO;
 	private static double LUZ_AMBIENTAL;
+	public static double EPSILON;
 
 	// contenido de la escena
 	private static List<Objeto> objetos;
@@ -49,11 +45,11 @@ public class TrazadorCaja {
 	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
-	private static boolean TERMINO_AMBIENTAL = true;
-	private static boolean TERMINO_DIFUSO = true;
-	private static boolean TERMINO_ESPECULAR = true;
-	private static boolean TERMINO_REFLEJADO = false;
-	private static boolean TERMINO_REFRACTADO = false;
+	public static boolean TERMINO_AMBIENTAL = true;
+	public static boolean TERMINO_DIFUSO = true;
+	public static boolean TERMINO_ESPECULAR = true;
+	public static boolean TERMINO_REFLEJADO = true;
+	public static boolean TERMINO_REFRACTADO;
 
 	public static void main(String[] args) {
 		String xml = "escena.xml";
@@ -63,28 +59,22 @@ public class TrazadorCaja {
 		Camara camara = XMLFormatter.getCamara(xml);
 		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
 		objetos = XMLFormatter.getObjetos(xml);
-		Caja[] list = new Caja[objetos.size()];
-		for(int i = 0;i < list.length; i++){
-			list[i] = new Caja(objetos.get(i));
+		ArrayList<Objeto> temp = new ArrayList<Objeto>();
+		Caja definitiva = new Caja();
+		for(Objeto o : objetos){
+			Caja p = new Caja(o);
+			definitiva.addObjeto(p);
 		}
-		Figura fig = new Figura();
-		for(Caja c : list){
-			fig.addObjeto(c);
-		}
-		Caja definitiva = new Caja(fig);
-		
-		ArrayList<Objeto> p = new ArrayList<Objeto>();
-		Esfera esf = new Esfera(new Vector4(50,50,50,1), 8, new Material(Color.CYAN, 0.4, 0.1, 0.5, 0.5, 70));
-		Caja d = new Caja(esf);
-		definitiva.addObjeto(d);
-		p.add(definitiva);
-		objetos = p;
+		temp.add(definitiva);
+		objetos = temp;
 		focos = XMLFormatter.getFocos(xml);
 
 		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
+		XMLFormatter.setFlags(xml);
+		EPSILON = XMLFormatter.getEpsilon(xml);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -93,10 +83,11 @@ public class TrazadorCaja {
 		 * Para cada pixel de la pantalla se lanza un rayo y se buscan los
 		 * objetos de la escena con los que intersecciona
 		 */
-		for (int j = 0; j < camara.getCols(); j++) {
-			int jj = j - camara.getCols() / 2;
-			for (int i = 0; i < camara.getRows(); i++) {
-				int ii = i - camara.getRows() / 2;
+		for (int i = 0; i < camara.getRows(); i++) {
+			int ii = i - camara.getRows() / 2;
+
+			for (int j = 0; j < camara.getCols(); j++) {
+				int jj = j - camara.getCols() / 2;
 				Color pixel = null;
 
 				for (int k = 0; k < ANTIALIASING; k++) {
@@ -147,48 +138,39 @@ public class TrazadorCaja {
 
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
-		double lambda;
+		double lambda = -1;
 		Vector4 pIntersec = null;
 		Vector4 pIntersecFinal = null;
 
 		/* Para cada objeto de la escena, se intenta interseccionar */
 		for (int k = 0; k < objetos.size(); k++) {
 
-			Double landa = objetos.get(k).interseccion(rayo);
+			Par returned = objetos.get(k).interseccion(rayo);
+			if (returned != null) {
 
-			if (landa != null) {
+				Double landa = returned.getInterseccion();
+				if (landa != null) {
 
-				/* Se ha producido una interseccion */
-				lambda = (double) landa;
+					/* Se ha producido una interseccion */
+					lambda = (double) landa;
 
-				if (lambda >= 0) {
+					if (lambda >= 0) {
 
-					/* Se comprueba cual es el objeto visible mas cercano */
-					pIntersec = Rayo.getInterseccion(rayo, lambda);
-					double distance = Vector4.distancia(rayo.getOrigen(), pIntersec);
+						/* Se comprueba cual es el objeto visible mas cercano */
+						pIntersec = Rayo.getInterseccion(rayo, lambda);
+						double distance = Vector4.distancia(rayo.getOrigen(), pIntersec);
 
-					/* Se extrae el objeto mas cercano */
-					if (distance < minDistancia) {
-						objeto = objetos.get(k);
-						if (objeto instanceof Figura) {
-							Figura f = (Figura) objeto;
-							objeto = f.getObjeto(rayo);
+						/* Se extrae el objeto mas cercano */
+						if (distance < minDistancia) {
+							objeto = returned.getObjeto();
+							pIntersecFinal = pIntersec;
+							minDistancia = distance;
 						}
-						if (objeto instanceof Caja) {
-							Caja c = (Caja) objeto;
-							objeto = c.getObjeto(rayo);
-							while(objeto instanceof Caja){
-								Caja temp = (Caja) objeto;
-								objeto = temp.getObjeto(rayo);
-							}
-						}
-						pIntersecFinal = pIntersec;
-						minDistancia = distance;
 					}
 				}
 			}
-
 		}
+		
 
 		/*
 		 * pIntersecFinl contiene el punto de interseccion objeto contiene el
@@ -201,9 +183,9 @@ public class TrazadorCaja {
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-
-			if (TERMINO_AMBIENTAL) {
-
+			//System.out.println(objeto.estaDentro(rayo));
+			if (!objeto.estaDentro(rayo) && TERMINO_AMBIENTAL) {
+				
 				/* Termino ambiental */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto); // ka*ia
 				finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
@@ -217,7 +199,7 @@ public class TrazadorCaja {
 				/*
 				 * Comprueba si el objeto recibe luz en el punto de interseccion
 				 */
-				double epsilon = 1e-12;
+				double epsilon = EPSILON;
 				Vector4 direccion = Vector4.sub(f.getPosicion(), pIntersecFinal).normalise();
 				Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);
@@ -226,57 +208,36 @@ public class TrazadorCaja {
 				boolean shadow = false;
 
 				for (Objeto o : objetos) {
-					Double landa = o.interseccionSombra(sombra);
-					if (landa != null) {
-						Vector4 aux = Rayo.getInterseccion(sombra, landa);
-						double dist = Vector4.distancia(sombra.getOrigen(), aux);
+					Par returned = o.interseccionSombra(sombra);
+					if (returned != null) {
 
-						if (dist < maxDistancia) {
-							shadow = true;
-							if (objeto instanceof Figura) {
-								Figura fs = (Figura) objeto;
-								objeto = fs.getObjetoSombra(sombra);
+						Double landa = returned.getInterseccion();
+						if (landa != null) {
+
+							Vector4 aux = Rayo.getInterseccion(sombra, landa);
+							double dist = Vector4.distancia(sombra.getOrigen(), aux);
+							if (dist < maxDistancia) {
+								shadow = true;
+								break;
 							}
-							if (objeto instanceof Caja) {
-								Caja cs = (Caja) objeto;
-								objeto = cs.getObjetoSombra(sombra);
-								while(objeto instanceof Caja){
-									Caja temp = (Caja) objeto;
-									objeto = temp.getObjeto(rayo);
-								}
-							}
-							break;
 						}
 					}
 				}
 
 				if (!shadow) {
-					if (TERMINO_DIFUSO) {
+					if (!objeto.estaDentro(rayo) && TERMINO_DIFUSO) {
 
 						/* Reflexion difusa */
 						Vector4 normal = objeto.normal(pIntersecFinal, rayo);
 
-						double angulo = Vector4.dot(sombra.getDireccion(), normal);
-						if (angulo < 0)
-							angulo = 0;
-						if (angulo > 1)
-							angulo = 1;
-
-						// Color difusa =
-						// ColorOperations.escalar(objeto.getMaterial().getColor(),
-						// angulo);
-						// difusa = ColorOperations.escalar(difusa,
-						// f.getIntensidad());
-						// difusa = ColorOperations.escalar(difusa,
-						// objeto.getMaterial().getKd());
+						double angulo = Math.max(Vector4.dot(sombra.getDireccion(), normal), 0);
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (TERMINO_ESPECULAR) {
+					if (!objeto.estaDentro(rayo) && TERMINO_ESPECULAR) {
 
 						/* Reflexion especular */
-						Rayo luz = new Rayo(f.getPosicion(), Vector4.negate(sombra.getDireccion()));
-						Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
+						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
 						Vector4 R = especular.getDireccion().normalise();
 						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 
@@ -301,9 +262,10 @@ public class TrazadorCaja {
 				 * Si el material del objeto es reflectante se lanza el rayo
 				 * reflejado
 				 */
-				if (objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
+				if (!objeto.estaDentro(rayo) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
-					Rayo reflejado = Rayo.rayoReflejado(rayo, objeto, pIntersecFinal);
+					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
+					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
@@ -318,10 +280,7 @@ public class TrazadorCaja {
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
 
-				/*
-				 * (FRESNEL?) Mezcla los colores obtenidos por el rayo reflejado
-				 * y refractado
-				 */
+				/* agregar reflejado y transmitido */
 				if (colorReflejado != null && colorRefractado != null) {
 					Color fresnelColor = ColorOperations.add(colorReflejado, colorRefractado);
 					finalColor = ColorOperations.add(finalColor, fresnelColor);
@@ -342,14 +301,7 @@ public class TrazadorCaja {
 	 * @return color al aplicar luz ambiental al objeto
 	 */
 	private static Color luzAmbiental(double luzAmbiental, Objeto objeto) {
-		try{
 		Color c = objeto.getMaterial().getColor();
 		return ColorOperations.escalar(c, luzAmbiental);
-		}
-		catch(NullPointerException e){
-			System.out.println(objeto.toString());
-			System.exit(0);
-			return null;
-		}
 	}
 }

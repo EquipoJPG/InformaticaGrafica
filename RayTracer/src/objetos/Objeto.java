@@ -3,6 +3,7 @@ package objetos;
 import java.util.ArrayList;
 
 import Jama.Matrix;
+import data.Par;
 import data.Rayo;
 import data.Vector4;
 import utils.TransformacionesAfines;
@@ -41,7 +42,7 @@ public abstract class Objeto {
 	 * @return <null> si no intersecta o el lambda mas 
 	 * cercano con el que intersecta
 	 */
-	public abstract Double interseccion(Rayo ray);
+	public abstract Par interseccion(Rayo ray);
 	
 	/**
 	 * @param interseccion: punto de la interseccion con el objeto
@@ -49,13 +50,13 @@ public abstract class Objeto {
 	 */
 	public abstract Vector4 normal(Vector4 interseccion, Rayo ray);
 
-	public abstract Double interseccionSombra(Rayo ray);
+	public abstract Par interseccionSombra(Rayo ray);
 	
 	public abstract Vector4 getLowerBound();
 	
 	public abstract Vector4 getUpperBound();
 	
-	public abstract boolean estaDentro(Rayo r, double lambda);
+	public abstract boolean estaDentro(Rayo r);
 	
 	public abstract void updateBounds();
 }

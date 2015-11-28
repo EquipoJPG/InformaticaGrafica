@@ -3,6 +3,7 @@ package objetos;
 import java.util.ArrayList;
 
 import Jama.Matrix;
+import data.Par;
 import data.Rayo;
 import data.Vector4;
 import utils.TransformacionesAfines;
@@ -80,7 +81,7 @@ public class Esfera extends Objeto {
 	 *         unica) si intersecta
 	 */
 	@Override
-	public Double interseccion(Rayo ray) {
+	public Par interseccion(Rayo ray) {
 		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d
 																		// . d
 		double B = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
@@ -101,7 +102,7 @@ public class Esfera extends Objeto {
 
 			double min = Math.min(lambda1, lambda2);
 
-			return min;
+			return new Par(min,this);
 		}
 	}
 
@@ -112,7 +113,7 @@ public class Esfera extends Objeto {
 	 *         unica) si intersecta
 	 */
 	@Override
-	public Double interseccionSombra(Rayo ray) {
+	public Par interseccionSombra(Rayo ray) {
 		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d
 																		// . d
 		double B = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
@@ -135,11 +136,11 @@ public class Esfera extends Objeto {
 			double max = Math.max(lambda1, lambda2);
 
 			if (min < 0 && max >= 0)
-				return max;
+				return new Par(max,this);
 			else if (min < 0 && max < 0)
 				return null;
 			else
-				return min;
+				return new Par(min,this);
 		}
 	}
 
@@ -205,7 +206,7 @@ public class Esfera extends Objeto {
 	}
 	
 	@Override
-	public boolean estaDentro(Rayo r, double lambda){
+	public boolean estaDentro(Rayo r){
 		double distancia = Vector4.distancia(centro, r.getOrigen());
 		return distancia < radio;
 	}

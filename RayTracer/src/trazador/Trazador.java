@@ -8,27 +8,23 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import data.Par;
 import data.Rayo;
 import data.Vector4;
-import objetos.Caja;
-import objetos.Figura;
 import objetos.Objeto;
 import utils.XMLFormatter;
 
 public class Trazador {
-	
+
 	// TODO esqueleto segun raytracer.cpp
 	/*
 	 * SEGUN RayTracer.cpp
 	 * 
-	 * si el objeto es transparente o reflectante
-	 * 		reflejo = calcular rayo reflejado <- recursion
-	 * 		si es transparente
-	 * 			refraccion = calcular rayo refractado <- recursion
-	 * 		surfaceColor = reflejo * fresnel
-	 * 			 + refraccion * (1-fresnel) * transparente * surfaceColor
-	 * sino
-	 * 		surfaceColor = componente difusa
+	 * si el objeto es transparente o reflectante reflejo = calcular rayo
+	 * reflejado <- recursion si es transparente refraccion = calcular rayo
+	 * refractado <- recursion surfaceColor = reflejo * fresnel + refraccion *
+	 * (1-fresnel) * transparente * surfaceColor sino surfaceColor = componente
+	 * difusa
 	 */
 
 	/* Variables globales del trazador de rayos */
@@ -40,7 +36,7 @@ public class Trazador {
 	private static int MAX_REBOTES_RAYO;
 	private static double LUZ_AMBIENTAL;
 	public static double EPSILON;
-	
+
 	// contenido de la escena
 	private static List<Objeto> objetos;
 	private static List<Foco> focos;
@@ -52,17 +48,17 @@ public class Trazador {
 	public static boolean TERMINO_ESPECULAR;
 	public static boolean TERMINO_REFLEJADO;
 	public static boolean TERMINO_REFRACTADO;
-	
+
 	public static void main(String[] args) {
 		String xml = "escena.xml";
-		
+
 		System.out.printf("Preparando escena...");
-		
+
 		Camara camara = XMLFormatter.getCamara(xml);
 		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
 		objetos = XMLFormatter.getObjetos(xml);
 		focos = XMLFormatter.getFocos(xml);
-		
+
 		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
@@ -79,7 +75,7 @@ public class Trazador {
 		 */
 		for (int i = 0; i < camara.getRows(); i++) {
 			int ii = i - camara.getRows() / 2;
-			
+
 			for (int j = 0; j < camara.getCols(); j++) {
 				int jj = j - camara.getCols() / 2;
 				Color pixel = null;
@@ -139,36 +135,30 @@ public class Trazador {
 		/* Para cada objeto de la escena, se intenta interseccionar */
 		for (int k = 0; k < objetos.size(); k++) {
 
-			Double landa = objetos.get(k).interseccion(rayo);
+			Par returned = objetos.get(k).interseccion(rayo);
+			if (returned != null) {
 
-			if (landa != null) {
+				Double landa = returned.getInterseccion();
+				if (landa != null) {
 
-				/* Se ha producido una interseccion */
-				lambda = (double) landa;
+					/* Se ha producido una interseccion */
+					lambda = (double) landa;
 
-				if (lambda >= 0) {
+					if (lambda >= 0) {
 
-					/* Se comprueba cual es el objeto visible mas cercano */
-					pIntersec = Rayo.getInterseccion(rayo, lambda);
-					double distance = Vector4.distancia(rayo.getOrigen(), pIntersec);
+						/* Se comprueba cual es el objeto visible mas cercano */
+						pIntersec = Rayo.getInterseccion(rayo, lambda);
+						double distance = Vector4.distancia(rayo.getOrigen(), pIntersec);
 
-					/* Se extrae el objeto mas cercano */
-					if (distance < minDistancia) {
-						objeto = objetos.get(k);
-						if(objeto instanceof Figura){
-							Figura f = (Figura) objeto;
-							objeto = f.getObjeto(rayo);
+						/* Se extrae el objeto mas cercano */
+						if (distance < minDistancia) {
+							objeto = returned.getObjeto();
+							pIntersecFinal = pIntersec;
+							minDistancia = distance;
 						}
-						if(objeto instanceof Caja){
-							Caja c = (Caja) objeto;
-							objeto = c.getObjeto(rayo);
-						}
-						pIntersecFinal = pIntersec;
-						minDistancia = distance;
 					}
 				}
 			}
-
 		}
 
 		/*
@@ -182,64 +172,71 @@ public class Trazador {
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-			
-			if (!objeto.estaDentro(rayo, lambda) && TERMINO_AMBIENTAL) {
-				
+
+			if (!objeto.estaDentro(rayo) && TERMINO_AMBIENTAL) {
+
 				/* Termino ambiental */
-				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
+				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto); // ka*ia
 				finalColor = ColorOperations.escalar(finalColor, objeto.getMaterial().getKd());
 			}
-			
+
 			Color colorReflejado = null;
 			Color colorRefractado = null;
-			
-			for(Foco f : focos){
-				
-				/* Comprueba si el objeto recibe luz en el punto de interseccion */
+
+			for (Foco f : focos) {
+
+				/*
+				 * Comprueba si el objeto recibe luz en el punto de interseccion
+				 */
 				double epsilon = EPSILON;
 				Vector4 direccion = Vector4.sub(f.getPosicion(), pIntersecFinal).normalise();
 				Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);
-				
+
 				double maxDistancia = Vector4.distancia(sombra.getOrigen(), f.getPosicion());
 				boolean shadow = false;
-				
-				for(Objeto o : objetos){
-					Double landa = o.interseccionSombra(sombra);
-					if(landa != null){
-						Vector4 aux = Rayo.getInterseccion(sombra, landa);
-						double dist = Vector4.distancia(sombra.getOrigen(), aux);
-						
-						if(dist < maxDistancia){
-							shadow = true;
-							break;
+
+				for (Objeto o : objetos) {
+					Par returned = o.interseccionSombra(sombra);
+					if (returned != null) {
+
+						Double landa = returned.getInterseccion();
+						if (landa != null) {
+
+							Vector4 aux = Rayo.getInterseccion(sombra, landa);
+							double dist = Vector4.distancia(sombra.getOrigen(), aux);
+							if (dist < maxDistancia) {
+								shadow = true;
+								break;
+							}
 						}
 					}
 				}
-				
-				if(!shadow){
-					if (!objeto.estaDentro(rayo, lambda) && TERMINO_DIFUSO) {
-						
+
+				if (!shadow) {
+					if (!objeto.estaDentro(rayo) && TERMINO_DIFUSO) {
+
 						/* Reflexion difusa */
-						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
-			
+						Vector4 normal = objeto.normal(pIntersecFinal, rayo);
+
 						double angulo = Math.max(Vector4.dot(sombra.getDireccion(), normal), 0);
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (!objeto.estaDentro(rayo, lambda) && TERMINO_ESPECULAR) {
-						
+					if (!objeto.estaDentro(rayo) && TERMINO_ESPECULAR) {
+
 						/* Reflexion especular */
 						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
 						Vector4 R = especular.getDireccion().normalise();
 						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
-			
+
 						double coseno = Vector4.dot(R, V);
-						if (coseno < 0) coseno = 0;
-			
+						if (coseno < 0)
+							coseno = 0;
+
 						double n = objeto.getMaterial().getShiny();
 						double terminoEspecular = Math.abs(Math.pow(coseno, n));
-			
+
 						Color specular = ColorOperations.escalar(f.getColor(), terminoEspecular);
 						specular = ColorOperations.escalar(specular, objeto.getMaterial().getKs());
 						finalColor = ColorOperations.add(finalColor, specular);
@@ -248,36 +245,40 @@ public class Trazador {
 			}
 
 			/* Intenta lanzar nuevos rayos si todavia quedan rebotes */
-			if(rebotes < MAX_REBOTES_RAYO){
-				
-				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
-				if (!objeto.estaDentro(rayo, lambda) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
+			if (rebotes < MAX_REBOTES_RAYO) {
+
+				/*
+				 * Si el material del objeto es reflectante se lanza el rayo
+				 * reflejado
+				 */
+				if (!objeto.estaDentro(rayo) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
 					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
-				/* Si el material del objeto es refractante se lanza el rayo refractado */
+				/*
+				 * Si el material del objeto es refractante se lanza el rayo
+				 * refractado
+				 */
 				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
 					// TODO link a rayo refractado
 					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal);
 					colorRefractado = trazar(refractado, rebotes + 1);
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
-				
+
 				/* agregar reflejado y transmitido */
 				if (colorReflejado != null && colorRefractado != null) {
 					Color fresnelColor = ColorOperations.add(colorReflejado, colorRefractado);
 					finalColor = ColorOperations.add(finalColor, fresnelColor);
-				}
-				else if (colorReflejado != null ) {
+				} else if (colorReflejado != null) {
 					finalColor = ColorOperations.add(finalColor, colorReflejado);
-				}
-				else if (colorRefractado != null ) {
+				} else if (colorRefractado != null) {
 					finalColor = ColorOperations.add(finalColor, colorRefractado);
 				}
-				
+
 			}
 		}
 		return finalColor;
