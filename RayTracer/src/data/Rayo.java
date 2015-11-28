@@ -1,7 +1,6 @@
 package data;
 
 import objetos.Objeto;
-import trazador.Trazador;
 
 public class Rayo {
 
