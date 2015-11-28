@@ -1,4 +1,12 @@
-<escena antialiasing="16" file="escena.png" rebotes="7" ambiente="0.3">
+<escena antialiasing="16" file="escena.png" rebotes="7" ambiente="0.3" epsilon="1e-6">
+
+	<debug>
+		<ambiente>1</ambiente>
+		<difusa>1</difusa>
+		<especular>1</especular>
+		<reflejo>1</reflejo>
+		<transparente>1</transparente>
+	</debug>
 
 	<!-- punto de vista (x, y, z) -->
 	<pov x="240" y="80" z="100">

@@ -25,6 +25,7 @@ import objetos.Plano;
 import objetos.Triangulo;
 import trazador.Camara;
 import trazador.Foco;
+import trazador.Trazador;
 
 public class XMLFormatter {
 
@@ -49,53 +50,94 @@ public class XMLFormatter {
 	}
 
 	/**
+	 * Setea las flags de debug del programa
+	 */
+	public static void setFlags(String xml) {
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+
+		NodeList nl = doc.getElementsByTagName("debug");
+		if (nl != null && nl.getLength() > 0) {
+			Element e = (Element) nl.item(0);
+
+			int ambiente = Integer.parseInt(e.getElementsByTagName("ambiente").item(0).getTextContent());
+			int difusa = Integer.parseInt(e.getElementsByTagName("difusa").item(0).getTextContent());
+			int especular = Integer.parseInt(e.getElementsByTagName("especular").item(0).getTextContent());
+			int reflejo = Integer.parseInt(e.getElementsByTagName("reflejo").item(0).getTextContent());
+			int transparente = Integer.parseInt(e.getElementsByTagName("transparente").item(0).getTextContent());
+			
+			Trazador.TERMINO_AMBIENTAL = (ambiente == 1);
+			Trazador.TERMINO_DIFUSO = (difusa == 1);
+			Trazador.TERMINO_ESPECULAR = (especular == 1);
+			Trazador.TERMINO_REFLEJADO = (reflejo == 1);
+			Trazador.TERMINO_REFRACTADO = (transparente == 1);
+		}
+	}
+
+	/**
 	 * Obtiene el antialiasing
+	 * 
 	 * @param xml
 	 * @return
 	 */
-	public static int getAntialiasing(String xml){
+	public static int getAntialiasing(String xml) {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
-		
+
 		return Integer.parseInt(doc.getDocumentElement().getAttribute("antialiasing"));
 	}
-	
+
 	/**
 	 * Obtiene los rebotes
+	 * 
 	 * @param xml
 	 * @return
 	 */
-	public static int getRebotes(String xml){
+	public static int getRebotes(String xml) {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
-		
+
 		return Integer.parseInt(doc.getDocumentElement().getAttribute("rebotes"));
 	}
-	
+
 	/**
 	 * Obtiene la luz ambiental
+	 * 
 	 * @param xml
 	 * @return
 	 */
-	public static double getLuzAmbiente(String xml){
+	public static double getLuzAmbiente(String xml) {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
-		
+
 		return Double.parseDouble(doc.getDocumentElement().getAttribute("ambiente"));
 	}
 	
 	/**
-	 * Obtiene el fichero de salida
+	 * Obtiene el epsilon
 	 * @param xml
 	 * @return
 	 */
-	public static String getFile(String xml){
+	public static double getEpsilon(String xml) {
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
-		
+
+		return Double.parseDouble(doc.getDocumentElement().getAttribute("epsilon"));
+	}
+
+	/**
+	 * Obtiene el fichero de salida
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	public static String getFile(String xml) {
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+
 		return doc.getDocumentElement().getAttribute("file");
 	}
-	
+
 	/**
 	 * Obtiene una lista con los focos
 	 * 
@@ -165,8 +207,6 @@ public class XMLFormatter {
 
 			Vector4 g = Vector4.sub(new Vector4(0, 0, 0, 1), posicion).normalise();
 
-			System.out.println("Posicion: " + posicion.toString());
-			System.out.println("G: " + g.toString());
 			return new Camara(posicion, g, f, columnas, filas, anchura, altura);
 		}
 		return null;
@@ -259,7 +299,13 @@ public class XMLFormatter {
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
 
-					Esfera esfera = new Esfera(new Vector4(x, y, z, 1), global, m, T);	// TODO radio = 1 y NO vector4
+					Esfera esfera = new Esfera(new Vector4(x, y, z, 1), global, m, T); // TODO
+																						// radio
+																						// =
+																						// 1
+																						// y
+																						// NO
+																						// vector4
 					objetos.add(esfera);
 				}
 

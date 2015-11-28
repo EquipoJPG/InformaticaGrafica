@@ -17,7 +17,6 @@ import utils.XMLFormatter;
 
 public class Trazador {
 	
-	// TODO nada de numeros dentro del proyecto, todo eso en ficheros
 	// TODO esqueleto segun raytracer.cpp
 	/*
 	 * SEGUN RayTracer.cpp
@@ -38,10 +37,9 @@ public class Trazador {
 	private static String IMAGE_FILE_NAME;
 	private static int ANTIALIASING;
 
-	// puntos de interes
-	// TODO variables
 	private static int MAX_REBOTES_RAYO;
 	private static double LUZ_AMBIENTAL;
+	public static double EPSILON;
 	
 	// contenido de la escena
 	private static List<Objeto> objetos;
@@ -49,11 +47,11 @@ public class Trazador {
 	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
-	private static boolean TERMINO_AMBIENTAL = true;
-	private static boolean TERMINO_DIFUSO = true;
-	private static boolean TERMINO_ESPECULAR = true;
-	private static boolean TERMINO_REFLEJADO = false;
-	private static boolean TERMINO_REFRACTADO = false;
+	public static boolean TERMINO_AMBIENTAL;
+	public static boolean TERMINO_DIFUSO;
+	public static boolean TERMINO_ESPECULAR;
+	public static boolean TERMINO_REFLEJADO;
+	public static boolean TERMINO_REFRACTADO;
 	
 	public static void main(String[] args) {
 		String xml = "escena.xml";
@@ -69,6 +67,8 @@ public class Trazador {
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
+		XMLFormatter.setFlags(xml);
+		EPSILON = XMLFormatter.getEpsilon(xml);
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -132,7 +132,7 @@ public class Trazador {
 
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
-		double lambda;
+		double lambda = -1;
 		Vector4 pIntersec = null;
 		Vector4 pIntersecFinal = null;
 
@@ -183,7 +183,7 @@ public class Trazador {
 		 */
 		if (objeto != null) {
 			
-			if (TERMINO_AMBIENTAL) {
+			if (!objeto.estaDentro(rayo, lambda) && TERMINO_AMBIENTAL) {
 				
 				/* Termino ambiental */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto);	//ka*ia
@@ -196,7 +196,7 @@ public class Trazador {
 			for(Foco f : focos){
 				
 				/* Comprueba si el objeto recibe luz en el punto de interseccion */
-				double epsilon = 1e-12;
+				double epsilon = EPSILON;
 				Vector4 direccion = Vector4.sub(f.getPosicion(), pIntersecFinal).normalise();
 				Vector4 origen = Vector4.add(pIntersecFinal, Vector4.mulEscalar(direccion, epsilon));
 				Rayo sombra = new Rayo(origen, direccion);
@@ -218,23 +218,19 @@ public class Trazador {
 				}
 				
 				if(!shadow){
-					if (TERMINO_DIFUSO) {
+					if (!objeto.estaDentro(rayo, lambda) && TERMINO_DIFUSO) {
 						
 						/* Reflexion difusa */
 						Vector4 normal = objeto.normal(pIntersecFinal,rayo);
 			
-						double angulo = Vector4.dot(sombra.getDireccion(), normal);
-						if (angulo < 0) angulo = 0;
-						if (angulo > 1) angulo = 1;
-			
+						double angulo = Math.max(Vector4.dot(sombra.getDireccion(), normal), 0);
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (TERMINO_ESPECULAR) {
+					if (!objeto.estaDentro(rayo, lambda) && TERMINO_ESPECULAR) {
 						
 						/* Reflexion especular */
-						Rayo luz = new Rayo(f.getPosicion(), Vector4.negate(sombra.getDireccion()));
-						Rayo especular = Rayo.rayoReflejado(luz, objeto, pIntersecFinal);
+						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal);
 						Vector4 R = especular.getDireccion().normalise();
 						Vector4 V = Vector4.negate(rayo.getDireccion()).normalise();
 			
@@ -255,9 +251,10 @@ public class Trazador {
 			if(rebotes < MAX_REBOTES_RAYO){
 				
 				/* Si el material del objeto es reflectante se lanza el rayo reflejado */
-				if (objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
+				if (!objeto.estaDentro(rayo, lambda) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
-					Rayo reflejado = Rayo.rayoReflejado(rayo, objeto, pIntersecFinal);
+					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
+					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal);
 					colorReflejado = trazar(reflejado, rebotes + 1);
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
@@ -269,7 +266,7 @@ public class Trazador {
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
 				
-				/* (FRESNEL?) Mezcla los colores obtenidos por el rayo reflejado y refractado */
+				/* agregar reflejado y transmitido */
 				if (colorReflejado != null && colorRefractado != null) {
 					Color fresnelColor = ColorOperations.add(colorReflejado, colorRefractado);
 					finalColor = ColorOperations.add(finalColor, fresnelColor);

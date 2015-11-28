@@ -128,8 +128,8 @@ public class Esfera extends Objeto {
 		} else {
 			double lambda1, lambda2;
 			// l = [-2B +- raiz(4B^2-4AC)] / [2A]
-			lambda1 = (-2 * B + Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
-			lambda2 = (-2 * B - Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
+			lambda1 = (-B + Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
+			lambda2 = (-B - Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
 
 			double min = Math.min(lambda1, lambda2);
 			double max = Math.max(lambda1, lambda2);
@@ -202,5 +202,11 @@ public class Esfera extends Objeto {
 		double yupp = (R.get(1, 3) + Math.sqrt(Math.pow(R.get(1, 3), 2) - (R.get(3, 3) * R.get(1, 1)))) / R.get(3, 3);
 		double zupp = (R.get(2, 3) + Math.sqrt(Math.pow(R.get(2, 3), 2) - (R.get(3, 3) * R.get(2, 2)))) / R.get(3, 3);
 		upperBound = new Vector4(xupp, yupp, zupp, 1);
+	}
+	
+	@Override
+	public boolean estaDentro(Rayo r, double lambda){
+		double distancia = Vector4.distancia(centro, r.getOrigen());
+		return distancia < radio;
 	}
 }

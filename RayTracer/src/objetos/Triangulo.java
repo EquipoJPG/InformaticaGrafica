@@ -269,5 +269,10 @@ public class Triangulo extends Objeto {
 		}
 		upperBound = new Vector4(maxX, maxY, maxZ, 1);
 	}
+	
+	@Override
+	public boolean estaDentro(Rayo r, double lambda){
+		return false;
+	}
 
 }
