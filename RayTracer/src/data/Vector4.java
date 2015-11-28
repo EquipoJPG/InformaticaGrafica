@@ -193,7 +193,7 @@ public class Vector4 {
 	}
 
 	public static Vector4 matrixToVector4(Matrix m){
-		return new Vector4(m.get(0, 0),m.get(0, 1),m.get(0, 2),(int)(m.get(0, 1)));
+		return new Vector4(m.get(0, 0),m.get(0, 1),m.get(0, 2),(int)(m.get(0, 3)));
 	}
 	
 	@Override

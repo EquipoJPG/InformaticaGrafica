@@ -1,8 +1,11 @@
 package objetos;
 
+import java.util.ArrayList;
+
 import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
+import utils.TransformacionesAfines;
 
 public abstract class Objeto {
 	
@@ -19,6 +22,14 @@ public abstract class Objeto {
 	
 	public void setT(Matrix T){
 		this.T = T;
+		updateBounds();
+	}
+	
+	public void addTransformation(Matrix m) {
+		ArrayList<Matrix> comb = new ArrayList<Matrix>();
+		comb.add(this.T);
+		comb.add(m);
+		this.setT(TransformacionesAfines.combine(comb));
 	}
 	
 	public Material getMaterial(){
@@ -43,5 +54,6 @@ public abstract class Objeto {
 	public abstract Vector4 getLowerBound();
 	
 	public abstract Vector4 getUpperBound();
-
+	
+	public abstract void updateBounds();
 }

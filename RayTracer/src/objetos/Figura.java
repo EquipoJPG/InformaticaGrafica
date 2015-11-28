@@ -1,8 +1,11 @@
 package objetos;
 
 import java.util.ArrayList;
+
+import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
+import utils.TransformacionesAfines;
 
 public class Figura extends Objeto {
 
@@ -29,6 +32,75 @@ public class Figura extends Objeto {
 		updateBounds();
 	}
 
+	public void addObjeto(Objeto o) {
+		lista.add(o);
+		updateBounds();
+	}
+
+	public Objeto getObjeto(Rayo ray) {
+		if (lista.size() == 0) {
+			return null;
+		} else {
+			Double returned = null;
+			Objeto returnedObj = null;
+			for (Objeto o : lista) {
+				Double iterInterseccion = o.interseccion(ray);
+				// Comprobar si hay interseccion con ese objeto
+				if (iterInterseccion != null) {
+					// Comprobar si la landa es mayor o igual que 0
+					if (iterInterseccion >= 0) {
+						// Si no tenemos valor para devolver guardado,
+						// almacenamos el nuevo
+						if (returned == null) {
+							returned = iterInterseccion;
+							returnedObj = o;
+						} else {
+							// Si tenemos valor guardado y el nuevo es menor
+							// guardar el nuevo
+							if (iterInterseccion < returned) {
+								returned = iterInterseccion;
+								returnedObj = o;
+							}
+						}
+					}
+				}
+			}
+			return returnedObj;
+		}
+	}
+	
+	public Objeto getObjetoSombra(Rayo ray) {
+		if (lista.size() == 0) {
+			return null;
+		} else {
+			Double returned = null;
+			Objeto returnedObj = null;
+			for (Objeto o : lista) {
+				Double iterInterseccion = o.interseccionSombra(ray);
+				// Comprobar si hay interseccion con ese objeto
+				if (iterInterseccion != null) {
+					// Comprobar si la landa es mayor o igual que 0
+					if (iterInterseccion >= 0) {
+						// Si no tenemos valor para devolver guardado,
+						// almacenamos el nuevo
+						if (returned == null) {
+							returned = iterInterseccion;
+							returnedObj = o;
+						} else {
+							// Si tenemos valor guardado y el nuevo es menor
+							// guardar el nuevo
+							if (iterInterseccion < returned) {
+								returned = iterInterseccion;
+								returnedObj = o;
+							}
+						}
+					}
+				}
+			}
+			return returnedObj;
+		}
+	}
+
 	@Override
 	public Double interseccion(Rayo ray) {
 		if (lista.size() == 0) {
@@ -36,9 +108,10 @@ public class Figura extends Objeto {
 		} else {
 			Double returned = null;
 			for (Objeto o : lista) {
-				Double iterInterseccion = o.interseccion(ray);
+				Double iterIntersecciong = o.interseccion(ray);
 				// Comprobar si hay interseccion con ese objeto
-				if (iterInterseccion != null) {
+				if (iterIntersecciong != null) {
+					double iterInterseccion = (double) iterIntersecciong;
 					// Comprobar si la landa es mayor o igual que 0
 					if (iterInterseccion >= 0) {
 						// Si no tenemos valor para devolver guardado,
@@ -134,44 +207,8 @@ public class Figura extends Objeto {
 		return upperBound;
 	}
 
-	public void addObjeto(Objeto o) {
-		lista.add(o);
-		updateBounds();
-	}
-	
-	public Objeto getObjeto(Rayo ray) {
-		if (lista.size() == 0) {
-			return null;
-		} else {
-			Double returned = null;
-			Objeto returnedObj = null;
-			for (Objeto o : lista) {
-				Double iterInterseccion = o.interseccionSombra(ray);
-				// Comprobar si hay interseccion con ese objeto
-				if (iterInterseccion != null) {
-					// Comprobar si la landa es mayor o igual que 0
-					if (iterInterseccion >= 0) {
-						// Si no tenemos valor para devolver guardado,
-						// almacenamos el nuevo
-						if (returned == null) {
-							returned = iterInterseccion;
-							returnedObj = o;
-						} else {
-							// Si tenemos valor guardado y el nuevo es menor
-							// guardar el nuevo
-							if (iterInterseccion < returned) {
-								returned = iterInterseccion;
-								returnedObj = o;
-							}
-						}
-					}
-				}
-			}
-			return returnedObj;
-		}
-	}
-	
-	private void updateBounds() {
+	@Override
+	public void updateBounds() {
 		// Update lower bound
 		double minX = Double.POSITIVE_INFINITY;
 		double minY = Double.POSITIVE_INFINITY;
@@ -211,5 +248,18 @@ public class Figura extends Objeto {
 			}
 		}
 		upperBound = new Vector4(maxX, maxY, maxZ, 1);
+	}
+	
+	@Override
+	public void setT(Matrix T){
+		// Don't do anything
+		this.T = TransformacionesAfines.getIdentity();
+	}
+	
+	@Override
+	public void addTransformation(Matrix m) {
+		for(Objeto a : lista){
+			a.addTransformation(m);
+		};
 	}
 }

@@ -2,8 +2,10 @@ package objetos;
 
 import java.util.ArrayList;
 
+import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
+import utils.TransformacionesAfines;
 
 public class Caja extends Objeto {
 
@@ -20,6 +22,18 @@ public class Caja extends Objeto {
 
 	public Caja(ArrayList<Objeto> l) {
 		conjuntoObjetos = new Figura(l);
+		lowerBound = conjuntoObjetos.getLowerBound();
+		upperBound = conjuntoObjetos.getUpperBound();
+	}
+	
+	public Caja(Objeto a){
+		conjuntoObjetos = new Figura(a);
+		lowerBound = conjuntoObjetos.getLowerBound();
+		upperBound = conjuntoObjetos.getUpperBound();
+	}
+	
+	public void addObjeto(Objeto a){
+		conjuntoObjetos.addObjeto(a);
 		lowerBound = conjuntoObjetos.getLowerBound();
 		upperBound = conjuntoObjetos.getUpperBound();
 	}
@@ -124,6 +138,10 @@ public class Caja extends Objeto {
 	public Objeto getObjeto(Rayo ray) {
 		return conjuntoObjetos.getObjeto(ray);
 	}
+	
+	public Objeto getObjetoSombra(Rayo ray) {
+		return conjuntoObjetos.getObjeto(ray);
+	}
 
 	/**
 	 * Devuelve true si el punto esta dentro de la caja
@@ -143,5 +161,23 @@ public class Caja extends Objeto {
 		}
 
 		return returned;
+	}
+
+	@Override
+	public void updateBounds() {
+		conjuntoObjetos.updateBounds();
+		lowerBound = conjuntoObjetos.getLowerBound();
+		upperBound = conjuntoObjetos.getUpperBound();
+	}
+	
+	@Override
+	public void setT(Matrix T){
+		// Don't do anything
+		this.T = TransformacionesAfines.getIdentity();
+	}
+
+	@Override
+	public void addTransformation(Matrix m) {
+		conjuntoObjetos.addTransformation(m);
 	}
 }

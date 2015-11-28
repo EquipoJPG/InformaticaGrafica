@@ -1,7 +1,7 @@
 <escena antialiasing="16" file="escena.png" rebotes="1" ambiente="0.3">
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="150" y="150" z="150">
+	<pov x="100" y="50" z="100">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
@@ -11,8 +11,8 @@
 	
 	<!-- lista de focos -->
 	<focos>
-		<foco x="70" y="70" z="90">
-			<intensidad>4</intensidad>
+		<foco x="30" y="10" z="10">
+			<intensidad>2</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
 	</focos>
@@ -24,6 +24,24 @@
 			<!-- esfera -->
 			<esfera x="0" y="0" z="0">	<!-- traslacion -->
 				<global>10</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				
+				<!-- material -->
+				<material>
+					<color r="255" g="0" b="0"/>
+					<difusa>0.2</difusa>
+					<especular>0.2</especular>
+					<reflectante>0</reflectante>
+					<transparente>0</transparente>
+					<shiny>10</shiny>
+				</material>
+			</esfera>
+			
+			<esfera x="10" y="10" z="10">	<!-- traslacion -->
+				<global>8</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->

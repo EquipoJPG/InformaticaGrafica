@@ -1,8 +1,11 @@
 package objetos;
 
+import java.util.ArrayList;
+
 import Jama.Matrix;
 import data.Rayo;
 import data.Vector4;
+import utils.TransformacionesAfines;
 
 public class Esfera extends Objeto {
 
@@ -25,6 +28,7 @@ public class Esfera extends Objeto {
 		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
 		super.material = m;
 		super.T = T;
+		updateBounds();
 	}
 
 	/**
@@ -38,8 +42,9 @@ public class Esfera extends Objeto {
 		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
 		super.material = m;
 		super.T = T;
+		updateBounds();
 	}
-	
+
 	/**
 	 * @param centro:
 	 *            centro de la esfera (0,0,0) seria lo correcto
@@ -52,6 +57,7 @@ public class Esfera extends Objeto {
 		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
 		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
 		super.material = m;
+		updateBounds();
 	}
 
 	/**
@@ -64,6 +70,7 @@ public class Esfera extends Objeto {
 		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
 		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
 		super.material = m;
+		updateBounds();
 	}
 
 	/**
@@ -121,7 +128,7 @@ public class Esfera extends Objeto {
 		} else {
 			double lambda1, lambda2;
 			// l = [-2B +- raiz(4B^2-4AC)] / [2A]
-			lambda1 = (-2 * B + Math.pow( Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
+			lambda1 = (-2 * B + Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
 			lambda2 = (-2 * B - Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
 
 			double min = Math.min(lambda1, lambda2);
@@ -156,5 +163,44 @@ public class Esfera extends Objeto {
 	@Override
 	public Vector4 getUpperBound() {
 		return upperBound;
+	}
+
+	@Override
+	public void updateBounds() {
+		// T es la matriz de transformacion
+
+		// S es la matriz general de una esfera de radio 1 ubicada en el centro
+		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, -1 } };
+		Matrix S = new Matrix(values);
+
+		/*
+		 * Calcular R
+		 *
+		 * (M S^-1 M^t) = R = [ r11 r12 r13 r14 ] [ r12 r22 r23 r24 ] [ r13 r23
+		 * r33 r34 ] [ r14 r24 r34 r44 ]
+		 */
+		ArrayList<Matrix> list = new ArrayList<Matrix>();
+		list.add(T);
+		list.add(S.inverse());
+		list.add(T.transpose());
+
+		Matrix R = TransformacionesAfines.combine(list);
+
+		// Bounds:
+		// x = (r14 +/- sqrt(r14^2 - r44 r11) ) / r44
+		// y = (r24 +/- sqrt(r24^2 - r44 r22) ) / r44
+		// z = (r34 +/- sqrt(r34^2 - r44 r33) ) / r44
+
+		// Lower bound
+		double xlow = (R.get(0, 3) - Math.sqrt(Math.pow(R.get(0, 3), 2) - (R.get(3, 3) * R.get(0, 0)))) / R.get(3, 3);
+		double ylow = (R.get(1, 3) - Math.sqrt(Math.pow(R.get(1, 3), 2) - (R.get(3, 3) * R.get(1, 1)))) / R.get(3, 3);
+		double zlow = (R.get(2, 3) - Math.sqrt(Math.pow(R.get(2, 3), 2) - (R.get(3, 3) * R.get(2, 2)))) / R.get(3, 3);
+		lowerBound = new Vector4(xlow, ylow, zlow, 1);
+
+		// Upper bound
+		double xupp = (R.get(0, 3) + Math.sqrt(Math.pow(R.get(0, 3), 2) - (R.get(3, 3) * R.get(0, 0)))) / R.get(3, 3);
+		double yupp = (R.get(1, 3) + Math.sqrt(Math.pow(R.get(1, 3), 2) - (R.get(3, 3) * R.get(1, 1)))) / R.get(3, 3);
+		double zupp = (R.get(2, 3) + Math.sqrt(Math.pow(R.get(2, 3), 2) - (R.get(3, 3) * R.get(2, 2)))) / R.get(3, 3);
+		upperBound = new Vector4(xupp, yupp, zupp, 1);
 	}
 }
