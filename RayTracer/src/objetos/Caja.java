@@ -1,5 +1,6 @@
 package objetos;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import Jama.Matrix;
@@ -43,6 +44,15 @@ public class Caja extends Objeto {
 		conjuntoObjetos.addObjeto(a);
 		lowerBound = conjuntoObjetos.getLowerBound();
 		upperBound = conjuntoObjetos.getUpperBound();
+	}
+	
+	public void debugBounds(){
+		if(lowerBound!=null && upperBound!=null){
+			conjuntoObjetos.addObjeto(new Esfera(lowerBound,10,new Material(Color.RED,1,0,0,0,0)));
+			conjuntoObjetos.addObjeto(new Esfera(upperBound,10,new Material(Color.CYAN,1,0,0,0,0)));
+			lowerBound = conjuntoObjetos.getLowerBound();
+			upperBound = conjuntoObjetos.getUpperBound();
+		}
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class Trazador {
 
 	private static int MAX_REBOTES_RAYO;
 	private static double LUZ_AMBIENTAL;
-	public static double EPSILON;
+	private static double EPSILON;
 
 	// contenido de la escena
 	private static List<Objeto> objetos;
@@ -43,11 +43,11 @@ public class Trazador {
 	private static BufferedImage img;
 
 	/* FLAGS DEBUG */
-	public static boolean TERMINO_AMBIENTAL;
-	public static boolean TERMINO_DIFUSO;
-	public static boolean TERMINO_ESPECULAR;
-	public static boolean TERMINO_REFLEJADO;
-	public static boolean TERMINO_REFRACTADO;
+	private static boolean TERMINO_AMBIENTAL;
+	private static boolean TERMINO_DIFUSO;
+	private static boolean TERMINO_ESPECULAR;
+	private static boolean TERMINO_REFLEJADO;
+	private static boolean TERMINO_REFRACTADO;
 
 	public static void main(String[] args) {
 		long startTime = System.nanoTime();
