@@ -230,7 +230,7 @@ public class Figura extends Objeto {
 	}
 
 	@Override
-	public boolean estaDentro(Rayo r) {
+	public boolean estaDentro(Rayo r, Vector4 interseccion) {
 		if (lista.size() == 0 || r == null) {
 			return false;
 		} else {
@@ -243,7 +243,7 @@ public class Figura extends Objeto {
 					Par p = obj.interseccion(r);
 					if (p != null) {
 						if(p.getObjeto()!=null){
-							returned = p.getObjeto().estaDentro(r);
+							returned = p.getObjeto().estaDentro(r, interseccion);
 						}
 					}
 				}

@@ -2,11 +2,11 @@ package objetos;
 
 import java.util.ArrayList;
 
+import utils.TransformacionesAfines;
 import Jama.Matrix;
 import data.Par;
 import data.Rayo;
 import data.Vector4;
-import utils.TransformacionesAfines;
 
 public class Esfera extends Objeto {
 
@@ -84,21 +84,21 @@ public class Esfera extends Objeto {
 	public Par interseccion(Rayo ray) {
 		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d
 																		// . d
-		double B = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
+		double B = 2 * Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
 																								// =
 																								// (a-c).d
 		double C = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), Vector4.sub(ray.getOrigen(), this.centro))
 				- Math.pow(this.radio, 2); // C = (a-c).(a-c) - r^2
 
-		double D = Math.pow(B, 2) - A * C; // D = B^2 - AC
+		double D = Math.pow(B, 2) - 4 * A * C; // D = B^2 - AC
 
 		if (D < 0) {
 			return null;
 		} else {
 			double lambda1, lambda2;
-			// l = [-2B +- raiz(4B^2-4AC)] / [2A]
-			lambda1 = (-2 * B + Math.pow(4 * Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
-			lambda2 = (-2 * B - Math.pow(4 * Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
+			// l = [-B +- raiz(B^2-4AC)] / [2A]
+			lambda1 = (-B + Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
+			lambda2 = (-B - Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
 
 			double min = Math.min(lambda1, lambda2);
 
@@ -116,7 +116,7 @@ public class Esfera extends Objeto {
 	public Par interseccionSombra(Rayo ray) {
 		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d
 																		// . d
-		double B = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
+		double B = 2 * Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
 																								// =
 																								// (a-c).d
 		double C = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), Vector4.sub(ray.getOrigen(), this.centro))
@@ -128,7 +128,7 @@ public class Esfera extends Objeto {
 			return null;
 		} else {
 			double lambda1, lambda2;
-			// l = [-2B +- raiz(4B^2-4AC)] / [2A]
+			// l = [-B +- raiz(B^2-4AC)] / [2A]
 			lambda1 = (-B + Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
 			lambda2 = (-B - Math.pow(Math.pow(B, 2) - 4 * A * C, 0.5)) / (2 * A);
 
@@ -191,7 +191,7 @@ public class Esfera extends Objeto {
 		// x = (r14 +/- sqrt(r14^2 - r44 r11) ) / r44
 		// y = (r24 +/- sqrt(r24^2 - r44 r22) ) / r44
 		// z = (r34 +/- sqrt(r34^2 - r44 r33) ) / r44
-
+		
 		// Lower bound
 		double xlow = (R.get(0, 3) - Math.sqrt(Math.pow(R.get(0, 3), 2) - (R.get(3, 3) * R.get(0, 0)))) / R.get(3, 3);
 		double ylow = (R.get(1, 3) - Math.sqrt(Math.pow(R.get(1, 3), 2) - (R.get(3, 3) * R.get(1, 1)))) / R.get(3, 3);
@@ -206,8 +206,8 @@ public class Esfera extends Objeto {
 	}
 	
 	@Override
-	public boolean estaDentro(Rayo r){
-		double distancia = Vector4.distancia(centro, r.getOrigen());
-		return distancia < radio;
+	public boolean estaDentro(Rayo r, Vector4 interseccion){
+		Vector4 normal = this.normal(interseccion);
+		return Vector4.dot(normal, r.getDireccion()) >= 0;
 	}
 }

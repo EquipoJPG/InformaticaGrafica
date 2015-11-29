@@ -9,12 +9,13 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import objetos.Caja;
+import objetos.Esfera;
+import objetos.Objeto;
+import utils.XMLFormatter;
 import data.Par;
 import data.Rayo;
 import data.Vector4;
-import objetos.Caja;
-import objetos.Objeto;
-import utils.XMLFormatter;
 
 public class TrazadorCaja {
 
@@ -72,10 +73,12 @@ public class TrazadorCaja {
 		Caja definitiva = new Caja();
 		for (Objeto o : objetos) {
 			Caja p = new Caja(o);
-//			p.debugBounds();
+			if(o instanceof Esfera){
+				p.debugBounds();
+			}
 			definitiva.addObjeto(p);
 		}
-		definitiva.debugBounds();
+//		definitiva.debugBounds();
 		temp.add(definitiva);
 		objetos = temp;
 		focos = XMLFormatter.getFocos(xml);
@@ -201,7 +204,7 @@ public class TrazadorCaja {
 		 */
 		if (objeto != null) {
 			// System.out.println(objeto.estaDentro(rayo));
-			if (!objeto.estaDentro(rayo) && TERMINO_AMBIENTAL) {
+			if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_AMBIENTAL) {
 
 				/* Termino ambiental */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto); // ka*ia
@@ -242,7 +245,7 @@ public class TrazadorCaja {
 				}
 
 				if (!shadow) {
-					if (!objeto.estaDentro(rayo) && TERMINO_DIFUSO) {
+					if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_DIFUSO) {
 
 						/* Reflexion difusa */
 						Vector4 normal = objeto.normal(pIntersecFinal, rayo);
@@ -251,7 +254,7 @@ public class TrazadorCaja {
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (!objeto.estaDentro(rayo) && TERMINO_ESPECULAR) {
+					if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_ESPECULAR) {
 
 						/* Reflexion especular */
 						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal, EPSILON);
@@ -279,7 +282,7 @@ public class TrazadorCaja {
 				 * Si el material del objeto es reflectante se lanza el rayo
 				 * reflejado
 				 */
-				if (!objeto.estaDentro(rayo) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
+				if (!objeto.estaDentro(rayo, pIntersecFinal) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
 					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal, EPSILON);
@@ -292,7 +295,7 @@ public class TrazadorCaja {
 				 */
 				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
 					// TODO link a rayo refractado
-					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal);
+					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal,EPSILON);
 					colorRefractado = trazar(refractado, rebotes + 1);
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}

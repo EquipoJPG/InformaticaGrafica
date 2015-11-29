@@ -45,13 +45,13 @@ public class Camara {
 		_u = _u.normalise();
 		Vector4 _v = Vector4.cross(_w, _u);
 		
-		System.out.println("ORIGINAL: \nU: " + _u + "\nV: " + _v + "\nW: " + _w);
+//		System.out.println("ORIGINAL: \nU: " + _u + "\nV: " + _v + "\nW: " + _w);
 		
 		w = Vector4.negate(g);
 		u = Vector4.cross(up, w).normalise();
 		v = Vector4.cross(u, w).normalise();
 		
-		System.out.println("U: " + u + "\nV: " + v + "\nW: " + w);
+//		System.out.println("U: " + u + "\nV: " + v + "\nW: " + w);
 		
 	}
 	

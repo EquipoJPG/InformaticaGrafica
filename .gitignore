@@ -1,1 +1,6 @@
 .metadata
+*.gen
+.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/segments_1
+*.fdt
+.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/_0.fnm
+.recommenders/caches/identified-project-coordinates.json

@@ -272,7 +272,7 @@ public class Triangulo extends Objeto {
 	}
 	
 	@Override
-	public boolean estaDentro(Rayo r){
+	public boolean estaDentro(Rayo r, Vector4 interseccion){
 		return false;
 	}
 

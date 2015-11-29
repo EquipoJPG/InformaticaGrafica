@@ -57,22 +57,17 @@ public class Rayo {
 	 * @param i
 	 * @return
 	 */
-	public static Rayo rayoRefractado(Rayo vista, Objeto o, Vector4 i) {
+	public static Rayo rayoRefractado(Rayo vista, Objeto o, Vector4 i, double eps) {
 		// suponemos que dentro de los objetos, indice de refraccion = 1.2
 		double ior = 1.2;
 		
 		Rayo vistaNegado = new Rayo(i, Vector4.negate(vista.getDireccion()));
 		Vector4 normal = o.normal(i, vistaNegado);
-		boolean inside = Vector4.dot(normal, vista.getDireccion())> 0;	// true si estamos dentro del objeto
+		boolean inside = o.estaDentro(vista, i);// true si estamos dentro del objeto
 		
-		double thetaI = Vector4.angulo(normal, vistaNegado.direccion);
-		double ni = Math.sin(thetaI);
-		
-		double nt = 1;
-		if(inside) nt = ior;
-		
-		double indexRefraccion = ni/nt;
-		
+		double indexRefraccion = 1 / ior;
+		if(inside) indexRefraccion = ior;
+	
 		double cosIncidente = Vector4.dot(normal, vistaNegado.getDireccion());
 		double cosTransmitido1 = 1 - Math.pow(indexRefraccion, 2) * (1 - Math.pow(cosIncidente, 2));
 		double cosTransmitido = Math.pow(cosTransmitido1, 0.5);
@@ -82,9 +77,7 @@ public class Rayo {
 		
 		T = T.normalise();
 		
-		double bias = 1e-12;
-		
-		Vector4 origen = Vector4.add(i, Vector4.mulEscalar(T, bias));
+		Vector4 origen = Vector4.add(i, Vector4.mulEscalar(T, eps));
 		return new Rayo(origen, T);
 	}
 

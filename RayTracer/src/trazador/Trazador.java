@@ -189,7 +189,7 @@ public class Trazador {
 		 */
 		if (objeto != null) {
 
-			if (!objeto.estaDentro(rayo) && TERMINO_AMBIENTAL) {
+			if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_AMBIENTAL) {
 
 				/* Termino ambiental */
 				finalColor = luzAmbiental(LUZ_AMBIENTAL, objeto); // ka*ia
@@ -230,7 +230,7 @@ public class Trazador {
 				}
 
 				if (!shadow) {
-					if (!objeto.estaDentro(rayo) && TERMINO_DIFUSO) {
+					if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_DIFUSO) {
 
 						/* Reflexion difusa */
 						Vector4 normal = objeto.normal(pIntersecFinal, rayo);
@@ -239,7 +239,7 @@ public class Trazador {
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (!objeto.estaDentro(rayo) && TERMINO_ESPECULAR) {
+					if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_ESPECULAR) {
 
 						/* Reflexion especular */
 						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal,EPSILON);
@@ -267,7 +267,7 @@ public class Trazador {
 				 * Si el material del objeto es reflectante se lanza el rayo
 				 * reflejado
 				 */
-				if (!objeto.estaDentro(rayo) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
+				if (!objeto.estaDentro(rayo, pIntersecFinal) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
 					// TODO link a rayo reflejado
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
 					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal,EPSILON);
@@ -280,7 +280,7 @@ public class Trazador {
 				 */
 				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
 					// TODO link a rayo refractado
-					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal);
+					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal, EPSILON);
 					colorRefractado = trazar(refractado, rebotes + 1);
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}

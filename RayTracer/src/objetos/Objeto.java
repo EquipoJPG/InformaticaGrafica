@@ -56,7 +56,7 @@ public abstract class Objeto {
 	
 	public abstract Vector4 getUpperBound();
 	
-	public abstract boolean estaDentro(Rayo r);
+	public abstract boolean estaDentro(Rayo r, Vector4 interseccion);
 	
 	public abstract void updateBounds();
 }

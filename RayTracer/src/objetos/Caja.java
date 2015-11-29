@@ -48,7 +48,8 @@ public class Caja extends Objeto {
 	
 	public void debugBounds(){
 		if(lowerBound!=null && upperBound!=null){
-			conjuntoObjetos.addObjeto(new Esfera(lowerBound,10,new Material(Color.RED,1,0,0,0,0)));
+//			System.out.println(lowerBound + "\t" + upperBound);
+			conjuntoObjetos.addObjeto(new Esfera(lowerBound,20,new Material(Color.RED,1,0,0,0,0)));
 			conjuntoObjetos.addObjeto(new Esfera(upperBound,10,new Material(Color.CYAN,1,0,0,0,0)));
 			lowerBound = conjuntoObjetos.getLowerBound();
 			upperBound = conjuntoObjetos.getUpperBound();
@@ -191,7 +192,7 @@ public class Caja extends Objeto {
 	}
 
 	@Override
-	public boolean estaDentro(Rayo r) {
-		return conjuntoObjetos.estaDentro(r);
+	public boolean estaDentro(Rayo r, Vector4 interseccion) {
+		return conjuntoObjetos.estaDentro(r, interseccion);
 	}
 }
