@@ -309,12 +309,13 @@ public class Trazador {
 						int index = 0;
 						while(!encontrado && index < refractadoItems.size()){
 							encontrado = refractadoItems.get(index).getObjeto().equals(objeto);
+							index++;
 						}
 						
 						if(encontrado){
 
 							/* Se ha interseccionado por segunda vez con un objeto, saliendo de el */
-							refractadoItems.remove(objeto);
+							refractadoItems.remove(index-1);
 							
 							if (refractadoItems.size() == 0) {
 								
@@ -327,9 +328,10 @@ public class Trazador {
 						}
 						else{
 							
-							/* Se ha interseccionado por primera vez con un objeto, entrando en el */
+							/* Se ha interseccionado por primera vez con un objeto, entrando en el desde otro*/
+							nT = objeto.getMaterial().getIr(); 
+							nI = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
 							refractadoItems.add(new Par(1.0, objeto));
-							nT = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
 						}
 					}
 					
@@ -349,6 +351,10 @@ public class Trazador {
 					finalColor = ColorOperations.add(finalColor, colorRefractado);
 				}
 
+			}
+			else{
+				// TODO esto es muy turbio. estudiar casos particulares
+				refractadoItems = new ArrayList<Par>();
 			}
 		}
 		return finalColor;
