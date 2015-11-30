@@ -45,6 +45,7 @@
 					<reflectante>1</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
+					<indiceRefraccion>0.9</indiceRefraccion>
 				</material>
 			</esfera>
 			
@@ -69,6 +70,7 @@
 					<reflectante>1</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
+					<indiceRefraccion>0.9</indiceRefraccion>
 				</material>
 			</plano>
 			
@@ -92,6 +94,7 @@
 					<reflectante>1</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
+					<indiceRefraccion>0.9</indiceRefraccion>
 				</material>
 			</triangulo>
 			
@@ -112,6 +115,7 @@
 					<reflectante>1</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
+					<indiceRefraccion>0.9</indiceRefraccion>
 				</material>
 			</figura>
 		</caja>

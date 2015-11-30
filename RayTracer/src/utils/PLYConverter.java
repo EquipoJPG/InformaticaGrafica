@@ -164,7 +164,7 @@ public class PLYConverter {
 								Color c = new Color(ir,ig,ib);
 								Triangulo t = null;
 								if(m == null){
-									t = new Triangulo(p1,p2,p3,new Material(c,1,0,0,0,0));
+									t = new Triangulo(p1,p2,p3,new Material(c,1,0,0,0,1,0));
 								}
 								else{
 									m.setColor(c);

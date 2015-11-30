@@ -297,9 +297,13 @@ public class XMLFormatter {
 
 					// shiny
 					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
+					
+					// indiceRefraccion
+					double indRef = Double
+							.parseDouble(ee.getElementsByTagName("indiceRefraccion").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
 
-					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
+					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
@@ -393,9 +397,13 @@ public class XMLFormatter {
 
 					// shiny
 					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
+					
+					// indiceRefraccion
+					double indRef = Double
+							.parseDouble(ee.getElementsByTagName("indiceRefraccion").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
 
-					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
+					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
@@ -487,9 +495,13 @@ public class XMLFormatter {
 
 					// shiny
 					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
+					
+					// indiceRefraccion
+					double indRef = Double
+							.parseDouble(ee.getElementsByTagName("indiceRefraccion").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
 
-					Material m = new Material(c, difusa, especular, reflectante, transparente, shiny);
+					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
@@ -559,9 +571,13 @@ public class XMLFormatter {
 
 					// shiny
 					int shiny = Integer.parseInt(ee.getElementsByTagName("shiny").item(0).getTextContent());
+					
+					// indiceRefraccion
+					double indRef = Double
+							.parseDouble(ee.getElementsByTagName("indiceRefraccion").item(0).getTextContent());
 					//////////////////////////////////////////////////////////////////////////////
 
-					Material m = new Material(null, difusa, especular, reflectante, transparente, shiny);
+					Material m = new Material(null, difusa, especular, reflectante, transparente, indRef, shiny);
 					Figura f = PLYConverter.getFigura(path, m);
 
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
