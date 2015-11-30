@@ -289,27 +289,52 @@ public class Trazador {
 				 */
 				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
 					Rayo refractado = null;
-					if(refractadoItems.size()==0){
-						// Vengo del aire
+					double nI = 1.0;
+					double nT = 1.0;
+					
+					/* Calcula los indices de refraccion nI y nT */
+					if(refractadoItems.size() == 0){
+
+						/* El medio anterior es el aire: nI = 1 y nT = Ir del objeto intersectado */
 						refractadoItems.add(new Par(1.0,objeto));
-						refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal, EPSILON, 1.0,objeto.getMaterial().getIr());
+						nI = 1.0;
+						nT = objeto.getMaterial().getIr();
 					}
 					else{
+						
+						/* El rayo esta dentro de al menos 1 objeto */
+						nI = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
+						
 						boolean encontrado = false;
 						int index = 0;
-						while(!encontrado && index<refractadoItems.size()){
-							if(refractadoItems.get(index).getObjeto().equals(objeto)){
-								encontrado = true;
+						while(!encontrado && index < refractadoItems.size()){
+							encontrado = refractadoItems.get(index).getObjeto().equals(objeto);
+						}
+						
+						if(encontrado){
+
+							/* Se ha interseccionado por segunda vez con un objeto, saliendo de el */
+							refractadoItems.remove(objeto);
+							
+							if (refractadoItems.size() == 0) {
+								
+								/* El rayo ha salido al aire desde el ultimo objeto en el que estaba contenido */
+								nT = 1.0;
+							}
+							else {
+								nT = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
 							}
 						}
-						if(encontrado){
-							// TODO Picale felino
-						}
 						else{
-							// TODO Piiiiicale
+							
+							/* Se ha interseccionado por primera vez con un objeto, entrando en el */
+							refractadoItems.add(new Par(1.0, objeto));
+							nT = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
 						}
 					}
 					
+					/* Lanza el rayo refractado */
+					refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal, EPSILON, nI, nT);
 					colorRefractado = trazar(refractado, rebotes + 1);
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
