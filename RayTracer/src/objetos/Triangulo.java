@@ -16,6 +16,7 @@ public class Triangulo extends Objeto {
 	private Vector4 p3;
 	private Vector4 lowerBound;
 	private Vector4 upperBound;
+	private Figura padre;
 
 	/**
 	 * @param centro:
@@ -27,6 +28,7 @@ public class Triangulo extends Objeto {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
+		padre = null;
 		super.T = T;
 
 		// Update lower bound
@@ -81,6 +83,7 @@ public class Triangulo extends Objeto {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
+		padre = null;
 
 		// Update lower bound
 		double minX = Double.POSITIVE_INFINITY;
@@ -274,6 +277,14 @@ public class Triangulo extends Objeto {
 	@Override
 	public boolean estaDentro(Rayo r, Vector4 interseccion){
 		return false;
+	}
+	
+	public Figura getPadre() {
+		return padre;
+	}
+
+	public void setPadre(Figura padre) {
+		this.padre = padre;
 	}
 
 }
