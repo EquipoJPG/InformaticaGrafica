@@ -82,6 +82,8 @@ public class Esfera extends Objeto {
 	 */
 	@Override
 	public Par interseccion(Rayo ray) {
+		return interseccionSombra(ray);
+		/*
 		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d
 																		// . d
 		double B = 2 * Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
@@ -103,7 +105,8 @@ public class Esfera extends Objeto {
 			double min = Math.min(lambda1, lambda2);
 
 			return new Par(min,this);
-		}
+			
+		}*/
 	}
 
 	/**

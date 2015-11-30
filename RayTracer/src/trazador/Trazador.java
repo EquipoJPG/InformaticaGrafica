@@ -59,7 +59,7 @@ public class Trazador {
 	}
 
 	public static void mainWork() {
-		String xml = "escena.xml";
+		String xml = "escenaEsqueleto.xml";
 
 		System.out.printf("Preparando escena...");
 
