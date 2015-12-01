@@ -49,9 +49,6 @@ public class Trazador {
 	private static boolean TERMINO_REFLEJADO;
 	private static boolean TERMINO_REFRACTADO;
 
-	/* Trazador stuff */
-	private static ArrayList<Par> refractadoItems = null;
-
 	public static void main(String[] args) {
 		long startTime = System.nanoTime();
 		mainWork();
@@ -84,7 +81,6 @@ public class Trazador {
 			TERMINO_REFRACTADO = flags[4];
 		}
 		EPSILON = XMLFormatter.getEpsilon(xml);
-		refractadoItems = new ArrayList<Par>();
 
 		System.out.println("OK");
 		System.out.printf("Lanzando rayos...");
@@ -105,7 +101,7 @@ public class Trazador {
 					Rayo rayoPrimario = camara.rayoToPixel(jj, ii);
 
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */
-					Color colorPixel = trazar(rayoPrimario, 0);
+					Color colorPixel = trazar(rayoPrimario, 0, new ArrayList<Objeto>());
 					if (pixel != null && colorPixel != null) {
 						pixel = ColorOperations.addMedios(pixel, colorPixel);
 					} else {
@@ -148,7 +144,7 @@ public class Trazador {
 	 *            numero de rebotes actuales
 	 * @return color calculado para el punto desde el que se lanza el rayo rayo
 	 */
-	private static Color trazar(Rayo rayo, int rebotes) {
+	private static Color trazar(Rayo rayo, int rebotes, ArrayList<Objeto> refractadoItems) {
 
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
@@ -280,7 +276,7 @@ public class Trazador {
 						&& TERMINO_REFLEJADO) {
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
 					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal, EPSILON);
-					colorReflejado = trazar(reflejado, rebotes + 1);
+					colorReflejado = trazar(reflejado, rebotes + 1, new ArrayList<Objeto>());
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
 				/*
@@ -296,19 +292,19 @@ public class Trazador {
 					if(refractadoItems.size() == 0){
 
 						/* El medio anterior es el aire: nI = 1 y nT = Ir del objeto intersectado */
-						refractadoItems.add(new Par(1.0,objeto));
+						refractadoItems.add(objeto);
 						nI = 1.0;
 						nT = objeto.getMaterial().getIr();
 					}
 					else{
 						
 						/* El rayo esta dentro de al menos 1 objeto */
-						nI = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
+						nI = refractadoItems.get(refractadoItems.size() - 1).getMaterial().getIr();
 						
 						boolean encontrado = false;
 						int index = 0;
 						while(!encontrado && index < refractadoItems.size()){
-							encontrado = refractadoItems.get(index).getObjeto().equals(objeto);
+							encontrado = refractadoItems.get(index).equals(objeto);
 							index++;
 						}
 						
@@ -323,21 +319,20 @@ public class Trazador {
 								nT = 1.0;
 							}
 							else {
-								nT = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
+								nT = refractadoItems.get(refractadoItems.size() - 1).getMaterial().getIr();
 							}
 						}
 						else{
 							
-							/* Se ha interseccionado por primera vez con un objeto, entrando en el desde otro*/
-							nT = objeto.getMaterial().getIr(); 
-							nI = refractadoItems.get(refractadoItems.size() - 1).getObjeto().getMaterial().getIr();
-							refractadoItems.add(new Par(1.0, objeto));
+							/* Se ha interseccionado por primera vez con un objeto, entrando en el */
+							refractadoItems.add(objeto);
+							nT = refractadoItems.get(refractadoItems.size() - 1).getMaterial().getIr();
 						}
 					}
 					
 					/* Lanza el rayo refractado */
 					refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal, EPSILON, nI, nT);
-					colorRefractado = trazar(refractado, rebotes + 1);
+					colorRefractado = trazar(refractado, rebotes + 1,refractadoItems);
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
 
@@ -351,10 +346,6 @@ public class Trazador {
 					finalColor = ColorOperations.add(finalColor, colorRefractado);
 				}
 
-			}
-			else{
-				// TODO esto es muy turbio. estudiar casos particulares
-				refractadoItems = new ArrayList<Par>();
 			}
 		}
 		return finalColor;
