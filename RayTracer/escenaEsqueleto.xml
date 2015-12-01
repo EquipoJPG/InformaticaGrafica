@@ -1,4 +1,4 @@
-<escena antialiasing="16" file="./escenas/escena.png" rebotes="2" ambiente="0.3" epsilon="1e-6">
+<escena antialiasing="16" file="./escenas/escena.png" rebotes="5" ambiente="0.3" epsilon="1e-6">
 
 	<debug>
 		<ambiente>1</ambiente>
@@ -9,7 +9,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="100" y="200" z="200">
+	<pov x="300" y="30" z="100">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
@@ -19,7 +19,7 @@
 	
 	<!-- lista de focos -->
 	<focos>
-		<foco x="150" y="150" z="150">
+		<foco x="60" y="60" z="60">
 			<intensidad>7</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
@@ -30,7 +30,7 @@
 		<!-- lista de objetos dentro de una caja -->
 		<caja>
 			<!-- esfera morada -->
-			<esfera x="50" y="50" z="50">	<!-- traslacion -->
+			<esfera x="50" y="80" z="50">	<!-- traslacion -->
 				<global>15</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
@@ -42,30 +42,10 @@
 					<color r="255" g="255" b="255"/>
 					<difusa>0.1</difusa>
 					<especular>0.9</especular>
-					<reflectante>0.9</reflectante>
+					<reflectante>0.8</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>0.7</indiceRefraccion>
-				</material>
-			</esfera>
-			
-			<!-- esfera -->
-			<esfera x="10" y="40" z="35">	<!-- traslacion -->
-				<global>0</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="0" g="255" b="5"/>
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>0</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
 				</material>
 			</esfera>
 			
@@ -86,7 +66,7 @@
 				<material>
 					<color r="0" g="255" b="0"/>
 					<difusa>0.1</difusa>
-					<especular>0.9</especular>
+					<especular>0</especular>
 					<reflectante>0.5</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
@@ -111,8 +91,8 @@
 				<material>
 					<color r="0" g="0" b="255"/>
 					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>0</reflectante>
+					<especular>0</especular>
+					<reflectante>0.5</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>1.1</indiceRefraccion>
@@ -136,8 +116,8 @@
 				<material>
 					<color r="255" g="0" b="0"/>
 					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>0</reflectante>
+					<especular>0</especular>
+					<reflectante>0.5</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>1.1</indiceRefraccion>

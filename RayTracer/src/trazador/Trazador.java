@@ -244,7 +244,7 @@ public class Trazador {
 						Color difusa = ColorOperations.difuso(objeto, f, angulo);
 						finalColor = ColorOperations.add(finalColor, difusa);
 					}
-					if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_ESPECULAR) {
+					if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_ESPECULAR && rebotes<1) {
 
 						/* Reflexion especular */
 						Rayo especular = Rayo.rayoReflejado(sombra, objeto, pIntersecFinal, EPSILON);
