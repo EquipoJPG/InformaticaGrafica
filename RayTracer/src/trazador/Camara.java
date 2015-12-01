@@ -38,21 +38,10 @@ public class Camara {
 		
 		/* u, v, w */
 		Vector4 up = new Vector4(0, 0, 1, 0);
-		
-		// original
 		w = Vector4.negate(g).normalise();
 		u = Vector4.cross(up, w);
 		u = u.normalise();
 		v = Vector4.cross(w, u);
-		
-		System.out.println("ORIGINAL: \nU: " + u + "\nV: " + v + "\nW: " + w +"\nG: " + g);
-		
-//		w = Vector4.negate(g);
-//		u = Vector4.cross(up, w).normalise();
-//		v = Vector4.cross(u, w).normalise();
-		
-//		System.out.println("U: " + u + "\nV: " + v + "\nW: " + w);
-		
 	}
 	
 	/**
@@ -67,9 +56,7 @@ public class Camara {
 		double varu = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		double varv = r.nextDouble() - 0.5;	// [-0.5, 0.5]
 		
-//		Vector4 local = new Vector4(i*diffu, j*diffv, -f, 1);
 		Vector4 local = new Vector4(i*diffu + varu*diffu, j*diffv + varv*diffv, -f, 1);
-//		System.out.println(local.getZ());
 		Vector4 mundo = CambioDeBase.cambioDeBase(local, u, v, w, posicion);
 		
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
