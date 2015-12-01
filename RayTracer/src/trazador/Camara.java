@@ -40,12 +40,12 @@ public class Camara {
 		Vector4 up = new Vector4(0, 0, 1, 0);
 		
 		// original
-		w = Vector4.negate(g);
+		w = Vector4.negate(g).normalise();
 		u = Vector4.cross(up, w);
 		u = u.normalise();
 		v = Vector4.cross(w, u);
 		
-//		System.out.println("ORIGINAL: \nU: " + _u + "\nV: " + _v + "\nW: " + _w);
+		System.out.println("ORIGINAL: \nU: " + u + "\nV: " + v + "\nW: " + w +"\nG: " + g);
 		
 //		w = Vector4.negate(g);
 //		u = Vector4.cross(up, w).normalise();

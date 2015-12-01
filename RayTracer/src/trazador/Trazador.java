@@ -110,7 +110,7 @@ public class Trazador {
 
 				}
 				int color = pixel.getRGB();
-				img.setRGB(j, i, color);
+				img.setRGB(j, camara.getRows() - 1 - i, color);
 			}
 		}
 
