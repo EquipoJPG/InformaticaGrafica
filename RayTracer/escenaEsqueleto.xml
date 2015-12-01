@@ -1,15 +1,15 @@
-<escena antialiasing="16" file="./escenas/escena.png" rebotes="7" ambiente="0.3" epsilon="1e-6">
+<escena antialiasing="16" file="./escenas/escena.png" rebotes="2" ambiente="0.3" epsilon="1e-6">
 
 	<debug>
 		<ambiente>1</ambiente>
 		<difusa>1</difusa>
 		<especular>1</especular>
 		<reflejo>1</reflejo>
-		<transparente>1</transparente>
+		<transparente>0</transparente>
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="240" y="80" z="100">
+	<pov x="100" y="200" z="200">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
@@ -39,13 +39,13 @@
 				
 				<!-- material -->
 				<material>
-					<color r="100" g="20" b="255"/>
+					<color r="255" g="255" b="255"/>
 					<difusa>0.1</difusa>
 					<especular>0.9</especular>
-					<reflectante>0</reflectante>
-					<transparente>1</transparente>
+					<reflectante>0.9</reflectante>
+					<transparente>0</transparente>
 					<shiny>100</shiny>
-					<indiceRefraccion>1.8</indiceRefraccion>
+					<indiceRefraccion>0.7</indiceRefraccion>
 				</material>
 			</esfera>
 			
@@ -71,9 +71,9 @@
 			
 			<!-- plano -->
 			<plano x="50" y="50" z="50">
-				<topleft x="100" y="0" z="100"/>
+				<topleft x="300" y="0" z="100"/>
 				<topright x="0" y="0" z="100"/>
-				<bottomleft x="100" y="0" z="0"/>
+				<bottomleft x="300" y="0" z="0"/>
 				<bottomright x="0" y="0" z="0"/>
 				
 				<global>15</global>	<!-- escala global -->
@@ -84,22 +84,47 @@
 				
 				<!-- material -->
 				<material>
-					<color r="100" g="255" b="255"/>
+					<color r="0" g="255" b="0"/>
+					<difusa>0.1</difusa>
+					<especular>0.9</especular>
+					<reflectante>0.5</reflectante>
+					<transparente>0</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>1.1</indiceRefraccion>
+				</material>
+			</plano>
+			
+			<!-- plano -->
+			<plano x="50" y="50" z="50">
+				<topleft x="0" y="0" z="100"/>
+				<topright x="0" y="100" z="100"/>
+				<bottomleft x="0" y="0" z="0"/>
+				<bottomright x="0" y="100" z="0"/>
+				
+				<global>15</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				
+				<!-- material -->
+				<material>
+					<color r="0" g="0" b="255"/>
 					<difusa>0.1</difusa>
 					<especular>0.9</especular>
 					<reflectante>0</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
-					<indiceRefraccion>1.5</indiceRefraccion>
+					<indiceRefraccion>1.1</indiceRefraccion>
 				</material>
 			</plano>
 			
-			<!-- triangulo -->
-			<triangulo x="50" y="50" z="50">
-				<punto1 x="50" y="50" z="50"/>
-				<punto2 x="50" y="100" z="50"/>
-				<punto3 x="50" y="50" z="100"/>
-				
+			<!-- plano -->
+			<plano x="50" y="50" z="50">
+				<topleft x="300" y="0" z="0"/>
+				<topright x="0" y="0" z="0"/>
+				<bottomleft x="300" y="100" z="0"/>
+				<bottomright x="0" y="100" z="0"/>
 				
 				<global>15</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
@@ -112,33 +137,15 @@
 					<color r="255" g="0" b="0"/>
 					<difusa>0.1</difusa>
 					<especular>0.9</especular>
-					<reflectante>1</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>0.8</indiceRefraccion>
-				</material>
-			</triangulo>
-			
-			<!-- figura -->
-			<figura path="plyFiles/cubaco.ply" x="100" y="100" z="100">
-				
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<!-- <color r="100" g="20" b="255"/> --> <!-- No es necesario, PLY tiene vertices coloreados -->
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
 					<reflectante>0</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
-					<indiceRefraccion>0.9</indiceRefraccion>
+					<indiceRefraccion>1.1</indiceRefraccion>
 				</material>
-			</figura>
+			</plano>
+			
+			
+			
 		</caja>
 	</cajas>
 	
