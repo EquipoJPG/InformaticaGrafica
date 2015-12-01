@@ -26,7 +26,7 @@ public class Camara {
 	 */
 	public Camara(Vector4 posicion, Vector4 g, double f, int columnas, int filas, int anchura, int altura){
 		this.posicion = posicion;
-		this.direccion = g.normalise();
+		this.setDireccion(g.normalise());
 		this.f = f;
 		
 		this.filas = filas;
@@ -80,5 +80,13 @@ public class Camara {
 
 	public int getCols() {
 		return columnas;
+	}
+
+	public Vector4 getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Vector4 direccion) {
+		this.direccion = direccion;
 	}
 }

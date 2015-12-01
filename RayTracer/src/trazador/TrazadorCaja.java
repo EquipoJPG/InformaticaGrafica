@@ -9,18 +9,15 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import objetos.Caja;
-import objetos.Esfera;
-import objetos.Objeto;
-import utils.XMLFormatter;
 import data.Par;
 import data.Rayo;
 import data.Vector4;
+import objetos.Objeto;
+import utils.XMLFormatter;
 
 public class TrazadorCaja {
 
-	// TODO esqueleto segun raytracer.cpp
-	/*
+	/* TODO Copypasteada de trazador
 	 * SEGUN RayTracer.cpp
 	 * 
 	 * si el objeto es transparente o reflectante reflejo = calcular rayo
@@ -62,25 +59,13 @@ public class TrazadorCaja {
 	}
 
 	public static void mainWork() {
-		String xml = "escena2.xml";
+		String xml = "escenaEsqueleto.xml";
 
 		System.out.printf("Preparando escena...");
 
 		Camara camara = XMLFormatter.getCamara(xml);
 		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
 		objetos = XMLFormatter.getObjetos(xml);
-		ArrayList<Objeto> temp = new ArrayList<Objeto>();
-		Caja definitiva = new Caja();
-		for (Objeto o : objetos) {
-			Caja p = new Caja(o);
-			if(o instanceof Esfera){
-				p.debugBounds();
-			}
-			definitiva.addObjeto(p);
-		}
-//		definitiva.debugBounds();
-		temp.add(definitiva);
-		objetos = temp;
 		focos = XMLFormatter.getFocos(xml);
 
 		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);
@@ -116,7 +101,7 @@ public class TrazadorCaja {
 					Rayo rayoPrimario = camara.rayoToPixel(jj, ii);
 
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */
-					Color colorPixel = trazar(rayoPrimario, 0);
+					Color colorPixel = trazar(rayoPrimario, 0, new ArrayList<Objeto>());
 					if (pixel != null && colorPixel != null) {
 						pixel = ColorOperations.addMedios(pixel, colorPixel);
 					} else {
@@ -136,6 +121,10 @@ public class TrazadorCaja {
 		try {
 
 			File f = new File(IMAGE_FILE_NAME);
+			if (f.exists()) {
+				String strong = IMAGE_FILE_NAME + "_" + System.currentTimeMillis() + ".png";
+				f = new File(strong);
+			}
 			if (!ImageIO.write(img, "PNG", f)) {
 				throw new RuntimeException("ERROR. Unexpected error writing image");
 			} else {
@@ -155,7 +144,7 @@ public class TrazadorCaja {
 	 *            numero de rebotes actuales
 	 * @return color calculado para el punto desde el que se lanza el rayo rayo
 	 */
-	private static Color trazar(Rayo rayo, int rebotes) {
+	private static Color trazar(Rayo rayo, int rebotes, ArrayList<Objeto> refractadoItems) {
 
 		Objeto objeto = null;
 		double minDistancia = Double.POSITIVE_INFINITY;
@@ -203,7 +192,7 @@ public class TrazadorCaja {
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-			// System.out.println(objeto.estaDentro(rayo));
+
 			if (!objeto.estaDentro(rayo, pIntersecFinal) && TERMINO_AMBIENTAL) {
 
 				/* Termino ambiental */
@@ -230,15 +219,16 @@ public class TrazadorCaja {
 				for (Objeto o : objetos) {
 					Par returned = o.interseccionSombra(sombra);
 					if (returned != null) {
+						if (!returned.getObjeto().getMaterial().isTransparente()) {
+							Double landa = returned.getInterseccion();
+							if (landa != null) {
 
-						Double landa = returned.getInterseccion();
-						if (landa != null) {
-
-							Vector4 aux = Rayo.getInterseccion(sombra, landa);
-							double dist = Vector4.distancia(sombra.getOrigen(), aux);
-							if (dist < maxDistancia) {
-								shadow = true;
-								break;
+								Vector4 aux = Rayo.getInterseccion(sombra, landa);
+								double dist = Vector4.distancia(sombra.getOrigen(), aux);
+								if (dist < maxDistancia) {
+									shadow = true;
+									break;
+								}
 							}
 						}
 					}
@@ -282,11 +272,11 @@ public class TrazadorCaja {
 				 * Si el material del objeto es reflectante se lanza el rayo
 				 * reflejado
 				 */
-				if (!objeto.estaDentro(rayo, pIntersecFinal) && objeto.getMaterial().isReflectante() && TERMINO_REFLEJADO) {
-					// TODO link a rayo reflejado
+				if (!objeto.estaDentro(rayo, pIntersecFinal) && objeto.getMaterial().isReflectante()
+						&& TERMINO_REFLEJADO) {
 					Rayo vista = new Rayo(pIntersecFinal, Vector4.negate(rayo.getDireccion()));
 					Rayo reflejado = Rayo.rayoReflejado(vista, objeto, pIntersecFinal, EPSILON);
-					colorReflejado = trazar(reflejado, rebotes + 1);
+					colorReflejado = trazar(reflejado, rebotes + 1, new ArrayList<Objeto>());
 					colorReflejado = ColorOperations.escalar(colorReflejado, objeto.getMaterial().getKr());
 				}
 				/*
@@ -294,9 +284,55 @@ public class TrazadorCaja {
 				 * refractado
 				 */
 				if (objeto.getMaterial().isTransparente() && TERMINO_REFRACTADO) {
-					// TODO link a rayo refractado
-					Rayo refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal,EPSILON);
-					colorRefractado = trazar(refractado, rebotes + 1);
+					Rayo refractado = null;
+					double nI = 1.0;
+					double nT = 1.0;
+					
+					/* Calcula los indices de refraccion nI y nT */
+					if(refractadoItems.size() == 0){
+
+						/* El medio anterior es el aire: nI = 1 y nT = Ir del objeto intersectado */
+						refractadoItems.add(objeto);
+						nI = 1.0;
+						nT = objeto.getMaterial().getIr();
+					}
+					else{
+						
+						/* El rayo esta dentro de al menos 1 objeto */
+						nI = refractadoItems.get(refractadoItems.size() - 1).getMaterial().getIr();
+						
+						boolean encontrado = false;
+						int index = 0;
+						while(!encontrado && index < refractadoItems.size()){
+							encontrado = refractadoItems.get(index).equals(objeto);
+							index++;
+						}
+						
+						if(encontrado){
+
+							/* Se ha interseccionado por segunda vez con un objeto, saliendo de el */
+							refractadoItems.remove(index-1);
+							
+							if (refractadoItems.size() == 0) {
+								
+								/* El rayo ha salido al aire desde el ultimo objeto en el que estaba contenido */
+								nT = 1.0;
+							}
+							else {
+								nT = refractadoItems.get(refractadoItems.size() - 1).getMaterial().getIr();
+							}
+						}
+						else{
+							
+							/* Se ha interseccionado por primera vez con un objeto, entrando en el */
+							refractadoItems.add(objeto);
+							nT = refractadoItems.get(refractadoItems.size() - 1).getMaterial().getIr();
+						}
+					}
+					
+					/* Lanza el rayo refractado */
+					refractado = Rayo.rayoRefractado(rayo, objeto, pIntersecFinal, EPSILON, nI, nT);
+					colorRefractado = trazar(refractado, rebotes + 1,refractadoItems);
 					colorRefractado = ColorOperations.escalar(colorRefractado, objeto.getMaterial().getKt());
 				}
 
@@ -313,6 +349,7 @@ public class TrazadorCaja {
 			}
 		}
 		return finalColor;
+
 	}
 
 	/**
