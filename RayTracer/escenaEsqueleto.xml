@@ -19,7 +19,7 @@
 	
 	<!-- lista de focos -->
 	<focos>
-		<foco x="60" y="60" z="60">
+		<foco x="150" y="150" z="150">
 			<intensidad>7</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
