@@ -19,7 +19,7 @@
 	
 	<!-- lista de focos -->
 	<focos>
-		<foco x="150" y="150" z="150">
+		<foco x="60" y="60" z="60">
 			<intensidad>7</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
@@ -42,30 +42,10 @@
 					<color r="0" g="0" b="0"/>
 					<difusa>1</difusa>
 					<especular>0.9</especular>
-					<reflectante>0.9</reflectante>
+					<reflectante>0.8</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>0.7</indiceRefraccion>
-				</material>
-			</esfera>
-			
-			<!-- esfera -->
-			<esfera x="10" y="40" z="35">	<!-- traslacion -->
-				<global>0</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="0" g="255" b="5"/>
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>0</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
 				</material>
 			</esfera>
 			
@@ -143,7 +123,7 @@
 					<indiceRefraccion>1.1</indiceRefraccion>
 				</material>
 			</plano>
-			
+						
 		</caja>
 	</cajas>
 	
