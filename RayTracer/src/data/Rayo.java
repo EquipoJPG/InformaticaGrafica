@@ -60,11 +60,11 @@ public class Rayo {
 	 */
 	public static Rayo rayoRefractado(Rayo vista, Objeto o, Vector4 i, double eps, double nI, double nT) {
 		Vector4 normal = o.normal(i, vista);
+		double nR = nI / nT;
 		if(o.estaDentro(vista, i)){
 			normal = Vector4.negate(normal);
 		}
 		Vector4 vistaNegada = Vector4.negate(vista.getDireccion().normalise());
-		double nR = nI / nT;
 		double nR2 = Math.pow(nR, 2);
 		double dotNI = Vector4.dot(normal, vistaNegada);
 		double dotNI2 = Math.pow(dotNI, 2);

@@ -45,7 +45,7 @@
 					<reflectante>0</reflectante>
 					<transparente>1</transparente>
 					<shiny>100</shiny>
-					<indiceRefraccion>1.4</indiceRefraccion>
+					<indiceRefraccion>1.8</indiceRefraccion>
 				</material>
 			</esfera>
 			
@@ -109,7 +109,7 @@
 				
 				<!-- material -->
 				<material>
-					<color r="0" g="255" b="0"/>
+					<color r="255" g="0" b="0"/>
 					<difusa>0.1</difusa>
 					<especular>0.9</especular>
 					<reflectante>1</reflectante>
