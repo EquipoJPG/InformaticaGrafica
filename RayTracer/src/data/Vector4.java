@@ -143,7 +143,10 @@ public class Vector4 {
 	 * @return @param v x @param w
 	 */
 	public static Vector4 cross(Vector4 v, Vector4 w) {
-		return new Vector4(v.y * w.z - v.z * w.y, -(v.x * w.z - v.z * w.x), v.x * w.y - v.y * w.x, 0);
+		return new Vector4(v.y * w.z - v.z * w.y, 
+						w.x * v.z - v.x * w.z, 
+						v.x * w.y - v.y * w.x, 
+						0);
 	}
 
 	/**
