@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
+
 import Jama.Matrix;
 import data.Vector4;
 
@@ -23,14 +24,8 @@ public class TransformacionesAfines {
 	}
 
 	public static Vector4 multiplyVectorByMatrix(Vector4 v, Matrix m) {
-		Matrix temp = null;
-		if (Vector4.esPunto(v)) {
-			double[][] t = { { v.getX(), v.getY(), v.getZ(), 1 } };
-			temp = new Matrix(t);
-		} else {
-			double[][] t = { { v.getX(), v.getY(), v.getZ(), 0 } };
-			temp = new Matrix(t);
-		}
+		double[][] t = { { v.getX(), v.getY(), v.getZ(), v.getH() } };
+		Matrix temp = new Matrix(t);
 		Matrix c = temp.times(m);
 		return Vector4.matrixToVector4(c);
 	}
@@ -91,8 +86,8 @@ public class TransformacionesAfines {
 	 */
 
 	public static Matrix affineMatrix(double xtraslation, double ytraslation, double ztraslation, double xscale,
-			double yscale, double zscale, double gscale, boolean xsym, boolean ysym, boolean zsym, double xrot, double yrot,
-			double zrot, double xshear, double yshear, double zshear) {
+			double yscale, double zscale, double gscale, boolean xsym, boolean ysym, boolean zsym, double xrot,
+			double yrot, double zrot, double xshear, double yshear, double zshear) {
 		ArrayList<Matrix> total = new ArrayList<Matrix>();
 
 		// Add traslation matrix
@@ -100,7 +95,7 @@ public class TransformacionesAfines {
 
 		// Add scale matrix
 		total.add(getGeneralScale(xscale, yscale, zscale));
-		
+
 		// Add global scale matrix
 		total.add(getGlobalScale(gscale));
 

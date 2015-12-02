@@ -1,6 +1,8 @@
 package data;
 
+import Jama.Matrix;
 import objetos.Objeto;
+import utils.TransformacionesAfines;
 
 public class Rayo {
 
@@ -135,6 +137,12 @@ public class Rayo {
 		double epsilon = eps;
 		Rayo returned = new Rayo(Vector4.add(i, Vector4.mulEscalar(reflejado, epsilon)), reflejado);
 		return returned;
+	}
+	
+	public static Rayo transformRay(Rayo r, Matrix T){
+		Vector4 newOrigen = TransformacionesAfines.multiplyVectorByMatrix(r.getOrigen(),T);
+		Vector4 newDireccion = TransformacionesAfines.multiplyVectorByMatrix(r.getDireccion(),T);
+		return new Rayo(newOrigen,newDireccion);
 	}
 
 }

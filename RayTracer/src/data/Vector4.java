@@ -1,6 +1,7 @@
 package data;
 
 import Jama.Matrix;
+import utils.TransformacionesAfines;
 
 public class Vector4 {
 
@@ -194,6 +195,13 @@ public class Vector4 {
 
 	public static Vector4 matrixToVector4(Matrix m){
 		return new Vector4(m.get(0, 0),m.get(0, 1),m.get(0, 2),(int)(m.get(0, 3)));
+	}
+	
+	public static Vector4 transformVector(Vector4 v, Matrix T){
+		Vector4 newOrigen = TransformacionesAfines.multiplyVectorByMatrix(v, T);
+		System.out.println(newOrigen.getH());
+		System.out.println("===============");
+		return TransformacionesAfines.multiplyVectorByMatrix(v, T);
 	}
 	
 	@Override
