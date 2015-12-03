@@ -9,7 +9,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="200" y="30" z="5">
+	<pov x="130" y="30" z="150">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
@@ -137,7 +137,7 @@
 					<color r="50" g="80" b="30"/>
 					<difusa>0.4</difusa>
 					<especular>0</especular>
-					<reflectante>0</reflectante>
+					<reflectante>0.6</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>1</indiceRefraccion>
@@ -168,7 +168,7 @@
 					<indiceRefraccion>1.1</indiceRefraccion>
 				</material>
 			</plano>
-						
+		
 		</caja>
 	</cajas>
 	
