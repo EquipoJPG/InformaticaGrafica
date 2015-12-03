@@ -9,7 +9,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="200" y="30" z="5">
+	<pov x="130" y="30" z="150">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
