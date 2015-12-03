@@ -308,7 +308,7 @@ public class XMLFormatter {
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
 
-					Esfera esfera = new Esfera(new Vector4(0, 0, 0, 1), 1, m, T); // TODO
+					Esfera esfera = new Esfera(new Vector4(x, y, z, 1), global, m, T); // TODO
 																						// radio
 																						// =
 																						// 1
