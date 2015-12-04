@@ -29,18 +29,18 @@ public class Worker implements Runnable {
 		
 		while (!terminar) {
 			Color pixel = null;
-			Rayo rayoPrimario = escena.getRayo(id);
+			ArrayList<Rayo> rayos = escena.getRayo(id);
 			
 			/* Traza los rayos de un pixel */
 			for (int k = 0; k < escena.ANTIALIASING; k++) {
 				
 				/* Se crea el rayo que sale del ojo hacia el pixel(j,i) */
-				terminar = rayoPrimario == null;
+				terminar = rayos == null;
 	
-				if (rayoPrimario != null) {
+				if (rayos != null) {
 					
 					/* Pinta el pixel(i,j) del color devuelto por el rayo */
-					Color colorPixel = trazar(rayoPrimario, 0, new ArrayList<Objeto>());
+					Color colorPixel = trazar(rayos.get(k), 0, new ArrayList<Objeto>());
 					if (pixel != null && colorPixel != null) {
 						pixel = ColorOperations.addMedios(pixel, colorPixel);
 					} else {

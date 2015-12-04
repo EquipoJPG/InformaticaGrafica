@@ -75,7 +75,9 @@ public class Escena {
 		img.setRGB(jj, ii, color);
 	}
 	
-	public synchronized Rayo getRayo(int id){
+	public synchronized ArrayList<Rayo> getRayo(int id){
+		
+		ArrayList<Rayo> rayos = new ArrayList<Rayo>();
 		
 		/* Crea el rayo que pasa por el pixel j, i */
 		if (j < camara.getCols() - 1) {
@@ -91,22 +93,17 @@ public class Escena {
 			}
 		}
 		
-//		System.out.println("Camara: (" + camara.getRows() + ", " + camara.getCols() + ")");
-//		System.out.println("i: " + i + ",j: " + j);
-		
 		int ii = i - camara.getRows() / 2;
 		int jj = j - camara.getCols() / 2;
 		
 		/* Genera el rayo y actualiza el estado de los trabajadores */
-		Rayo rayo = camara.rayoToPixel(jj, ii);
+		for (int k = 0; k < ANTIALIASING; k++) {
+			rayos.add(camara.rayoToPixel(jj, ii));
+		}
 		Pixel workingPixel = new Pixel(i, j);
 		trabajos.set(id, workingPixel);
 		
-		/* Actualiza el pixel para el siguiente rayo */
-//		i = i + 1;
-//		j = j + 1;
-		
-		return rayo;
+		return rayos;
 	}
 	
 	public BufferedImage getImg(){
