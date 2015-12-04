@@ -47,6 +47,24 @@ public class XMLFormatter {
 		}
 		return null;
 	}
+	
+	/**
+	 * Seteta el multithreading
+	 */
+	public static boolean setMultiThreading(String xml){
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+		return Integer.parseInt(doc.getDocumentElement().getAttribute("mt")) == 1;
+	}
+	
+	/**
+	 * Setea las cajas envolventes
+	 */
+	public static boolean setCajas(String xml){
+		Document doc = setup(xml);
+		doc.getDocumentElement().normalize();
+		return Integer.parseInt(doc.getDocumentElement().getAttribute("cajas")) == 1;
+	}
 
 	/**
 	 * Setea las flags de debug del programa
