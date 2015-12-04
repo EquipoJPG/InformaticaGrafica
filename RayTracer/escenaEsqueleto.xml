@@ -1,11 +1,11 @@
 <escena 
-	antialiasing="16" 
+	antialiasing="1" 
 	file="./escenas/escena.png" 
 	rebotes="4" 
 	ambiente="0.3" 
 	epsilon="1e-6"
-	mt="1"
-	cajas="1">
+	multithreading="4"
+	cajas="0">
 
 	<debug>
 		<ambiente>1</ambiente>
@@ -23,7 +23,7 @@
 		<altura>3</altura>
 		<focal>5</focal>
 	</pov>
-	6
+	
 	<!-- lista de focos -->
 	<focos>
 		<foco x="50" y="40" z="5">

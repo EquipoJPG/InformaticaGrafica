@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.Rayo;
+import objetos.Caja;
 import objetos.Objeto;
 import trazador.Camara;
 import trazador.Foco;
@@ -21,6 +22,7 @@ public class Escena {
 	int MAX_REBOTES_RAYO;
 	double LUZ_AMBIENTAL;
 	double EPSILON;
+	boolean CAJAS_ENVOLVENTES;
 
 	/* Contenido de la escena */
 	private BufferedImage img;
@@ -45,6 +47,21 @@ public class Escena {
 		camara = XMLFormatter.getCamara(xml);
 		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
 		objetos = XMLFormatter.getObjetos(xml);
+		CAJAS_ENVOLVENTES = XMLFormatter.setCajas(xml);
+		
+		if (CAJAS_ENVOLVENTES) {
+			
+			/* Guarda los objetos en cajas */
+			ArrayList<Objeto> cajasTemp = new ArrayList<Objeto>();
+			for (int i = 0; i < objetos.size(); i++) {
+				Caja caja = new Caja(objetos.get(i));
+				cajasTemp.add(caja);
+			}
+			Caja cajaEscena = new Caja(cajasTemp);
+			objetos = new ArrayList<Objeto>();
+			objetos.add(cajaEscena);
+		}
+		
 		focos = XMLFormatter.getFocos(xml);
 
 		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);

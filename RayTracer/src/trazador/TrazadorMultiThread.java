@@ -22,7 +22,7 @@ public class TrazadorMultiThread {
 	 */
 
 	private static String IMAGE_FILE_NAME;
-	private static int NUM_WORKERS = 4;
+	private static int NUM_WORKERS;
 	private static Worker[] workers = new Worker[NUM_WORKERS];
 	private static Thread[] workersT = new Thread[NUM_WORKERS];
 	
@@ -37,7 +37,11 @@ public class TrazadorMultiThread {
 
 	public static void mainWork() {
 		String xml = "escenaEsqueleto.xml";
+		
 		IMAGE_FILE_NAME = XMLFormatter.getFile(xml);
+		NUM_WORKERS = XMLFormatter.setMultiThreading(xml);
+		workers = new Worker[NUM_WORKERS];
+		workersT = new Thread[NUM_WORKERS];
 		
 		/* Crea la escena */
 		System.out.printf("Preparando escena...");

@@ -49,12 +49,12 @@ public class XMLFormatter {
 	}
 	
 	/**
-	 * Seteta el multithreading
+	 * Setea el multithreading
 	 */
-	public static boolean setMultiThreading(String xml){
+	public static int setMultiThreading(String xml){
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
-		return Integer.parseInt(doc.getDocumentElement().getAttribute("mt")) == 1;
+		return Integer.parseInt(doc.getDocumentElement().getAttribute("multithreading"));
 	}
 	
 	/**
