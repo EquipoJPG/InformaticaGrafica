@@ -14,12 +14,10 @@ public class Worker implements Runnable {
 
 	private int id;
 	private Escena escena;
-	private int numPixels;
 
 	public Worker(int id, Escena escena) {
 		this.id = id;
 		this.escena = escena;
-		this.numPixels = 0;
 		escena.inicializarTrabajo(id);
 	}
 
@@ -35,7 +33,7 @@ public class Worker implements Runnable {
 			for (int k = 0; k < escena.ANTIALIASING; k++) {
 				
 				/* Se crea el rayo que sale del ojo hacia el pixel(j,i) */
-				terminar = rayos == null;
+				terminar = (rayos == null);
 	
 				if (rayos != null) {
 					
@@ -51,7 +49,6 @@ public class Worker implements Runnable {
 			if (!terminar) {
 				int color = pixel.getRGB();
 				escena.pintarPixel(id, color);
-				numPixels++;
 			}				
 		}
 	}
