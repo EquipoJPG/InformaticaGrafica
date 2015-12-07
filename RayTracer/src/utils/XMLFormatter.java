@@ -10,21 +10,23 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import Jama.Matrix;
-import data.Vector4;
+import objetos.Caja;
 import objetos.Esfera;
 import objetos.Figura;
 import objetos.Material;
 import objetos.Objeto;
 import objetos.Plano;
 import objetos.Triangulo;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import trazador.Camara;
 import trazador.Foco;
+import Jama.Matrix;
+import data.Vector4;
 
 public class XMLFormatter {
 
@@ -237,6 +239,7 @@ public class XMLFormatter {
 
 	// TODO meter los objetos en cajas
 	public static List<Objeto> getObjetos(String xml) {
+		boolean cajas = setCajas(xml);
 		Document doc = setup(xml);
 		doc.getDocumentElement().normalize();
 		List<Objeto> objetos = new ArrayList<Objeto>();
@@ -245,6 +248,8 @@ public class XMLFormatter {
 		if (nl != null && nl.getLength() > 0) {
 			NodeList nl2 = ((Element) nl.item(0)).getElementsByTagName("caja");
 			for (int i = 0; i < nl2.getLength(); i++) {
+				Caja caja = new Caja();
+				
 				NodeList nl3_esferas = ((Element) nl2.item(i)).getElementsByTagName("esfera");
 				NodeList nl3_triangulos = ((Element) nl2.item(i)).getElementsByTagName("triangulo");
 				NodeList nl3_planos = ((Element) nl2.item(i)).getElementsByTagName("plano");
@@ -333,7 +338,12 @@ public class XMLFormatter {
 																						// y
 																						// NO
 																						// vector4
-					objetos.add(esfera);
+					if(cajas){
+						caja.addObjeto(esfera);
+					}
+					else{
+						objetos.add(esfera);
+					}
 				}
 
 				// TODO triangulos
@@ -427,7 +437,12 @@ public class XMLFormatter {
 							cizallaX, cizallaY, cizallaZ);
 
 					Triangulo triangulo = new Triangulo(punto1, punto2, punto3, m, T);
-					objetos.add(triangulo);
+					if(cajas){
+						caja.addObjeto(triangulo);
+					}
+					else{
+						objetos.add(triangulo);
+					}
 				}
 
 				// TODO planos
@@ -525,7 +540,12 @@ public class XMLFormatter {
 							cizallaX, cizallaY, cizallaZ);
 
 					Plano plano = new Plano(topleft, topright, bottomleft, bottomright, m, T);
-					objetos.add(plano);
+					if(cajas){
+						caja.addObjeto(plano);
+					}
+					else{
+						objetos.add(plano);
+					}
 				}
 
 				// TODO figuras
@@ -603,7 +623,15 @@ public class XMLFormatter {
 							cizallaX, cizallaY, cizallaZ);
 
 					f.setT(T);
-					objetos.add(f);
+					if(cajas){
+						caja.addObjeto(f);
+					}
+					else{
+						objetos.add(f);
+					}
+				}
+				if(cajas){
+					objetos.add(caja);
 				}
 			}
 		}
