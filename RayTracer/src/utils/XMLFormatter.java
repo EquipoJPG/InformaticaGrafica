@@ -539,6 +539,16 @@ public class XMLFormatter {
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ);
 
+					System.out.println();
+					System.out.println(c);
+					for (int k = 0; k < T.getColumnDimension(); k++) {
+						for (int k2 = 0; k2 < T.getRowDimension(); k2++) {
+							System.out.print(T.get(k2, k) + "\t");
+						}
+						System.out.println();
+					}
+					System.out.println();
+
 					Plano plano = new Plano(topleft, topright, bottomleft, bottomright, m, T);
 					if(cajas){
 						caja.addObjeto(plano);
