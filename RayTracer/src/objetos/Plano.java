@@ -38,12 +38,6 @@ public class Plano extends Objeto {
 		this.p3 = TransformacionesAfines.multiplyVectorByMatrix(p3, T);
 		this.p4 = TransformacionesAfines.multiplyVectorByMatrix(p4, T);
 		
-		System.out.println(m.getColor());
-		System.out.println(p1);
-		System.out.println(p2);
-		System.out.println(p3);
-		System.out.println(p4);
-		
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p1, T));
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p2, T));
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p3, T));
