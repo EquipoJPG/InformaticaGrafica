@@ -47,23 +47,8 @@ public class Escena {
 		camara = XMLFormatter.getCamara(xml);
 		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
 		objetos = XMLFormatter.getObjetos(xml);
-		CAJAS_ENVOLVENTES = XMLFormatter.setCajas(xml);
-		
-		if (CAJAS_ENVOLVENTES) {
-			
-			/* Guarda los objetos en cajas */
-			ArrayList<Objeto> cajasTemp = new ArrayList<Objeto>();
-			for (int i = 0; i < objetos.size(); i++) {
-				Caja caja = new Caja(objetos.get(i));
-				cajasTemp.add(caja);
-			}
-			Caja cajaEscena = new Caja(cajasTemp);
-			objetos = new ArrayList<Objeto>();
-			objetos.add(cajaEscena);
-		}
-		
 		focos = XMLFormatter.getFocos(xml);
-
+		CAJAS_ENVOLVENTES = XMLFormatter.setCajas(xml);
 		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
