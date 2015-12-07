@@ -19,6 +19,8 @@ public class Esfera extends Objeto {
 	 *            centro de la esfera (0,0,0) seria lo correcto
 	 * @param radio:
 	 *            radio de la esfera
+	 * 
+	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
 	 */
 	@Deprecated
 	public Esfera(Vector4 centro, double radio, Material m, Matrix T) {
@@ -34,6 +36,8 @@ public class Esfera extends Objeto {
 	/**
 	 * @param radio:
 	 *            radio de la esfera
+	 * 
+	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
 	 */
 	@Deprecated
 	public Esfera(double radio, Material m, Matrix T) {
@@ -51,6 +55,8 @@ public class Esfera extends Objeto {
 	 *            centro de la esfera (0,0,0) seria lo correcto
 	 * @param radio:
 	 *            radio de la esfera
+	 * 
+	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
 	 */
 	@Deprecated
 	public Esfera(Vector4 centro, double radio, Material m) {
@@ -65,6 +71,8 @@ public class Esfera extends Objeto {
 	/**
 	 * @param radio:
 	 *            radio de la esfera
+	 * 
+	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
 	 */
 	@Deprecated
 	public Esfera(double radio, Material m) {
