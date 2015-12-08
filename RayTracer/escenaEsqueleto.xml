@@ -40,66 +40,6 @@
 	<cajas>
 		<!-- lista de objetos dentro de una caja -->
 		<caja>
-		
-			<!-- esfera reflectante y refractante -->
-			<esfera x="35" y="15" z="50">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="166" g="198" b="205"/>
-					<difusa>0.2</difusa>
-					<especular>0.2</especular>
-					<reflectante>0.5</reflectante>
-					<transparente>0.5</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>0.9</indiceRefraccion>
-				</material>
-			</esfera>
-			
-			<!-- esfera reflectante -->
-			<esfera x="35" y="15" z="85">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="30" g="200" b="120"/>
-					<difusa>0.4</difusa>
-					<especular>0.2</especular>
-					<reflectante>0.8</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
-				</material>
-			</esfera>
-			
-			<!-- esfera amarilla opaca-->
-			<esfera x="50" y="15" z="20">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="150" g="140" b="0"/>
-					<difusa>0.4</difusa>
-					<especular>0.8</especular>
-					<reflectante>0</reflectante>
-					<transparente>0</transparente>
-					<shiny>30</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
-				</material>
-			</esfera>
 			
 			<!-- plano suelo (rojo) -->
 			<plano x="0" y="0" z="0">
@@ -176,6 +116,27 @@
 				</material>
 			</plano>
 		
+		
+			<!-- figura -->
+            <figura path="plyFiles/Gyroid.ply" x="100" y="100" z="100">
+                
+                <global>15</global>    <!-- escala global -->
+                <escala x="15" y="15" z="15"/>    <!-- escala local -->
+                <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
+                <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
+                <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
+                
+                <!-- material -->
+				<material>
+					<!-- <color r="255" g="0" b="0"/> -->
+					<difusa>0.3</difusa>
+					<especular>0</especular>
+					<reflectante>0</reflectante>
+					<transparente>0</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>0</indiceRefraccion>
+				</material>
+            </figura>
 		</caja>
 	</cajas>
 	
