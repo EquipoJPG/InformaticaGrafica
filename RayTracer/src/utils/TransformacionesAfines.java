@@ -94,10 +94,14 @@ public class TransformacionesAfines {
 		total.add(getGeneralTraslation(xtraslation, ytraslation, ztraslation));
 
 		// Add scale matrix
-		total.add(getGeneralScale(xscale, yscale, zscale));
+		if(xscale>0 || yscale>0 || zscale>0){
+			total.add(getGeneralScale(xscale, yscale, zscale));
+		}
 
 		// Add global scale matrix
-		total.add(getGlobalScale(gscale));
+		if(gscale>0){
+			total.add(getGlobalScale(gscale));
+		}
 
 		// Add symmetric matrices
 		if (xsym) {
