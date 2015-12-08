@@ -99,12 +99,16 @@ public class Figura extends Objeto {
 							// Si no tenemos valor para devolver guardado,
 							// almacenamos el nuevo
 							if (returned == null) {
-								returned = ret;
+								if(!ret.getObjeto().getMaterial().isTransparente()){
+									returned = ret;
+								}
 							} else {
 								// Si tenemos valor guardado y el nuevo es menor
 								// guardar el nuevo
 								if (iterInterseccion < returned.getInterseccion()) {
-									returned = ret;
+									if(!ret.getObjeto().getMaterial().isTransparente()){
+										returned = ret;
+									}
 								}
 							}
 						}
