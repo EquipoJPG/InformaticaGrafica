@@ -1,7 +1,7 @@
 <escena 
 	antialiasing="1" 
 	file="./escenas/escena.png" 
-	rebotes="4" 
+	rebotes="1" 
 	ambiente="0.3" 
 	epsilon="1e-6"
 	multithreading="4"
@@ -16,9 +16,9 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="130" y="30" z="150">
-		<columnas>1024</columnas>
-		<filas>720</filas>
+	<pov x="230" y="50" z="250">
+		<columnas>256</columnas>
+		<filas>180</filas>
 		<anchura>4</anchura>
 		<altura>3</altura>
 		<focal>5</focal>
@@ -30,76 +30,12 @@
 			<intensidad>4</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
-		<foco x="50" y="40" z="150">
-			<intensidad>1</intensidad>
-			<color r="255" g="255" b="255"/>
-		</foco>
 	</focos>
 	
 	<!-- lista de cajas -->
 	<cajas>
 		<!-- lista de objetos dentro de una caja -->
 		<caja>
-		
-			<!-- esfera reflectante y refractante -->
-			<esfera x="35" y="15" z="50">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="166" g="198" b="205"/>
-					<difusa>0.2</difusa>
-					<especular>0.2</especular>
-					<reflectante>0.5</reflectante>
-					<transparente>0.5</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>0.9</indiceRefraccion>
-				</material>
-			</esfera>
-			
-			<!-- esfera reflectante -->
-			<esfera x="35" y="15" z="85">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="30" g="200" b="120"/>
-					<difusa>0.4</difusa>
-					<especular>0.2</especular>
-					<reflectante>0.8</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
-				</material>
-			</esfera>
-			
-			<!-- esfera amarilla opaca-->
-			<esfera x="50" y="15" z="20">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="150" g="140" b="0"/>
-					<difusa>0.4</difusa>
-					<especular>0.8</especular>
-					<reflectante>0</reflectante>
-					<transparente>0</transparente>
-					<shiny>30</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
-				</material>
-			</esfera>
 			
 			<!-- plano suelo (rojo) -->
 			<plano x="0" y="0" z="0">
@@ -117,9 +53,9 @@
 				<!-- material -->
 				<material>
 					<color r="255" g="0" b="0"/>
-					<difusa>0.3</difusa>
+					<difusa>0.4</difusa>
 					<especular>0</especular>
-					<reflectante>0.7</reflectante>
+					<reflectante>00</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>1</indiceRefraccion>
@@ -144,7 +80,7 @@
 					<color r="50" g="80" b="30"/>
 					<difusa>0.4</difusa>
 					<especular>0</especular>
-					<reflectante>0.6</reflectante>
+					<reflectante>0</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>1</indiceRefraccion>
@@ -169,13 +105,34 @@
 					<color r="100" g="100" b="255"/>
 					<difusa>0.4</difusa>
 					<especular>0</especular>
-					<reflectante>0.9</reflectante>
+					<reflectante>0</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
 					<indiceRefraccion>1.1</indiceRefraccion>
 				</material>
 			</plano>
 		
+		
+			<!-- figura -->
+            <figura path="plyFiles/Gyroid.ply" x="100" y="100" z="100">
+                
+                <global>15</global>    <!-- escala global -->
+                <escala x="15" y="15" z="15"/>    <!-- escala local -->
+                <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
+                <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
+                <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
+                
+                <!-- material -->
+				<material>
+					<!-- <color r="255" g="0" b="0"/> -->
+					<difusa>0.5</difusa>
+					<especular>0</especular>
+					<reflectante>0</reflectante>
+					<transparente>0</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>1</indiceRefraccion>
+				</material>
+            </figura>
 		</caja>
 	</cajas>
 	
