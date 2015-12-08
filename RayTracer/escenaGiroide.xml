@@ -5,7 +5,7 @@
 	ambiente="0.3" 
 	epsilon="1e-6"
 	multithreading="4"
-	cajas="0">
+	cajas="1">
 
 	<debug>
 		<ambiente>1</ambiente>
@@ -30,20 +30,22 @@
 			<intensidad>4</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
+		<foco x="230" y="230" z="200">
+			<intensidad>4</intensidad>
+			<color r="255" g="255" b="255"/>
+		</foco>
 	</focos>
 	
 	<!-- lista de cajas -->
 	<cajas>
 		<!-- lista de objetos dentro de una caja -->
+		
 		<caja>
 			
-			
-		
-		
 			<!-- figura -->
-            <figura path="plyFiles/Giro.ply" x="0" y="0" z="0">
+            <figura path="plyFiles/Giroide.ply" x="0" y="0" z="0">
                 
-                <global>0.8</global>    <!-- escala global -->
+                <global>4</global>    <!-- escala global -->
                 <escala x="-1" y="-1" z="-1"/>    <!-- escala local -->
                 <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->

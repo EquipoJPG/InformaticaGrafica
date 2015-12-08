@@ -28,7 +28,7 @@ public class TrazadorMultiThread {
 	
 	public static void main(String[] args) {
 		long startTime = System.nanoTime();
-		String nameFile = "escenaEsqueleto.xml";
+		String nameFile = "escenaGiroide.xml";
 		if(args.length>=1){
 			nameFile = args[0];
 		}

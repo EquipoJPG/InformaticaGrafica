@@ -16,7 +16,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="230" y="50" z="250">
+	<pov x="230" y="200" z="250">
 		<columnas>256</columnas>
 		<filas>180</filas>
 		<anchura>4</anchura>
@@ -114,10 +114,10 @@
 		
 		
 			<!-- figura -->
-            <figura path="plyFiles/Gyroid.ply" x="100" y="100" z="100">
+            <figura path="plyFiles/Gyroid2.ply" x="100" y="100" z="100">
                 
-                <global>15</global>    <!-- escala global -->
-                <escala x="15" y="15" z="15"/>    <!-- escala local -->
+                <global>0.1</global>    <!-- escala global -->
+                <escala x="1" y="1" z="1"/>    <!-- escala local -->
                 <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
                 <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
