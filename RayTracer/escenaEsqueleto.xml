@@ -102,13 +102,13 @@
 			</esfera>
 			
 			<!-- plano suelo (rojo) -->
-			<plano x="50" y="50" z="50">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="0" z="0"/>
 				<topright x="200" y="0" z="0"/>
 				<bottomleft x="0" y="0" z="200"/>
 				<bottomright x="200" y="0" z="200"/>
 				
-				<global>15</global>	<!-- escala global -->
+				<global>1</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -127,13 +127,13 @@
 			</plano>
 			
 			<!-- plano izquierda (verde) -->
-			<plano x="50" y="50" z="50">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="100" z="200"/>
 				<topright x="0" y="100" z="0"/>
 				<bottomleft x="0" y="0" z="200"/>
 				<bottomright x="0" y="0" z="0"/>
 				
-				<global>15</global>	<!-- escala global -->
+				<global>1</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -152,13 +152,13 @@
 			</plano>
 			
 			<!-- plano derecha (azul) -->
-			<plano x="50" y="50" z="50">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="100" z="0"/>
 				<topright x="200" y="100" z="0"/>
 				<bottomleft x="0" y="0" z="0"/>
 				<bottomright x="200" y="0" z="0"/>
 				
-				<global>15</global>	<!-- escala global -->
+				<global>1</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->

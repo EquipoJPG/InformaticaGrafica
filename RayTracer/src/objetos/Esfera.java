@@ -88,9 +88,9 @@ public class Esfera extends Objeto {
 	 * @param material:
 	 *            material de la esfera
 	 */
-	public Esfera(Material m) {
+	public Esfera(Material m, double radio) {
 		this.centro = new Vector4(0, 0, 0, 1);
-		this.radio = 1;
+		this.radio = radio;
 		super.material = m;
 		updateBounds();
 	}
@@ -102,10 +102,11 @@ public class Esfera extends Objeto {
 	 * @param radio:
 	 *            radio de la esfera
 	 */
-	public Esfera(Material m, Matrix T) {
+	public Esfera(Material m, Matrix T, double radio) {
 		this.centro = new Vector4(0, 0, 0, 1);
-		TransformacionesAfines.multiplyVectorByMatrix(this.centro, T);
-		this.radio = T.get(0, 0);
+		this.centro = TransformacionesAfines.multiplyVectorByMatrix(this.centro, T);
+		this.radio = radio;
+		
 		super.material = m;
 		super.T = T;
 		updateBounds();

@@ -327,17 +327,14 @@ public class XMLFormatter {
 					//////////////////////////////////////////////////////////////////////////////
 
 					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
-					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
-							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
-							cizallaX, cizallaY, cizallaZ);
+//					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
+//							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
+//							cizallaX, cizallaY, cizallaZ);
+					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, 1,
+							false, false, false, 0, 0, 0,
+							0, 0, 0);
 
-					Esfera esfera = new Esfera(new Vector4(x, y, z, 1), global, m, T); // TODO
-																						// radio
-																						// =
-																						// 1
-																						// y
-																						// NO
-																						// vector4
+					Esfera esfera = new Esfera(m, T, global);
 					if(cajas){
 						caja.addObjeto(esfera);
 					}
