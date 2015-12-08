@@ -21,6 +21,7 @@ public class Figura extends Objeto {
 		lista = new ArrayList<Objeto>();
 		lowerBound = null;
 		upperBound = null;
+		this.T = TransformacionesAfines.getIdentity();
 	}
 
 	public Figura(Objeto o) {
@@ -28,10 +29,12 @@ public class Figura extends Objeto {
 		lista.add(o);
 		lowerBound = o.getLowerBound();
 		upperBound = o.getUpperBound();
+		this.T = TransformacionesAfines.getIdentity();
 	}
 
 	public Figura(ArrayList<Objeto> l) {
 		lista = l;
+		this.T = TransformacionesAfines.getIdentity();
 		updateBounds();
 	}
 
@@ -217,8 +220,12 @@ public class Figura extends Objeto {
 
 	@Override
 	public void setT(Matrix T) {
-		// Don't do anything
-		this.T = TransformacionesAfines.getIdentity();
+		this.T = T;
+		for (Objeto o : lista){
+			o.T = T;
+			o.updateBounds();
+		}
+		updateBounds();
 	}
 
 	@Override
