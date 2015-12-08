@@ -16,7 +16,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="230" y="230" z="230">
+	<pov x="330" y="330" z="330">
 		<columnas>256</columnas>
 		<filas>180</filas>
 		<anchura>4</anchura>
@@ -41,11 +41,87 @@
 		<!-- lista de objetos dentro de una caja -->
 		
 		<caja>
+		<!-- plano suelo (rojo) -->
+			<plano x="0" y="0" z="0">
+				<topleft x="0" y="0" z="0"/>
+				<topright x="200" y="0" z="0"/>
+				<bottomleft x="0" y="0" z="200"/>
+				<bottomright x="200" y="0" z="200"/>
+				
+				<global>1</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				
+				<!-- material -->
+				<material>
+					<color r="255" g="0" b="0"/>
+					<difusa>0.4</difusa>
+					<especular>0</especular>
+					<reflectante>00</reflectante>
+					<transparente>0</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>1</indiceRefraccion>
+				</material>
+			</plano>
 			
+			<!-- plano izquierda (verde) -->
+			<plano x="0" y="0" z="0">
+				<topleft x="0" y="100" z="200"/>
+				<topright x="0" y="100" z="0"/>
+				<bottomleft x="0" y="0" z="200"/>
+				<bottomright x="0" y="0" z="0"/>
+				
+				<global>1</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				
+				<!-- material -->
+				<material>
+					<color r="50" g="80" b="30"/>
+					<difusa>0.4</difusa>
+					<especular>0</especular>
+					<reflectante>0</reflectante>
+					<transparente>0</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>1</indiceRefraccion>
+				</material>
+			</plano>
+			
+			<!-- plano derecha (azul) -->
+			<plano x="0" y="0" z="0">
+				<topleft x="0" y="100" z="0"/>
+				<topright x="200" y="100" z="0"/>
+				<bottomleft x="0" y="0" z="0"/>
+				<bottomright x="200" y="0" z="0"/>
+				
+				<global>1</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				
+				<!-- material -->
+				<material>
+					<color r="100" g="100" b="255"/>
+					<difusa>0.4</difusa>
+					<especular>0</especular>
+					<reflectante>0</reflectante>
+					<transparente>0</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>1.1</indiceRefraccion>
+				</material>
+			</plano>
+		</caja>
+		
+		<caja>
 			<!-- figura -->
-            <figura path="plyFiles/Giroide.ply" x="0" y="0" z="0">
+            <figura path="plyFiles/Giroide.ply" x="50" y="50" z="50">
                 
-                <global>4</global>    <!-- escala global -->
+                <global>2</global>    <!-- escala global -->
                 <escala x="-1" y="-1" z="-1"/>    <!-- escala local -->
                 <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
