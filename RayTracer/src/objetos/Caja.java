@@ -86,7 +86,7 @@ public class Caja extends Objeto {
 				h = true;
 			}
 			// Condicion 6
-			if (p.getZ() < upperBound.getZ() && m.getZ() >= 0) {
+			if (p.getZ() > upperBound.getZ() && m.getZ() >= 0) {
 				h = true;
 			}
 		}
@@ -132,7 +132,7 @@ public class Caja extends Objeto {
 				h = true;
 			}
 			// Condicion 6
-			if (p.getZ() < upperBound.getZ() && m.getZ() >= 0) {
+			if (p.getZ() > upperBound.getZ() && m.getZ() >= 0) {
 				h = true;
 			}
 		}

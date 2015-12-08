@@ -7,6 +7,7 @@ import data.Par;
 import data.Rayo;
 import data.Vector4;
 import objetos.Objeto;
+import objetos.Triangulo;
 import trazador.ColorOperations;
 import trazador.Foco;
 

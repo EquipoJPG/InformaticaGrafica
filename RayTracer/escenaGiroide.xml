@@ -5,7 +5,7 @@
 	ambiente="0.3" 
 	epsilon="1e-3"
 	multithreading="4"
-	cajas="0">
+	cajas="1">
 
 	<debug>
 		<ambiente>1</ambiente>
@@ -16,7 +16,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="330" y="330" z="330">
+	<pov x="330" y="200" z="330">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
@@ -115,12 +115,11 @@
 		</caja>
 		
 		<caja>
-			<!-- figura -->
-            <figura path="plyFiles/Giroide.ply" x="70" y="50" z="70">
+			<figura path="plyFiles/Giroide.ply" x="50" y="50" z="50">
                 
                 <global>1.5</global>    <!-- escala global -->
                 <escala x="-1" y="-1" z="-1"/>    <!-- escala local -->
-                <rotacion x="50" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
+                <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
                 <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
                 
