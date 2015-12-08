@@ -102,7 +102,7 @@
 			</esfera>
 			
 			<!-- plano suelo (rojo) -->
-			<plano x="50" y="50" z="50">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="0" z="0"/>
 				<topright x="200" y="0" z="0"/>
 				<bottomleft x="0" y="0" z="200"/>
@@ -127,7 +127,7 @@
 			</plano>
 			
 			<!-- plano izquierda (verde) -->
-			<plano x="50" y="50" z="50">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="100" z="200"/>
 				<topright x="0" y="100" z="0"/>
 				<bottomleft x="0" y="0" z="200"/>
@@ -152,7 +152,7 @@
 			</plano>
 			
 			<!-- plano derecha (azul) -->
-			<plano x="50" y="50" z="50">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="100" z="0"/>
 				<topright x="200" y="100" z="0"/>
 				<bottomleft x="0" y="0" z="0"/>

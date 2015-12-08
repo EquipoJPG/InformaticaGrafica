@@ -32,6 +32,12 @@ public class Plano extends Objeto {
 		double minY = Double.POSITIVE_INFINITY;
 		double minZ = Double.POSITIVE_INFINITY;
 		ArrayList<Vector4> temp = new ArrayList<Vector4>();
+		
+		this.p1 = TransformacionesAfines.multiplyVectorByMatrix(p1, T);
+		this.p2 = TransformacionesAfines.multiplyVectorByMatrix(p2, T);
+		this.p3 = TransformacionesAfines.multiplyVectorByMatrix(p3, T);
+		this.p4 = TransformacionesAfines.multiplyVectorByMatrix(p4, T);
+		
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p1, T));
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p2, T));
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p3, T));
@@ -241,6 +247,12 @@ public class Plano extends Objeto {
 		double minY = Double.POSITIVE_INFINITY;
 		double minZ = Double.POSITIVE_INFINITY;
 		ArrayList<Vector4> temp = new ArrayList<Vector4>();
+		
+		this.p1 = TransformacionesAfines.multiplyVectorByMatrix(p1, T);
+		this.p2 = TransformacionesAfines.multiplyVectorByMatrix(p2, T);
+		this.p3 = TransformacionesAfines.multiplyVectorByMatrix(p3, T);
+		this.p4 = TransformacionesAfines.multiplyVectorByMatrix(p4, T);
+		
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p1, T));
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p2, T));
 		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p3, T));

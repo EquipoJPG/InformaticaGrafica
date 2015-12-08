@@ -51,15 +51,20 @@ public class Trazador {
 
 	public static void main(String[] args) {
 		long startTime = System.nanoTime();
-		mainWork();
+		String nameFile = "escenaEsqueleto.xml";
+		if(args.length>=1){
+			nameFile = args[0];
+		}
+		mainWork(nameFile);
 		long endTime = System.nanoTime();
 
 		long duration = (endTime - startTime) / (long) (1000000.0);
 		System.out.println("Execution time: " + duration + " miliseconds");
 	}
 
-	public static void mainWork() {
-		String xml = "escenaEsqueleto.xml";
+	public static void mainWork(String file) {
+		String xml = file;
+		
 
 		System.out.printf("Preparando escena...");
 
