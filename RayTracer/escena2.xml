@@ -1,4 +1,11 @@
-<escena antialiasing="16" file="escena2.png" rebotes="7" ambiente="0.3" epsilon="1e-6">
+<escena 
+	antialiasing="1" 
+	file="./escenas/escena.png" 
+	rebotes="4" 
+	ambiente="0.3" 
+	epsilon="1e-6"
+	multithreading="4"
+	cajas="0">
 
 	<debug>
 		<ambiente>1</ambiente>
@@ -9,7 +16,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="240" y="80" z="100">
+	<pov x="100" y="100" z="100">
 		<columnas>1024</columnas>
 		<filas>720</filas>
 		<anchura>4</anchura>
@@ -19,8 +26,12 @@
 	
 	<!-- lista de focos -->
 	<focos>
-		<foco x="70" y="70" z="90">
+		<foco x="50" y="40" z="5">
 			<intensidad>4</intensidad>
+			<color r="255" g="255" b="255"/>
+		</foco>
+		<foco x="50" y="40" z="150">
+			<intensidad>1</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
 	</focos>
@@ -29,9 +40,15 @@
 	<cajas>
 		<!-- lista de objetos dentro de una caja -->
 		<caja>
-			<!-- esfera -->
-			<esfera x="50" y="50" z="50">	<!-- traslacion -->
-				<global>15</global>	<!-- escala global -->
+			
+			<!-- plano suelo (rojo) -->
+			<plano x="0" y="0" z="0">
+				<topleft x="0" y="0" z="-20"/>
+				<topright x="20" y="0" z="0"/>
+				<bottomleft x="0" y="-50" z="20"/>
+				<bottomright x="20" y="0" z="20"/>
+				
+				<global>1</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
@@ -39,83 +56,16 @@
 				
 				<!-- material -->
 				<material>
-					<color r="100" g="20" b="255"/>
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>1</reflectante>
+					<color r="255" g="0" b="0"/>
+					<difusa>0.3</difusa>
+					<especular>0</especular>
+					<reflectante>0.7</reflectante>
 					<transparente>0</transparente>
 					<shiny>100</shiny>
-				</material>
-			</esfera>
-			
-			
-			
-			<!-- plano -->
-			<plano x="50" y="50" z="50">
-				<topleft x="100" y="100" z="100"/>
-				<topright x="100" y="100" z="100"/>
-				<bottomleft x="100" y="100" z="100"/>
-				<bottomright x="100" y="100" z="100"/>
-				
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="100" g="20" b="255"/>
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>1</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
+					<indiceRefraccion>1</indiceRefraccion>
 				</material>
 			</plano>
-			
-			<!-- triangulo -->
-			<triangulo x="50" y="50" z="50">
-				<punto1 x="100" y="100" z="100"/>
-				<punto2 x="100" y="100" z="100"/>
-				<punto3 x="100" y="100" z="100"/>
-				
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<color r="100" g="20" b="255"/>
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>1</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-				</material>
-			</triangulo>
-			
-			<!-- figura -->
-			<figura path="plyFiles/cubaco.ply" x="100" y="100" z="100">
-				
-				<global>15</global>	<!-- escala global -->
-				<escala x="1" y="1" z="1"/>	<!-- escala local -->
-				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
-				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
-				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
-				
-				<!-- material -->
-				<material>
-					<!-- <color r="100" g="20" b="255"/> --> <!-- No es necesario, PLY tiene vertices coloreados -->
-					<difusa>0.1</difusa>
-					<especular>0.9</especular>
-					<reflectante>1</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-				</material>
-			</figura>
+		
 		</caja>
 	</cajas>
 	
