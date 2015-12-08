@@ -3,9 +3,9 @@
 	file="./escenas/escena.png" 
 	rebotes="1" 
 	ambiente="0.3" 
-	epsilon="1e-6"
+	epsilon="1e-3"
 	multithreading="4"
-	cajas="1">
+	cajas="0">
 
 	<debug>
 		<ambiente>1</ambiente>
@@ -17,8 +17,8 @@
 
 	<!-- punto de vista (x, y, z) -->
 	<pov x="330" y="330" z="330">
-		<columnas>256</columnas>
-		<filas>180</filas>
+		<columnas>1024</columnas>
+		<filas>720</filas>
 		<anchura>4</anchura>
 		<altura>3</altura>
 		<focal>5</focal>
@@ -26,11 +26,8 @@
 	
 	<!-- lista de focos -->
 	<focos>
-		<foco x="50" y="40" z="50">
-			<intensidad>4</intensidad>
-			<color r="255" g="255" b="255"/>
-		</foco>
-		<foco x="230" y="230" z="200">
+		
+		<foco x="200" y="330" z="200">
 			<intensidad>4</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
@@ -119,11 +116,11 @@
 		
 		<caja>
 			<!-- figura -->
-            <figura path="plyFiles/Giroide.ply" x="50" y="50" z="50">
+            <figura path="plyFiles/Giroide.ply" x="70" y="50" z="70">
                 
-                <global>2</global>    <!-- escala global -->
+                <global>1.5</global>    <!-- escala global -->
                 <escala x="-1" y="-1" z="-1"/>    <!-- escala local -->
-                <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
+                <rotacion x="50" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
                 <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
                 

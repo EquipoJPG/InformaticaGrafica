@@ -620,6 +620,8 @@ public class XMLFormatter {
 							cizallaX, cizallaY, cizallaZ);
 
 					f.setT(T);
+					System.out.println(f.getLowerBound());
+					System.out.println(f.getUpperBound());
 					if(cajas){
 						caja.addObjeto(f);
 					}

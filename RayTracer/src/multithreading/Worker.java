@@ -109,7 +109,6 @@ public class Worker implements Runnable {
 		 * se lanzan los rayos correspondientes
 		 */
 		if (objeto != null) {
-
 			if (!objeto.estaDentro(rayo, pIntersecFinal) && escena.TERMINO_AMBIENTAL) {
 
 				/* Termino ambiental */
@@ -150,7 +149,6 @@ public class Worker implements Runnable {
 						}
 					}
 				}
-
 				if (!shadow) {
 					if (!objeto.estaDentro(rayo, pIntersecFinal) && escena.TERMINO_DIFUSO) {
 
