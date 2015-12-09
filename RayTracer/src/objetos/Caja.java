@@ -49,8 +49,14 @@ public class Caja extends Objeto {
 	public void debugBounds(){
 		if(lowerBound!=null && upperBound!=null){
 //			System.out.println(lowerBound + "\t" + upperBound);
-			conjuntoObjetos.addObjeto(new Esfera(lowerBound,10,new Material(Color.YELLOW,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(upperBound,10,new Material(Color.CYAN,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(lowerBound,5,new Material(Color.YELLOW,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(upperBound,5,new Material(Color.CYAN,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(new Vector4(lowerBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));			
+			conjuntoObjetos.addObjeto(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(new Vector4(upperBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
 			lowerBound = conjuntoObjetos.getLowerBound();
 			upperBound = conjuntoObjetos.getUpperBound();
 		}
@@ -194,5 +200,18 @@ public class Caja extends Objeto {
 	@Override
 	public boolean estaDentro(Rayo r, Vector4 interseccion) {
 		return conjuntoObjetos.estaDentro(r, interseccion);
+	}
+	
+	public ArrayList<Objeto> getBounds(){
+		ArrayList<Objeto> b = new ArrayList<Objeto>();
+		b.add(new Esfera(lowerBound,5,new Material(Color.YELLOW,1,0,0,0,1,0)));
+		b.add(new Esfera(upperBound,5,new Material(Color.CYAN,1,0,0,0,1,0)));
+		b.add(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+		b.add(new Esfera(new Vector4(lowerBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));			
+		b.add(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+		b.add(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+		b.add(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+		b.add(new Esfera(new Vector4(upperBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
+		return b;
 	}
 }
