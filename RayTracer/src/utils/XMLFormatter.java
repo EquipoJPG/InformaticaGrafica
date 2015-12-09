@@ -652,7 +652,6 @@ public class XMLFormatter {
 						caja.addObjeto(f);
 						System.out.println(caja.getLowerBound());
 						System.out.println(caja.getUpperBound());
-						caja.debugBounds();
 					}
 					else{
 						objetos.add(f);
