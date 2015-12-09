@@ -95,7 +95,7 @@
 			</plano>
 			
 			<!-- plano derecha (azul) -->
-			<plano x="0" y="1" z="0">
+			<plano x="0" y="0" z="0">
 				<topleft x="0" y="1" z="0"/>
 				<topright x="1" y="1" z="0"/>
 				<bottomleft x="0" y="0" z="0"/>
@@ -121,7 +121,7 @@
 			</plano>
 			
 			<!-- espejo en plano azul -->
-			<plano x="0" y="0" z="0">
+			<plano x="0.35" y="0" z="0.05">
 				<topleft x="0" y="1" z="0"/>
 				<topright x="1" y="1" z="0"/>
 				<bottomleft x="0" y="0" z="0"/>
@@ -199,7 +199,7 @@
             <figura path="plyFiles/Giroide.ply" x="40" y="15" z="30">
                 
                 <global>1.5</global>    <!-- escala global -->
-                <escala x="-1" y="-1" z="-1"/>    <!-- escala local -->
+                <escala x="1" y="1" z="1"/>    <!-- escala local -->
                 <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
                 <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->

@@ -49,6 +49,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -74,6 +75,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -99,6 +101,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -114,13 +117,14 @@
 		
 		
 			<!-- figura -->
-            <figura path="plyFiles/Gyroid2.ply" x="100" y="100" z="100">
+            <figura path="plyFiles/Giroide.ply" x="100" y="100" z="100">
                 
                 <global>0.1</global>    <!-- escala global -->
                 <escala x="1" y="1" z="1"/>    <!-- escala local -->
                 <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
                 <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
+                <order>12345678</order>	<!-- orden de aplicar matrices -->
                 
                 <!-- material -->
 				<material>
