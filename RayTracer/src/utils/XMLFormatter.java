@@ -638,6 +638,7 @@ public class XMLFormatter {
 					f.setT(T);
 					if(cajas){
 						caja.addObjeto(f);
+						caja.debugBounds();
 					}
 					else{
 						objetos.add(f);

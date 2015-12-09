@@ -49,7 +49,7 @@ public class Caja extends Objeto {
 	public void debugBounds(){
 		if(lowerBound!=null && upperBound!=null){
 //			System.out.println(lowerBound + "\t" + upperBound);
-			conjuntoObjetos.addObjeto(new Esfera(lowerBound,20,new Material(Color.RED,1,0,0,0,1,0)));
+			conjuntoObjetos.addObjeto(new Esfera(lowerBound,10,new Material(Color.YELLOW,1,0,0,0,1,0)));
 			conjuntoObjetos.addObjeto(new Esfera(upperBound,10,new Material(Color.CYAN,1,0,0,0,1,0)));
 			lowerBound = conjuntoObjetos.getLowerBound();
 			upperBound = conjuntoObjetos.getUpperBound();
