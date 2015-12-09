@@ -16,7 +16,7 @@
 	</debug>
 
 	<!-- punto de vista (x, y, z) -->
-	<pov x="250" y="250" z="250">
+	<pov x="280" y="150" z="260">
 		<columnas>720</columnas>
 		<filas>480</filas>
 		<anchura>4</anchura>
@@ -33,6 +33,10 @@
 		</foco>
 		<foco x="200" y="250" z="200">
 			<intensidad>2</intensidad>
+			<color r="255" g="255" b="255"/>
+		</foco>
+		<foco x="100" y="200" z="60">
+			<intensidad>1</intensidad>
 			<color r="255" g="255" b="255"/>
 		</foco>
 	</focos>
@@ -123,9 +127,9 @@
 			<!-- espejo en plano azul -->
 			<plano x="0.35" y="0" z="0.05">
 				<topleft x="0" y="1" z="0"/>
-				<topright x="100" y="100" z="0"/>
+				<topright x="1" y="1" z="0"/>
 				<bottomleft x="0" y="0" z="0"/>
-				<bottomright x="100" y="0" z="0"/>
+				<bottomright x="1" y="0" z="0"/>
 				
 				<global>60</global>	<!-- escala global -->
 				<escala x="1" y="1" z="1"/>	<!-- escala local -->
@@ -189,6 +193,52 @@
 					<transparente>0.5</transparente>
 					<shiny>150</shiny>
 					<indiceRefraccion>0.9</indiceRefraccion>
+				</material>
+			</esfera>
+			
+		</caja>
+		
+		<caja>
+		
+			<!-- esfera refractante -->
+			<esfera x="40" y="70" z="40">	<!-- traslacion -->
+				<global>20</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
+				
+				<!-- material -->
+				<material>
+					<color r="166" g="100" b="80"/>
+					<difusa>0.4</difusa>
+					<especular>0</especular>
+					<reflectante>0</reflectante>
+					<transparente>0.6</transparente>
+					<shiny>100</shiny>
+					<indiceRefraccion>1.3</indiceRefraccion>
+				</material>
+			</esfera>
+			
+			<!-- esfera reflectante y refractante -->
+			<esfera x="40" y="110" z="40">	<!-- traslacion -->
+				<global>20</global>	<!-- escala global -->
+				<escala x="1" y="1" z="1"/>	<!-- escala local -->
+				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
+				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
+				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
+				
+				<!-- material -->
+				<material>
+					<color r="166" g="198" b="65"/>
+					<difusa>0.2</difusa>
+					<especular>0.2</especular>
+					<reflectante>0.5</reflectante>
+					<transparente>0.5</transparente>
+					<shiny>150</shiny>
+					<indiceRefraccion>0.7</indiceRefraccion>
 				</material>
 			</esfera>
 			
