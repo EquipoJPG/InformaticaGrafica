@@ -124,7 +124,6 @@ public class Plano extends Objeto {
 
 	@Override
 	public Par interseccion(Rayo ray) {
-		// TODO Modificar rayo con la inversa de la transformacion
 		Vector4 d = ray.getDireccion();
 		Vector4 n = normal;
 		Vector4 a = ray.getOrigen();
@@ -165,7 +164,6 @@ public class Plano extends Objeto {
 
 	@Override
 	public Par interseccionSombra(Rayo ray) {
-		// TODO Modificar rayo con la inversa de la transformacion
 		Vector4 d = ray.getDireccion();
 		Vector4 n = normal;
 		Vector4 a = ray.getOrigen();
@@ -216,7 +214,6 @@ public class Plano extends Objeto {
 
 	@Override
 	public Vector4 normal(Vector4 interseccion, Rayo ray) {
-		// TODO Modificar rayo con la inversa de la transformacion
 		double res = Vector4.dot(ray.getDireccion(), normal);
 		if (res < 0) {
 			return normal;

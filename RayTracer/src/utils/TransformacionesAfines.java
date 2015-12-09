@@ -94,12 +94,12 @@ public class TransformacionesAfines {
 		total.add(getGeneralTraslation(xtraslation, ytraslation, ztraslation));
 
 		// Add scale matrix
-		if(xscale>0 || yscale>0 || zscale>0){
+		if (xscale > 0 || yscale > 0 || zscale > 0) {
 			total.add(getGeneralScale(xscale, yscale, zscale));
 		}
 
 		// Add global scale matrix
-		if(gscale>0){
+		if (gscale > 0) {
 			total.add(getGlobalScale(gscale));
 		}
 
@@ -145,6 +145,76 @@ public class TransformacionesAfines {
 
 		// Return value
 		return combine(total);
+	}
+
+	public static Matrix affineMatrix(double xtraslation, double ytraslation, double ztraslation, double xscale,
+			double yscale, double zscale, double gscale, boolean xsym, boolean ysym, boolean zsym, double xrot,
+			double yrot, double zrot, double xshear, double yshear, double zshear, int order) {
+
+		ArrayList<Matrix> total = new ArrayList<Matrix>();
+
+		// Add traslation matrix - 1
+		total.add(getGeneralTraslation(xtraslation, ytraslation, ztraslation));
+
+		// Add scale matrix - 2
+		total.add(getGeneralScale(xscale, yscale, zscale));
+
+		// Add global scale matrix - 3
+		total.add(getGlobalScale(gscale));
+
+		// Add symmetric matrices - 4
+		if (xsym) {
+			if (ysym) {
+				if (zsym) {
+					// Symmetry over the origin
+					total.add(getOriginSymmetry());
+				} else {
+					// Symmetry over XY plane
+					total.add(getXYSymmetry());
+				}
+			} else if (zsym) {
+				// Symmetry over XZ plane
+				total.add(getXZSymmetry());
+			} else {
+				// Symmetry over X axis
+				total.add(getXSymmetry());
+			}
+		} else if (ysym) {
+			if (zsym) {
+				// Symmetry over YZ axis
+				total.add(getYZSymmetry());
+			} else {
+				// Symmetry over Y axis
+				total.add(getYSymmetry());
+			}
+		} else if (zsym) {
+			// Symmetry over Z axis
+			total.add(getZSymmetry());
+		} else {
+			// Do nothing buddy
+			total.add(getIdentity());
+		}
+
+		// Add rotation matrices - 5, 6, 7
+		total.add(getXRotation(xrot));
+		total.add(getYRotation(yrot));
+		total.add(getZRotation(zrot));
+
+		// Add shear matrices - 8
+		total.add(getGeneralShear(xshear, yshear, zshear));
+
+		ArrayList<Matrix> total2 = new ArrayList<Matrix>();
+		total2.addAll(total);
+
+		int end = 7;
+		while (end >= 0) {
+			int temp = order % 10;
+			total2.set(end, total.get(temp-1));
+			end--;
+			order = order/10;
+		}
+		// Return value
+		return combine(total2);
 	}
 
 	public static Matrix getIdentity() {

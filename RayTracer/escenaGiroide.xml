@@ -54,6 +54,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -79,6 +80,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -104,6 +106,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -129,6 +132,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -153,6 +157,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -173,6 +178,7 @@
 				<rotacion x="0" y="0" z="0"/>	<!-- rotacion en ejes X, Y, Z -->
 				<simetria x="0" y="0" z="0"/>	<!-- simetria en ejes X, Y, Z -->
 				<cizalla x="0" y="0" z="0"/>	<!-- cizalla en ejes X, Y, Z -->
+				<order>12345678</order>	<!-- orden de aplicar matrices -->
 				
 				<!-- material -->
 				<material>
@@ -197,6 +203,7 @@
                 <rotacion x="0" y="0" z="0"/>    <!-- rotacion en ejes X, Y, Z -->
                 <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z -->
                 <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z -->
+                <order>12345678</order>	<!-- orden de aplicar matrices -->
                 
                 <!-- material -->
 				<material>

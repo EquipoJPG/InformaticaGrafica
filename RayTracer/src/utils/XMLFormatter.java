@@ -292,6 +292,10 @@ public class XMLFormatter {
 					int cizallaX = Integer.parseInt(ee.getAttribute("x"));
 					int cizallaY = Integer.parseInt(ee.getAttribute("y"));
 					int cizallaZ = Integer.parseInt(ee.getAttribute("z"));
+					
+					// order
+					ee = (Element) e.getElementsByTagName("order").item(0);
+					int order = Integer.parseInt(ee.getTextContent());
 					///////////////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////////////
@@ -332,7 +336,7 @@ public class XMLFormatter {
 //							cizallaX, cizallaY, cizallaZ);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, 1,
 							false, false, false, 0, 0, 0,
-							0, 0, 0);
+							0, 0, 0, order);
 
 					Esfera esfera = new Esfera(m, T, global);
 					if(cajas){
@@ -394,6 +398,10 @@ public class XMLFormatter {
 					int cizallaX = Integer.parseInt(ee.getAttribute("x"));
 					int cizallaY = Integer.parseInt(ee.getAttribute("y"));
 					int cizallaZ = Integer.parseInt(ee.getAttribute("z"));
+					
+					// order
+					ee = (Element) e.getElementsByTagName("order").item(0);
+					int order = Integer.parseInt(ee.getTextContent());
 					///////////////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////////////
@@ -431,7 +439,7 @@ public class XMLFormatter {
 					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
-							cizallaX, cizallaY, cizallaZ);
+							cizallaX, cizallaY, cizallaZ, order);
 
 					Triangulo triangulo = new Triangulo(punto1, punto2, punto3, m, T);
 					if(cajas){
@@ -497,6 +505,10 @@ public class XMLFormatter {
 					int cizallaX = Integer.parseInt(ee.getAttribute("x"));
 					int cizallaY = Integer.parseInt(ee.getAttribute("y"));
 					int cizallaZ = Integer.parseInt(ee.getAttribute("z"));
+					
+					// order
+					ee = (Element) e.getElementsByTagName("order").item(0);
+					int order = Integer.parseInt(ee.getTextContent());
 					///////////////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////////////
@@ -534,7 +546,7 @@ public class XMLFormatter {
 					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
-							cizallaX, cizallaY, cizallaZ);
+							cizallaX, cizallaY, cizallaZ, order);
 
 					Plano plano = new Plano(topleft, topright, bottomleft, bottomright, m, T);
 					if(cajas){
@@ -583,6 +595,10 @@ public class XMLFormatter {
 					double cizallaX = Double.parseDouble(ee.getAttribute("x"));
 					double cizallaY = Double.parseDouble(ee.getAttribute("y"));
 					double cizallaZ = Double.parseDouble(ee.getAttribute("z"));
+					
+					// order
+					ee = (Element) e.getElementsByTagName("order").item(0);
+					int order = Integer.parseInt(ee.getTextContent());
 					///////////////////////////////////////////////////////////////////
 
 					//////////////////////////////////////////////////////////////////
@@ -617,7 +633,7 @@ public class XMLFormatter {
 
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
-							cizallaX, cizallaY, cizallaZ);
+							cizallaX, cizallaY, cizallaZ,order);
 
 					f.setT(T);
 					if(cajas){
