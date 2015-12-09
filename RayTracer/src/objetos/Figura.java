@@ -40,6 +40,8 @@ public class Figura extends Objeto {
 
 	public void addObjeto(Objeto o) {
 		lista.add(o);
+		o.T = T;
+		o.updateBounds();
 		updateBounds();
 	}
 

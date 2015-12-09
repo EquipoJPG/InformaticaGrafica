@@ -17,7 +17,7 @@ public class Triangulo extends Objeto {
 	private Vector4 lowerBound;
 	private Vector4 upperBound;
 	private Figura padre;
-
+	
 	/**
 	 * @param centro:
 	 *            centro de la esfera (0,0,0) seria lo correcto
