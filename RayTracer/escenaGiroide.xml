@@ -291,30 +291,6 @@
 				</material>
             </figura>
 		</caja>
-		
-		<caja>
-			<!-- figura -->
-            <figura path="plyFiles/charco2.ply" x="35" y="0.5" z="15"> <!-- mat1 -->
-                
-                <global>3</global>    <!-- escala global mat 3-->
-                <escala x="1" y="1" z="1"/>    <!-- escala local mat 2-->
-                <rotacion x="1.4" y="0" z="1.65"/>    <!-- rotacion en ejes X mat 5, Y mat 6, Z mat 7 -->
-                <simetria x="0" y="0" z="0"/>    <!-- simetria en ejes X, Y, Z mat 4 -->
-                <cizalla x="0" y="0" z="0"/>    <!-- cizalla en ejes X, Y, Z mat 8 -->
-                <order>56173428</order>	<!-- orden de aplicar matrices -->
-                
-                <!-- material -->
-				<material>
-					<!-- <color r="255" g="0" b="0"/> -->
-					<difusa>0.5</difusa>
-					<especular>0</especular>
-					<reflectante>0</reflectante>
-					<transparente>0</transparente>
-					<shiny>100</shiny>
-					<indiceRefraccion>1</indiceRefraccion>
-				</material>
-            </figura>
-		</caja>
 	</cajas>
 	
 </escena>
