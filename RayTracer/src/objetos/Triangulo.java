@@ -250,9 +250,9 @@ public class Triangulo extends Objeto {
 		this.p2 = TransformacionesAfines.multiplyVectorByMatrix(p2, T);
 		this.p3 = TransformacionesAfines.multiplyVectorByMatrix(p3, T);
 		
-		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p1, T));
-		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p2, T));
-		temp.add(TransformacionesAfines.multiplyVectorByMatrix(p3, T));
+		temp.add(p1);
+		temp.add(p2);
+		temp.add(p3);
 		for (Vector4 e : temp) {
 			if (e.getX() < minX) {
 				minX = e.getX();

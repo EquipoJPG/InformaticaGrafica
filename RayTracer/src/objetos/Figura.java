@@ -228,8 +228,7 @@ public class Figura extends Objeto {
 	public void setT(Matrix T) {
 		this.T = T;
 		for (Objeto o : lista){
-			o.T = T;
-			o.updateBounds();
+			o.setT(T);
 		}
 		updateBounds();
 	}
