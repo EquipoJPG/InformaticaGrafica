@@ -89,7 +89,7 @@ public class Escena {
 			if (i < camara.getRows() - 1) {
 				i++;
 				j = 0;
-//				System.out.println("FILA " + i + "/" + camara.getRows());
+				System.out.println("FILA " + i + "/" + camara.getRows());
 			}
 			else {
 				return null;

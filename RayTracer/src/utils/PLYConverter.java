@@ -113,6 +113,7 @@ public class PLYConverter {
 						// End header line
 						else if (actual.equals("end_header")) {
 							data = true;
+							count = 0;
 						}
 					} else {
 						line.replace("\n", "");

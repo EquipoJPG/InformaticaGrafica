@@ -639,7 +639,7 @@ public class XMLFormatter {
 					
 					if(cajas){
 						caja.addObjeto(f);
-						objetos.addAll(caja.getBounds());
+//						objetos.addAll(caja.getBounds());
 					}
 					else{
 						objetos.add(f);
