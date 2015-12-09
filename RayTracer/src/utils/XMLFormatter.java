@@ -634,24 +634,11 @@ public class XMLFormatter {
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
 							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
 							cizallaX, cizallaY, cizallaZ,order);
-
-					double[][] a = T.getArrayCopy();
-					for(int k2 = 0; k2 < a.length; k2++) {
-					    for(int k = 0; k < a[i].length; k++) {        
-					        System.out.print( " " + a[k2][k] );
-					    }
-					    System.out.println();
-					}
 					
 					f.setT(T);
 					
-					System.out.println(f.getLowerBound());
-					System.out.println(f.getUpperBound());
-					
 					if(cajas){
 						caja.addObjeto(f);
-						System.out.println(caja.getLowerBound());
-						System.out.println(caja.getUpperBound());
 					}
 					else{
 						objetos.add(f);
