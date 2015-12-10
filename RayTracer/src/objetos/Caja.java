@@ -1,6 +1,17 @@
+/**
+ * <h1>Caja</h1>
+ * Clase que implementa el comportamiento de las cajas
+ * envolventes alineadas con los ejes. 
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package objetos;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import Jama.Matrix;
@@ -11,55 +22,57 @@ import utils.TransformacionesAfines;
 
 public class Caja extends Objeto {
 
-	// Atributos privados
+	/* Atributos privados */
 	private Vector4 lowerBound;
 	private Vector4 upperBound;
 	private Figura conjuntoObjetos;
 
+	/**
+	 * Caja vacia
+	 */
 	public Caja(){
 		lowerBound = null;
 		upperBound = null;
 		conjuntoObjetos = new Figura();
 	}
 	
+	/**
+	 * Caja con una figura @param f
+	 * @param f figura contenida en la caja
+	 */
 	public Caja(Figura f) {
 		lowerBound = f.getLowerBound();
 		upperBound = f.getUpperBound();
 		conjuntoObjetos = f;
 	}
 
+	/**
+	 * Caja con una lista de objetos
+	 * @param l lista de objetos contenidos en la caja
+	 */
 	public Caja(ArrayList<Objeto> l) {
 		conjuntoObjetos = new Figura(l);
 		lowerBound = conjuntoObjetos.getLowerBound();
 		upperBound = conjuntoObjetos.getUpperBound();
 	}
 	
+	/**
+	 * Caja con un objeto
+	 * @param a objeto contenido en la caja
+	 */
 	public Caja(Objeto a){
 		conjuntoObjetos = new Figura(a);
 		lowerBound = conjuntoObjetos.getLowerBound();
 		upperBound = conjuntoObjetos.getUpperBound();
 	}
 	
+	/**
+	 * @param a objeto que agregar a la caja
+	 */
 	public void addObjeto(Objeto a){
 		conjuntoObjetos.addObjeto(a);
 		lowerBound = conjuntoObjetos.getLowerBound();
 		upperBound = conjuntoObjetos.getUpperBound();
-	}
-	
-	public void debugBounds(){
-		if(lowerBound!=null && upperBound!=null){
-//			System.out.println(lowerBound + "\t" + upperBound);
-			conjuntoObjetos.addObjeto(new Esfera(lowerBound,5,new Material(Color.YELLOW,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(upperBound,5,new Material(Color.CYAN,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(new Vector4(lowerBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));			
-			conjuntoObjetos.addObjeto(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-			conjuntoObjetos.addObjeto(new Esfera(new Vector4(upperBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-			lowerBound = conjuntoObjetos.getLowerBound();
-			upperBound = conjuntoObjetos.getUpperBound();
-		}
 	}
 
 	@Override
@@ -160,8 +173,11 @@ public class Caja extends Objeto {
 	}
 
 	/**
-	 * Devuelve true si el punto esta dentro de la caja
-	 * False en caso contrario
+	 * @param p punto 3D en coordenadas homogeneas 
+	 * del que se quiere comprobar si esta dentro de la caja
+	 * 
+	 * @return <b>true</b> si el punto esta dentro, <b>false</b>
+	 * en caso contrario
 	 */
 	private boolean estaDentroDeLaCaja(Vector4 p) {
 		boolean returned = false;
@@ -200,18 +216,5 @@ public class Caja extends Objeto {
 	@Override
 	public boolean estaDentro(Rayo r, Vector4 interseccion) {
 		return conjuntoObjetos.estaDentro(r, interseccion);
-	}
-	
-	public ArrayList<Objeto> getBounds(){
-		ArrayList<Objeto> b = new ArrayList<Objeto>();
-		b.add(new Esfera(lowerBound,5,new Material(Color.YELLOW,1,0,0,0,1,0)));
-		b.add(new Esfera(upperBound,5,new Material(Color.CYAN,1,0,0,0,1,0)));
-		b.add(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-		b.add(new Esfera(new Vector4(lowerBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));			
-		b.add(new Esfera(new Vector4(lowerBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-		b.add(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-		b.add(new Esfera(new Vector4(upperBound.getX(),lowerBound.getY(),upperBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-		b.add(new Esfera(new Vector4(upperBound.getX(),upperBound.getY(),lowerBound.getZ(),1),2,new Material(Color.GREEN,1,0,0,0,1,0)));
-		return b;
 	}
 }
