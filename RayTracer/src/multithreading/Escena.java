@@ -1,3 +1,18 @@
+/**
+ * <h1>Escena</h1>
+ * Clase que controla los pixeles a pintar en la imagen para
+ * proveer de concurrencia a los trabajadores
+ * 
+ * @see multithreading.Worker
+ * @see Image
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package multithreading;
 
 import java.awt.image.BufferedImage;
@@ -5,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.Rayo;
-import objetos.Caja;
 import objetos.Objeto;
 import trazador.Camara;
 import trazador.Foco;
@@ -40,18 +54,29 @@ public class Escena {
 	/* Variables workers */
 	List<Pixel> trabajos = new ArrayList<Pixel>();
 	
+	/**
+	 * Inicializa los parametros de la escena, incluyendo flags, 
+	 * camara y objetos de la escena
+	 * 
+	 * @param xml ruta del ficheor XML donde se encuentra la 
+	 * informacion
+	 */
 	public Escena(String xml) {
 		this.i = 0;
 		this.j = -1;
 		
 		camara = XMLFormatter.getCamara(xml);
-		img = new BufferedImage(camara.getCols(), camara.getRows(), BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(camara.getCols(), camara.getRows(), 
+				BufferedImage.TYPE_INT_RGB);
+		
 		objetos = XMLFormatter.getObjetos(xml);
 		focos = XMLFormatter.getFocos(xml);
+		
 		CAJAS_ENVOLVENTES = XMLFormatter.setCajas(xml);
 		MAX_REBOTES_RAYO = XMLFormatter.getRebotes(xml);
 		LUZ_AMBIENTAL = XMLFormatter.getLuzAmbiente(xml);
 		ANTIALIASING = XMLFormatter.getAntialiasing(xml);
+		
 		boolean[] flags = XMLFormatter.setFlags(xml);
 		if (flags != null) {
 			TERMINO_AMBIENTAL = flags[0];
@@ -60,14 +85,23 @@ public class Escena {
 			TERMINO_REFLEJADO = flags[3];
 			TERMINO_REFRACTADO = flags[4];
 		}
+		
 		EPSILON = XMLFormatter.getEpsilon(xml);
 	}
 	
+	/**
+	 * @param id identificador del trabajador
+	 */
 	public synchronized void inicializarTrabajo(int id) {
 		Pixel pixelVacio = new Pixel(-1,-1);
 		trabajos.add(id, pixelVacio);
 	}
 	
+	/**
+	 * @param id identificador del trabajador
+	 * @param color color con el que pintar el pixel en 
+	 * el que trabaja actualmente el trabajador
+	 */
 	public synchronized void pintarPixel(int id, int color){
 		Pixel pixel = trabajos.get(id);
 		Pixel pixelVacio = new Pixel(-1,-1);
@@ -77,8 +111,11 @@ public class Escena {
 		img.setRGB(jj, ii, color);
 	}
 	
+	/**
+	 * @param id identificador del trabajador
+	 * @return lista de rayos asignados al trabajador
+	 */
 	public synchronized ArrayList<Rayo> getRayo(int id){
-		
 		ArrayList<Rayo> rayos = new ArrayList<Rayo>();
 		
 		/* Crea el rayo que pasa por el pixel j, i */
@@ -103,12 +140,16 @@ public class Escena {
 		for (int k = 0; k < ANTIALIASING; k++) {
 			rayos.add(camara.rayoToPixel(jj, ii));
 		}
+
 		Pixel workingPixel = new Pixel(i, j);
 		trabajos.set(id, workingPixel);
 		
 		return rayos;
 	}
 	
+	/**
+	 * @return imagen
+	 */
 	public BufferedImage getImg(){
 		return img;
 	}

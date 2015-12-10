@@ -1,3 +1,21 @@
+/**
+ * <h1>Worker</h1>
+ * Clase trabajador que sigue la traza de un rayo para
+ * obtener el color final del pixel por el que pasa dicho
+ * rayo.
+ * <p>
+ * Los trabajadores trabajan de forma concurrente pidiendo
+ * los rayos a trazar a la escena.
+ * 
+ * @see multithreading.Escena
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package multithreading;
 
 import java.awt.Color;
@@ -7,15 +25,20 @@ import data.Par;
 import data.Rayo;
 import data.Vector4;
 import objetos.Objeto;
-import objetos.Triangulo;
 import trazador.ColorOperations;
 import trazador.Foco;
 
 public class Worker implements Runnable {
 
+	/* atributos privados */
 	private int id;
 	private Escena escena;
 
+	/**
+	 * @param id identificador del trabajador
+	 * @param escena Escena a la que referirse para la 
+	 * obtencion de datos
+	 */
 	public Worker(int id, Escena escena) {
 		this.id = id;
 		this.escena = escena;
@@ -23,6 +46,9 @@ public class Worker implements Runnable {
 	}
 
 	@Override
+	/**
+	 * Obtiene rayos de la escena hasta que ya no queden mas
+	 */
 	public void run() {
 		boolean terminar = false;
 		
@@ -56,10 +82,9 @@ public class Worker implements Runnable {
 	
 	/**
 	 * 
-	 * @param rayo:
-	 *            rayo lanzado
-	 * @param rebotes:
-	 *            numero de rebotes actuales
+	 * @param rayo rayo lanzado
+	 * @param rebotes numero de rebotes actuales
+	 * @param refractadoItems lista de objetos que contienen al rayo
 	 * @return color calculado para el punto desde el que se lanza el rayo rayo
 	 */
 	private Color trazar(Rayo rayo, int rebotes, ArrayList<Objeto> refractadoItems) {
