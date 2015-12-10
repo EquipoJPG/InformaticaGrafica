@@ -1,3 +1,14 @@
+/**
+ * <h1>CambioDeBase</h1>
+ * Clase para realizar el cambio de base
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package utils;
 
 import Jama.Matrix;
@@ -5,6 +16,14 @@ import data.Vector4;
 
 public class CambioDeBase {
 
+	/**
+	 * @param transformar vector a transformar
+	 * @param u sistema de ejes de la camara
+	 * @param v sistema de ejes de la camara
+	 * @param w sistema de ejes de la camara
+	 * @param ojo posicion de la camara
+	 * @return vector @param transformar en coordenadas del mundo
+	 */
 	public static Vector4 cambioDeBase(Vector4 transformar, 
 			Vector4 u, Vector4 v, Vector4 w, Vector4 ojo) {
 		double[][] matriz = {
