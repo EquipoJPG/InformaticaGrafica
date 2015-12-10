@@ -2,7 +2,7 @@
 	antialiasing="1" 
 	file="./escenas/escena.png" 
 	rebotes="2" 
-	ambiente="0.3" 
+	ambiente="0.6" 
 	epsilon="1e-3"
 	multithreading="4"
 	cajas="1">

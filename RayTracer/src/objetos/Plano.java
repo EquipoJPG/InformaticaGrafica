@@ -1,6 +1,6 @@
 /**
  * <h1>Plano</h1>
- * Clase generica que implementa el comportamiento 
+ * Clase que implementa el comportamiento 
  * de los planos.
  * 
  * @author Patricia Lazaro Tello (554309)

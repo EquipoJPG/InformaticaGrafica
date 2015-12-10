@@ -1,6 +1,6 @@
 /**
  * <h1>Triangulo</h1>
- * Clase generica que implementa el comportamiento 
+ * Clase que implementa el comportamiento 
  * de los triangulos.
  * 
  * @author Patricia Lazaro Tello (554309)
