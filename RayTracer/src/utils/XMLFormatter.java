@@ -1,3 +1,15 @@
+/**
+ * <h1>XMLFormatter</h1>
+ * Clase para parsear el fichero XML que contiene 
+ * la escena
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package utils;
 
 import java.awt.Color;
@@ -31,8 +43,8 @@ import data.Vector4;
 public class XMLFormatter {
 
 	/**
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return documento XML del fichero
 	 */
 	private static Document setup(String xml) {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -49,9 +61,10 @@ public class XMLFormatter {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Setea el multithreading
+	 * @param xml path del fichero XML
+	 * @return numero de threads o hilos
 	 */
 	public static int setMultiThreading(String xml){
 		Document doc = setup(xml);
@@ -60,7 +73,9 @@ public class XMLFormatter {
 	}
 	
 	/**
-	 * Setea las cajas envolventes
+	 * @param xml path del fichero XML
+	 * @return <b>true</b> si se usan cajas envolventes, <b>false</b> en
+	 * caso contrario
 	 */
 	public static boolean setCajas(String xml){
 		Document doc = setup(xml);
@@ -69,7 +84,17 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Setea las flags de debug del programa
+	 * @param xml path del fichero MXL
+	 * @return una tabla de booleanos con los flags a aplicar. En
+	 * concreto:
+	 * <p>
+	 * <ol>
+	 * <li>Componente ambiental</li>
+	 * <li>Componente difusa</li>
+	 * <li>Componente especular</li>
+	 * <li>Componente de reflexion</li>
+	 * <li>Componente de refraccion</li>
+	 * </ol>
 	 */
 	public static boolean[] setFlags(String xml) {
 		Document doc = setup(xml);
@@ -100,10 +125,8 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Obtiene el antialiasing
-	 * 
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return numero de rayos a lanzar por pixel
 	 */
 	public static int getAntialiasing(String xml) {
 		Document doc = setup(xml);
@@ -113,10 +136,8 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Obtiene los rebotes
-	 * 
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return numero de rebotes de los rayos
 	 */
 	public static int getRebotes(String xml) {
 		Document doc = setup(xml);
@@ -126,10 +147,8 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Obtiene la luz ambiental
-	 * 
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return componente de luz ambiental
 	 */
 	public static double getLuzAmbiente(String xml) {
 		Document doc = setup(xml);
@@ -139,9 +158,8 @@ public class XMLFormatter {
 	}
 	
 	/**
-	 * Obtiene el epsilon
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return epsilon
 	 */
 	public static double getEpsilon(String xml) {
 		Document doc = setup(xml);
@@ -151,10 +169,8 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Obtiene el fichero de salida
-	 * 
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return nombre del fichero donde volcar la imagen resultante
 	 */
 	public static String getFile(String xml) {
 		Document doc = setup(xml);
@@ -164,10 +180,8 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Obtiene una lista con los focos
-	 * 
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return lista de focos
 	 */
 	public static List<Foco> getFocos(String xml) {
 		Document doc = setup(xml);
@@ -205,10 +219,8 @@ public class XMLFormatter {
 	}
 
 	/**
-	 * Obtiene la camara
-	 * 
-	 * @param xml
-	 * @return
+	 * @param xml path del fichero XML
+	 * @return camara
 	 */
 	public static Camara getCamara(String xml) {
 		Document doc = setup(xml);
@@ -237,7 +249,10 @@ public class XMLFormatter {
 		return null;
 	}
 
-	// TODO meter los objetos en cajas
+	/**
+	 * @param xml path del fichero XML
+	 * @return lista de objetos ordenados jerarquicamente
+	 */
 	public static List<Objeto> getObjetos(String xml) {
 		boolean cajas = setCajas(xml);
 		Document doc = setup(xml);
@@ -255,7 +270,7 @@ public class XMLFormatter {
 				NodeList nl3_planos = ((Element) nl2.item(i)).getElementsByTagName("plano");
 				NodeList nl3_figuras = ((Element) nl2.item(i)).getElementsByTagName("figura");
 
-				// TODO esferas
+				// Esferas
 				for (int j = 0; j < nl3_esferas.getLength(); j++) {
 					Element e = (Element) nl3_esferas.item(j);
 
@@ -275,24 +290,6 @@ public class XMLFormatter {
 					double escalaY = Double.parseDouble(ee.getAttribute("y"));
 					double escalaZ = Double.parseDouble(ee.getAttribute("z"));
 
-					// rotacion
-					ee = (Element) e.getElementsByTagName("rotacion").item(0);
-					double rotacionX = Double.parseDouble(ee.getAttribute("x"));
-					double rotacionY = Double.parseDouble(ee.getAttribute("y"));
-					double rotacionZ = Double.parseDouble(ee.getAttribute("z"));
-
-					// simetria
-					ee = (Element) e.getElementsByTagName("simetria").item(0);
-					int simetriaX = Integer.parseInt(ee.getAttribute("x"));
-					int simetriaY = Integer.parseInt(ee.getAttribute("y"));
-					int simetriaZ = Integer.parseInt(ee.getAttribute("z"));
-
-					// cizalla
-					ee = (Element) e.getElementsByTagName("cizalla").item(0);
-					int cizallaX = Integer.parseInt(ee.getAttribute("x"));
-					int cizallaY = Integer.parseInt(ee.getAttribute("y"));
-					int cizallaZ = Integer.parseInt(ee.getAttribute("z"));
-					
 					// order
 					ee = (Element) e.getElementsByTagName("order").item(0);
 					int order = Integer.parseInt(ee.getTextContent());
@@ -331,9 +328,6 @@ public class XMLFormatter {
 					//////////////////////////////////////////////////////////////////////////////
 
 					Material m = new Material(c, difusa, especular, reflectante, transparente, indRef, shiny);
-//					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, global,
-//							(simetriaX > 0), (simetriaY > 0), (simetriaZ > 0), rotacionX, rotacionY, rotacionZ,
-//							cizallaX, cizallaY, cizallaZ);
 					Matrix T = TransformacionesAfines.affineMatrix(x, y, z, escalaX, escalaY, escalaZ, 1,
 							false, false, false, 0, 0, 0,
 							0, 0, 0, order);
@@ -347,7 +341,7 @@ public class XMLFormatter {
 					}
 				}
 
-				// TODO triangulos
+				// Triangulos
 				for (int j = 0; j < nl3_triangulos.getLength(); j++) {
 					Element e = (Element) nl3_triangulos.item(j);
 
@@ -450,7 +444,7 @@ public class XMLFormatter {
 					}
 				}
 
-				// TODO planos
+				// Planos
 				for (int j = 0; j < nl3_planos.getLength(); j++) {
 					Element e = (Element) nl3_planos.item(j);
 
@@ -557,7 +551,7 @@ public class XMLFormatter {
 					}
 				}
 
-				// TODO figuras
+				// Figuras
 				for (int j = 0; j < nl3_figuras.getLength(); j++) {
 					Element e = (Element) nl3_figuras.item(j);
 					String path = e.getAttribute("path");
@@ -639,7 +633,6 @@ public class XMLFormatter {
 					
 					if(cajas){
 						caja.addObjeto(f);
-//						objetos.addAll(caja.getBounds());
 					}
 					else{
 						objetos.add(f);

@@ -340,89 +340,160 @@ public class TransformacionesAfines {
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getXSymmetry() {
 		double[][] values = { { 1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getYSymmetry() {
 		double[][] values = { { -1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getZSymmetry() {
 		double[][] values = { { -1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getXYSymmetry() {
 		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getYZSymmetry() {
 		double[][] values = { { -1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getXZSymmetry() {
 		double[][] values = { { 1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getOriginSymmetry() {
 		double[][] values = { { -1, 0, 0, 0 }, { 0, -1, 0, 0 }, { 0, 0, -1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param radian radianes (rotacion en X)
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getXRotation(double radian) {
 		double[][] values = { { 1, 0, 0, 0 }, { 0, Math.cos(radian), Math.sin(radian), 0 },
 				{ 0, -1 * Math.sin(radian), Math.cos(radian), 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param radian radianes (rotacion en Y)
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getYRotation(double radian) {
 		double[][] values = { { Math.cos(radian), 0, -1 * Math.sin(radian), 0 }, { 0, 1, 0, 0 },
 				{ Math.sin(radian), 0, Math.cos(radian), 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param radian radianes (rotacion en Z)
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getZRotation(double radian) {
 		double[][] values = { { Math.cos(radian), Math.sin(radian), 0, 0 },
 				{ -1 * Math.sin(radian), Math.cos(radian), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param sxy cizalla en XY
+	 * @param sxz cizalla en XZ
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getXShear(double sxy, double sxz) {
 		double[][] values = { { 1, sxy, sxz, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param syx cizalla en YX
+	 * @param syz cizalla YZ
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getYShear(double syx, double syz) {
 		double[][] values = { { 1, 0, 0, 0 }, { syx, 1, syz, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param szx cizalla en ZX
+	 * @param szy cizalla en ZY
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getZShear(double szx, double szy) {
 		double[][] values = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { szx, szy, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param sxy cizalla en XY
+	 * @param sxz cizalla en XZ
+	 * @param syx cizalla en YX
+	 * @param syz cizalla en YZ
+	 * @param szx cizalla en ZX
+	 * @param szy cizalla en ZY
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getGeneralShear(double sxy, double sxz, double syx, double syz, double szx, double szy) {
 		double[][] values = { { 1, sxy, sxz, 0 }, { syx, 1, syz, 0 }, { szx, szy, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param kx cizalla en X
+	 * @param ky cizalla en Y
+	 * @param kz cizalla en Z
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getGeneralShear(double kx, double ky, double kz) {
 		double[][] values = { { 1, kx, kx, 0 }, { ky, 1, ky, 0 }, { kz, kz, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param k cizalla
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getGeneralShear(double k) {
 		double[][] values = { { 1, k, k, 0 }, { k, 1, k, 0 }, { k, k, 1, 0 }, { 0, 0, 0, 1 } };
 		return new Matrix(values);
 	}
 
+	/**
+	 * @param h escala global
+	 * @return matriz de transformaciones
+	 */
 	public static Matrix getGlobalScale(double h) {
 		return getGeneralScale(h);
 	}
