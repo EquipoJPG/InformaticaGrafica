@@ -1,3 +1,15 @@
+/**
+ * <h1>Camara</h1>
+ * Clase que implementa el comportamiento 
+ * de la camara.
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package trazador;
 
 import java.util.Random;
@@ -8,6 +20,7 @@ import utils.CambioDeBase;
 
 public class Camara {
 	
+	/* atributos privados */
 	private Vector4 posicion;	// posicion del ojo
 	private Vector4 direccion;	// direccion del ojo
 	
@@ -19,14 +32,18 @@ public class Camara {
 	private int filas, columnas;	// pixeles de anchura y altura
 
 	/**
-	 * Constructor de la camara en @param posicion mirando a @param g a una
-	 * distancia @param f de la pantalla con @param px_width pixeles de anchura
-	 * y @param px_height pixeles de altura.
-	 * 
+	 * @param posicion posicion de la camara
+	 * @param g vector direccion
+	 * @param f distancia focal
+	 * @param columnas columnas
+	 * @param filas filas
+	 * @param anchura anchura de la pantalla
+	 * @param altura altura de la pantalla
 	 */
-	public Camara(Vector4 posicion, Vector4 g, double f, int columnas, int filas, int anchura, int altura){
+	public Camara(Vector4 posicion, Vector4 g, double f, 
+			int columnas, int filas, int anchura, int altura){
 		this.posicion = posicion;
-		this.setDireccion(g.normalise());
+		this.direccion = g.normalise();
 		this.f = f;
 		
 		this.filas = filas;
@@ -45,7 +62,10 @@ public class Camara {
 	}
 	
 	/**
-	 * @return el rayo que va desde el ojo al pixel (i,j) de la pantalla
+	 * @param i columna
+	 * @param j fila
+	 * @return el rayo que va desde el ojo al 
+	 * pixel (@param i, @param j) de la pantalla
 	 */
 	public Rayo rayoToPixel(int i, int j){
 		double diffu = (double) anchura / (double) (columnas - 1);
@@ -62,19 +82,24 @@ public class Camara {
 		return new Rayo(mundo, Vector4.sub(mundo, posicion).normalise());
 	}
 
+	/**
+	 * @return filas
+	 */
 	public int getRows() {
 		return filas;
 	}
 
+	/**
+	 * @return columas
+	 */
 	public int getCols() {
 		return columnas;
 	}
 
+	/**
+	 * @return direccion
+	 */
 	public Vector4 getDireccion() {
 		return direccion;
-	}
-
-	public void setDireccion(Vector4 direccion) {
-		this.direccion = direccion;
 	}
 }

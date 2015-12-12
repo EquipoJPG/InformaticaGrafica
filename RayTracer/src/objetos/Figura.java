@@ -1,3 +1,14 @@
+/**
+ * <h1>Figura</h1>
+ * Clase que implementa el comportamiento de las figuras. 
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package objetos;
 
 import java.util.ArrayList;
@@ -17,6 +28,9 @@ public class Figura extends Objeto {
 	private Objeto lastObjetoIntersectado = null;
 	private Rayo lastRayoUsado = null;
 
+	/**
+	 * Figura vacia
+	 */
 	public Figura() {
 		lista = new ArrayList<Objeto>();
 		lowerBound = null;
@@ -24,6 +38,10 @@ public class Figura extends Objeto {
 		this.T = TransformacionesAfines.getIdentity();
 	}
 
+	/**
+	 * Figura que contiene un objeto @param o
+	 * @param o objeto a ser contenido en la figura
+	 */
 	public Figura(Objeto o) {
 		lista = new ArrayList<Objeto>();
 		lista.add(o);
@@ -32,12 +50,19 @@ public class Figura extends Objeto {
 		this.T = TransformacionesAfines.getIdentity();
 	}
 
+	/**
+	 * Figura que contiene una lista de objetos @param l
+	 * @param l lista de objetos a ser contenidos en la figura
+	 */
 	public Figura(ArrayList<Objeto> l) {
 		lista = l;
 		this.T = TransformacionesAfines.getIdentity();
 		updateBounds();
 	}
 
+	/**
+	 * @param o nuevo objeto de la figura
+	 */
 	public void addObjeto(Objeto o) {
 		lista.add(o);
 		o.T = T;
@@ -125,6 +150,7 @@ public class Figura extends Objeto {
 		}
 	}
 
+	@Override
 	public Vector4 normal(Vector4 in, Rayo ray) {
 		/* Comprobar si lo que nos hemos guardado nos sirve */
 		if (lastRayoUsado != null && ray.equals(lastRayoUsado)) {

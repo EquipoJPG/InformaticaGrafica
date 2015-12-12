@@ -1,8 +1,18 @@
+/**
+ * <h1>Rayo</h1>
+ * Clase para la creacion de rayos, incluyendo el rayo <i>reflejado</i>
+ * y <i>refractado</i>.
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package data;
 
-import Jama.Matrix;
 import objetos.Objeto;
-import utils.TransformacionesAfines;
 
 public class Rayo {
 
@@ -11,10 +21,8 @@ public class Rayo {
 	private Vector4 direccion;
 
 	/**
-	 * @param origin:
-	 *            punto origen del rayo
-	 * @param direction:
-	 *            vector direccion del rayo
+	 * @param origin punto origen del rayo
+	 * @param direction vector direccion del rayo
 	 */
 	public Rayo(Vector4 origin, Vector4 direction) {
 		this.origin = origin;
@@ -22,105 +30,105 @@ public class Rayo {
 	}
 
 	/**
-	 * @return origin
+	 * @return origen del rayo
 	 */
 	public Vector4 getOrigen() {
 		return origin;
 	}
 
 	/**
-	 * @return direccion
+	 * @return direccion del rayo
 	 */
 	public Vector4 getDireccion() {
 		return direccion;
 	}
 
 	/**
-	 * @param origin:
-	 *            punto origen
-	 * @param fin:
-	 *            punto fin
-	 * @return un nuevo rayo con @param origin como origen y
-	 * @param fin
-	 *            - @param origin como direccion
+	 * Crea un rayo a partir de un origen y un final
+	 * 
+	 * @param origin origen del rayo
+	 * @param fin final del rayo
+	 * 
+	 * @return rayo con origen en @param origin y 
+	 * direccion @param fin - @param origin (normalizada) 
 	 */
 	public static Rayo RayoPcpioFin(Vector4 origin, Vector4 fin) {
 		return new Rayo(origin, Vector4.sub(fin, origin).normalise());
 	}
 
+	/**
+	 * Obtiene el punto 3D en coordenadas homogeneas resultado de
+	 * sumar al punto de origen (lambda * direccion)
+	 * 
+	 * @param ray rayo sobre el que calcular el punto 3D
+	 * @param lambda lambda unidades sobre las que se mueve el rayo
+	 * 
+	 * @return el punto 3D resultado de sumar al punto de 
+	 * origen (lambda * direccion)
+	 */
 	public static Vector4 getInterseccion(Rayo ray, double lambda) {
 		return Vector4.add(ray.origin, Vector4.mulEscalar(ray.direccion, lambda));
 	}
 
-	/**
-	 * 
-	 * @param vista
-	 *            (del POV al punto de interseccion)
-	 * @param o
-	 * @param i
-	 * @return
-	 */
-	public static Rayo rayoRefractado(Rayo vista, Objeto o, Vector4 i, double eps, double nI, double nT) {
+	 /**
+	  * Crea el rayo refractado a partir del rayo incidente, 
+	  * el punto y objeto de interseccion y los indices de 
+	  * refraccion del medio incidente y transmitido.
+	  * 
+	  * @param vista rayo incidente con direccion del 
+	  * punto de vista al punto de interseccion
+	  * @param o objeto con el que intersecta el rayo
+	  * @param i punto 3D de interseccion en coordenadas homogeneas
+	  * @param eps epsilon necesario para que el nuevo rayo no choque 
+	  * con su punto de origen
+	  * @param nI indice de refraccion del medio en el que el rayo incide
+	  * @param nT indice de refraccion del medio en el que el rayo 
+	  * transmitido se mueve
+	  * 
+	  * @return rayo refractado cuyo origen se encuentra en @param i y que 
+	  * pasa del medio cuyo indice de refracion es @param nI al medio cuyo
+	  * indice de refraccion es @param nT 
+	  */
+	 public static Rayo rayoRefractado(Rayo vista, Objeto o, Vector4 i, 
+			 double eps, double nI, double nT) {
 		Vector4 normal = o.normal(i, vista);
+		
 		double nR = nI / nT;
 		if(o.estaDentro(vista, i)){
 			normal = Vector4.negate(normal);
 		}
+		
 		Vector4 vistaNegada = Vector4.negate(vista.getDireccion().normalise());
 		double nR2 = Math.pow(nR, 2);
 		double dotNI = Vector4.dot(normal, vistaNegada);
 		double dotNI2 = Math.pow(dotNI, 2);
+		
 		double insideRoot = 1 - (nR2 * (1 - dotNI2));
 		double root = Math.sqrt(insideRoot);
+		
 		double cosTitaT = root;
 		double cosTitaI = dotNI;
-//		System.out.println("AngIncid: "+cosTitaI+" AngTrans: "+cosTitaT);
 		
 		Vector4 primerTerm = Vector4.mulEscalar(normal, (nR * cosTitaI) - cosTitaT);
 		Vector4 segundoTerm = Vector4.mulEscalar(vistaNegada, nR);
-//		System.out.println("**********************");
-//		Vector4 direccionT = (nR*dotNI)
-//		System.out.println(normal.toString());
-//		System.out.println(primerTerm.toString());
-//		System.out.println(nR);
-//		System.out.println(cosTitaI);
-//		System.out.println(cosTitaT);
-//		System.out.println("**********************");
+		
 		Vector4 direccionT = Vector4.sub(primerTerm, segundoTerm).normalise();
-		Vector4 origenT = Vector4.add(i, Vector4.mulEscalar(direccionT, eps)); 
-//		System.out.println(direccionT.toString() + "\n" + vista.getDireccion().normalise().toString() + "\n==============\n");
+		Vector4 origenT = Vector4.add(i, Vector4.mulEscalar(direccionT, eps));
+		
 		return new Rayo(origenT, direccionT);
-
-		/*
-		 * // suponemos que dentro de los objetos, indice de refraccion = 1.2
-		 * double ior = 1.2;
-		 * 
-		 * Rayo vistaNegado = new Rayo(i, Vector4.negate(vista.getDireccion()));
-		 * Vector4 normal = o.normal(i, vistaNegado); boolean inside =
-		 * o.estaDentro(vista, i);// true si estamos dentro del objeto
-		 * 
-		 * double indexRefraccion = 1 / ior; if(inside) indexRefraccion = ior;
-		 * 
-		 * double cosIncidente = Vector4.dot(normal,
-		 * vistaNegado.getDireccion()); double cosTransmitido1 = 1 -
-		 * Math.pow(indexRefraccion, 2) * (1 - Math.pow(cosIncidente, 2));
-		 * double cosTransmitido = Math.pow(cosTransmitido1, 0.5);
-		 * 
-		 * Vector4 T = Vector4.sub(Vector4.mulEscalar(normal, (indexRefraccion *
-		 * cosIncidente - cosTransmitido)),
-		 * Vector4.mulEscalar(vistaNegado.getDireccion(), indexRefraccion));
-		 * 
-		 * T = T.normalise();
-		 * 
-		 * Vector4 origen = Vector4.add(i, Vector4.mulEscalar(T, eps)); return
-		 * new Rayo(origen, T);
-		 */
 	}
 
-	/**
-	 * Rayo reflejado(IL, N) = 2N(IL.N) -IL <- negado de lo que pone en las
-	 * diapas
-	 */
+	 /**
+	  * Crea el rayo reflejado a partir del rayo incidente, el punto
+	  * de incidencia y el objeto sobre el que se ha incidido.
+	  * 
+	  * @param sombra rayo incidente
+	  * @param o objeto sobre el que se incide
+	  * @param i punto 3D incidente en coordenadas homogeneas
+	  * @param eps epsilon necesario para que el nuevo rayo no choque 
+	  * con su punto de origen
+	  * @return rayo relejado cuyo origen se encuentra en @param i
+	  */
 	public static Rayo rayoReflejado(Rayo sombra, Objeto o, Vector4 i, double eps) {
 		Vector4 luz = sombra.getDireccion();
 		Vector4 normal = o.normal(i, sombra);
@@ -138,11 +146,4 @@ public class Rayo {
 		Rayo returned = new Rayo(Vector4.add(i, Vector4.mulEscalar(reflejado, epsilon)), reflejado);
 		return returned;
 	}
-	
-	public static Rayo transformRay(Rayo r, Matrix T){
-		Vector4 newOrigen = TransformacionesAfines.multiplyVectorByMatrix(r.getOrigen(),T);
-		Vector4 newDireccion = TransformacionesAfines.multiplyVectorByMatrix(r.getDireccion(),T);
-		return new Rayo(newOrigen,newDireccion);
-	}
-
 }

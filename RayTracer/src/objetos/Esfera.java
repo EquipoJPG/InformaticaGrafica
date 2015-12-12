@@ -1,3 +1,14 @@
+/**
+ * <h1>Esfera</h1>
+ * Clase que implementa el comportamiento de las esferas. 
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package objetos;
 
 import Jama.Matrix;
@@ -8,85 +19,15 @@ import utils.TransformacionesAfines;
 
 public class Esfera extends Objeto {
 
-	// Atributos privados
+	/* Atributos privados */
 	private Vector4 centro;
 	private double radio;
 	private Vector4 lowerBound;
 	private Vector4 upperBound;
 
 	/**
-	 * @param centro:
-	 *            centro de la esfera (0,0,0) seria lo correcto
-	 * @param radio:
-	 *            radio de la esfera
-	 * 
-	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
-	 */
-	@Deprecated
-	public Esfera(Vector4 centro, double radio, Material m, Matrix T) {
-		this.centro = centro;
-		this.radio = radio;
-		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
-		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
-		super.material = m;
-		super.T = T;
-		updateBounds();
-	}
-
-	/**
-	 * @param radio:
-	 *            radio de la esfera
-	 * 
-	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
-	 */
-	@Deprecated
-	public Esfera(double radio, Material m, Matrix T) {
-		this.centro = new Vector4(0, 0, 0, 1);
-		this.radio = radio;
-		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
-		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
-		super.material = m;
-		super.T = T;
-		updateBounds();
-	}
-
-	/**
-	 * @param centro:
-	 *            centro de la esfera (0,0,0) seria lo correcto
-	 * @param radio:
-	 *            radio de la esfera
-	 * 
-	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
-	 */
-	@Deprecated
-	public Esfera(Vector4 centro, double radio, Material m) {
-		this.centro = centro;
-		this.radio = radio;
-		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
-		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
-		super.material = m;
-		updateBounds();
-	}
-
-	/**
-	 * @param radio:
-	 *            radio de la esfera
-	 * 
-	 * @deprecated use {@link #Esfera(Material m, Matrix T)} instead.
-	 */
-	@Deprecated
-	public Esfera(double radio, Material m) {
-		this.centro = new Vector4(0, 0, 0, 1);
-		this.radio = radio;
-		lowerBound = new Vector4(centro.getX() - radio, centro.getY() - radio, centro.getZ() - radio, 1);
-		upperBound = new Vector4(centro.getX() + radio, centro.getY() + radio, centro.getZ() + radio, 1);
-		super.material = m;
-		updateBounds();
-	}
-
-	/**
-	 * @param material:
-	 *            material de la esfera
+	 * @param material material de la esfera
+	 * @param radio radio de la esfera
 	 */
 	public Esfera(Material m, double radio) {
 		this.centro = new Vector4(0, 0, 0, 1);
@@ -96,11 +37,9 @@ public class Esfera extends Objeto {
 	}
 
 	/**
-	 * @param radio:
-	 *            radio de la esfera
-	 * 
-	 * @param radio:
-	 *            radio de la esfera
+	 * @param m material de la esfera
+	 * @param T matriz de transformaciones de la esfera
+	 * @param radio radio de la esfera
 	 */
 	public Esfera(Material m, Matrix T, double radio) {
 		this.centro = new Vector4(0, 0, 0, 1);
@@ -112,55 +51,20 @@ public class Esfera extends Objeto {
 		updateBounds();
 	}
 
-	/**
-	 * Interseccion con el rayo @param ray.
-	 * 
-	 * @return <null> si no intersecta y el lambda de la primera interseccion (o
-	 *         unica) si intersecta
-	 */
 	@Override
 	public Par interseccion(Rayo ray) {
 		return interseccionSombra(ray);
-		/*
-		 * double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A
-		 * = d // . d double B = 2 * Vector4.dot(Vector4.sub(ray.getOrigen(),
-		 * this.centro), ray.getDireccion()); // B // = // (a-c).d double C =
-		 * Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro),
-		 * Vector4.sub(ray.getOrigen(), this.centro)) - Math.pow(this.radio, 2);
-		 * // C = (a-c).(a-c) - r^2
-		 * 
-		 * double D = Math.pow(B, 2) - 4 * A * C; // D = B^2 - AC
-		 * 
-		 * if (D < 0) { return null; } else { double lambda1, lambda2; // l =
-		 * [-B +- raiz(B^2-4AC)] / [2A] lambda1 = (-B + Math.pow(Math.pow(B, 2)
-		 * - 4 * A * C, 0.5)) / (2 * A); lambda2 = (-B - Math.pow(Math.pow(B, 2)
-		 * - 4 * A * C, 0.5)) / (2 * A);
-		 * 
-		 * double min = Math.min(lambda1, lambda2);
-		 * 
-		 * return new Par(min,this);
-		 * 
-		 * }
-		 */
 	}
 
-	/**
-	 * Interseccion con el rayo @param ray.
-	 * 
-	 * @return <null> si no intersecta y el lambda de la primera interseccion (o
-	 *         unica) si intersecta
-	 */
 	@Override
 	public Par interseccionSombra(Rayo ray) {
 
-		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d
-																		// . d
-		double B = 2 * Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), ray.getDireccion()); // B
-																									// =
-																									// (a-c).d
-		double C = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), Vector4.sub(ray.getOrigen(), this.centro))
+		double A = Vector4.dot(ray.getDireccion(), ray.getDireccion()); // A = d.d
+		double B = 2 * Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), 
+				ray.getDireccion()); // B
+		double C = Vector4.dot(Vector4.sub(ray.getOrigen(), this.centro), 
+				Vector4.sub(ray.getOrigen(), this.centro))
 				- Math.pow(this.radio, 2); // C = (a-c).(a-c) - r^2
-
 		double D = Math.pow(B, 2) - 4 * A * C; // D = B^2 - AC
 
 		if (D < 0) {
@@ -184,7 +88,10 @@ public class Esfera extends Objeto {
 	}
 
 	/**
-	 * @return la normal de la esfera respecto a @param interseccion
+	 * @param interseccion punto 3D de interseccion 
+	 * en coordenadas homogeneas
+	 * @return un vector en coordenadas homogeneas que 
+	 * representa la normal en el punto de interseccion 
 	 */
 	public Vector4 normal(Vector4 interseccion) {
 		return Vector4.sub(interseccion, centro).normalise();

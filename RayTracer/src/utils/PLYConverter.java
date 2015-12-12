@@ -1,3 +1,15 @@
+/**
+ * <h1>PLYConverter</h1>
+ * CLase para recuperar de un archivo PLY los vertices
+ * y caras de una figura
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package utils;
 
 import java.awt.Color;
@@ -13,28 +25,38 @@ import objetos.Triangulo;
 
 public class PLYConverter {
 
-	@SuppressWarnings("unused")
-	public static void main(String[] args) {
-		Figura f = getFigura("untitled.ply", null);
-	}
-
+	/**
+	 * @param plyFile path del fichero con extension PLY
+	 * @param m material que aplicar a la figura contenida en 
+	 * @param plyFile
+	 * 
+	 * @return figura contenida en @param plyFile, aplicando el 
+	 * material 2param m
+	 */
 	public static Figura getFigura(String plyFile, Material m) {
 		Figura returned = new Figura();
 		boolean plyfile = false;
+		
 		boolean data = false;
 		boolean fin = false;
+		
 		ArrayList<Vector4> vertices = new ArrayList<Vector4>();
 		ArrayList<Vector4> colors = new ArrayList<Vector4>();
+		
 		int index = 0;
 		int vertexNumber = -1;
 		int faceNumber = -1;
+		
 		int indexX = -1;
 		int indexY = -1;
 		int indexZ = -1;
+		
 		int indexRed = -1;
 		int indexGreen = -1;
 		int indexBlue = -1;
+		
 		int count = 0;
+		
 		try {
 			Scanner s = new Scanner(new File(plyFile));
 			while (s.hasNextLine() && !fin) {
@@ -191,17 +213,14 @@ public class PLYConverter {
 			s.close();
 			return returned;
 		} catch (FileNotFoundException e) {
-			System.err.println();
 			e.printStackTrace();
 			System.exit(1);
 			return null;
 		} catch (NumberFormatException e) {
-			System.err.println();
 			e.printStackTrace();
 			System.exit(1);
 			return null;
 		} catch (Exception e) {
-			System.err.println();
 			e.printStackTrace();
 			System.exit(1);
 			return null;

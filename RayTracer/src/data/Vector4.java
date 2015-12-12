@@ -1,7 +1,19 @@
+/**
+ * <h1>Vector4</h1>
+ * Estructura de datos que representa un <b>vector 3D</b> 
+ * en coordenadas homogeneas, así como las operaciones
+ * asociadas a dichos vectores.
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
+
 package data;
 
 import Jama.Matrix;
-import utils.TransformacionesAfines;
 
 public class Vector4 {
 
@@ -12,7 +24,8 @@ public class Vector4 {
 	private int h; // h == 1 -> punto, h == 0 -> vector
 
 	/**
-	 * Constructor por defecto (vector de (0,0,0))
+	 * @return un Vector4 que representa un vector
+	 * con coordendas (x=0, y=0, z=0)
 	 */
 	public Vector4() {
 		this.x = 0;
@@ -22,8 +35,11 @@ public class Vector4 {
 	}
 
 	/**
-	 * Construye un vector|punto (depende de @param h) con coordenadas (@param
-	 * x, @param y, @param z)
+	 * @param x coordenada X
+	 * @param y coordenada Y
+	 * @param z coordenada Z
+	 * @param h indica si es punto (@param h = 1) o
+	 * si es vector (@param h = 0)
 	 */
 	public Vector4(double x, double y, double z, int h) {
 		this.x = x;
@@ -32,43 +48,65 @@ public class Vector4 {
 		this.h = h;
 	}
 
+	/**
+	 * @return coordenada X
+	 */
 	public double getX() {
 		return x;
 	}
 
+	/**
+	 * @param x coordenada X
+	 */
 	public void setX(double x) {
 		this.x = x;
 	}
 
+	/**
+	 * @return coordenada Y
+	 */
 	public double getY() {
 		return y;
 	}
 
+	/**
+	 * @param y coordenada Y
+	 */
 	public void setY(double y) {
 		this.y = y;
 	}
 
+	/**
+	 * @return coordenada Z
+	 */
 	public double getZ() {
 		return z;
 	}
 
+	/**
+	 * @param z coordenada Z
+	 */
 	public void setZ(double z) {
 		this.z = z;
 	}
 	
+	/**
+	 * @return 1 si es punto, 0 si es vector
+	 */
 	public int getH() {
 		return h;
 	}
 
+	/**
+	 * @param h indica si es vector o punto
+	 */
 	public void setZ(int h) {
 		this.h = h;
 	}
 
 	/**
-	 * @param v:
-	 *            primer vector|punto a sumar
-	 * @param w:
-	 *            segundo vector|punto a sumar
+	 * @param v primer vector|punto a sumar
+	 * @param w segundo vector|punto a sumar
 	 * @return un nuevo vector|punto suma de ambos
 	 */
 	public static Vector4 add(Vector4 v, Vector4 w) {
@@ -86,10 +124,8 @@ public class Vector4 {
 	}
 
 	/**
-	 * @param v:
-	 *            vector|punto del que restar
-	 * @param w:
-	 *            vector|punto que resta
+	 * @param v vector|punto del que restar
+	 * @param w vector|punto que resta
 	 * @return @param v - @param w
 	 */
 	public static Vector4 sub(Vector4 v, Vector4 w) {
@@ -102,21 +138,17 @@ public class Vector4 {
 	}
 
 	/**
-	 * @param v:
-	 *            vector|punto
-	 * @param escalar:
-	 *            numero
-	 * @return v*escalar
+	 * @param v vector|punto
+	 * @param escalar numero
+	 * @return @param v * @param escalar
 	 */
 	public static Vector4 mulEscalar(Vector4 v, double escalar) {
 		return new Vector4(v.x * escalar, v.y * escalar, v.z * escalar, v.h);
 	}
 
 	/**
-	 * @param v:
-	 *            origen
-	 * @param w:
-	 *            fin
+	 * @param v origen
+	 * @param w fin
 	 * @return distancia de origen (@param v) a fin (@param w)
 	 */
 	public static double distancia(Vector4 v, Vector4 w) {
@@ -131,7 +163,7 @@ public class Vector4 {
 	}
 
 	/**
-	 * vx*wx + vy*wy + vz*wz
+	 * Producto escalar
 	 * 
 	 * @return producto escalar de @param v y @param w
 	 */
@@ -140,6 +172,8 @@ public class Vector4 {
 	}
 
 	/**
+	 * Producto vectorial
+	 * 
 	 * @return @param v x @param w
 	 */
 	public static Vector4 cross(Vector4 v, Vector4 w) {
@@ -170,6 +204,9 @@ public class Vector4 {
 		return Vector4.modulo(this);
 	}
 
+	/**
+	 * @return vector4 normalizado
+	 */
 	public Vector4 normalise() {
 		return Vector4.div(this, this.normaL2());
 	}
@@ -178,33 +215,29 @@ public class Vector4 {
 	 * @return el angulo entre @param v y @param w
 	 */
 	public static double angulo(Vector4 v, Vector4 w) {
-		// dot div (mod(v)*mod(w))
 		return Math.acos((Vector4.dot(v, w) / (Vector4.modulo(v) * Vector4.modulo(w))));
 	}
 
 	/**
-	 * @return <true> si @param v es vector
+	 * @return <b>true</b> si @param v es vector
 	 */
 	public static boolean esVector(Vector4 v) {
 		return v.h == 0;
 	}
 
 	/**
-	 * @return <true> si @param v es un punto
+	 * @return <b>true</b> si @param v es un punto
 	 */
 	public static boolean esPunto(Vector4 v) {
 		return !esVector(v);
 	}
 
+	/**
+	 * @param m matriz que transformar en vector4
+	 * @return Vector4 de una matriz
+	 */
 	public static Vector4 matrixToVector4(Matrix m){
 		return new Vector4(m.get(0, 0),m.get(0, 1),m.get(0, 2),(int)(m.get(0, 3)));
-	}
-	
-	public static Vector4 transformVector(Vector4 v, Matrix T){
-		Vector4 newOrigen = TransformacionesAfines.multiplyVectorByMatrix(v, T);
-		System.out.println(newOrigen.getH());
-		System.out.println("===============");
-		return TransformacionesAfines.multiplyVectorByMatrix(v, T);
 	}
 	
 	@Override
