@@ -263,4 +263,12 @@ public class Figura extends Objeto {
 			return returned;
 		}
 	}
+	
+	public String toString(){
+		String ret = "";
+		for(Objeto o : lista){
+			ret = ret + o.getMaterial().getColor().getRed()+" "+o.getMaterial().getColor().getGreen()+" "+o.getMaterial().getColor().getBlue()+" ";
+		}
+		return ret;
+	}
 }
