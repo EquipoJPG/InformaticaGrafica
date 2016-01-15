@@ -5,7 +5,7 @@ import Jama.Matrix;
 /**
  * <h1>Vector4</h1>
  * Estructura de datos que representa un <b>vector 3D</b> 
- * en coordenadas homogeneas, así como las operaciones
+ * en coordenadas homogeneas, asi como las operaciones
  * asociadas a dichos vectores.
  * 
  * @author Patricia Lazaro Tello (554309)
