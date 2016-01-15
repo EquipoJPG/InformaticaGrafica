@@ -1,3 +1,11 @@
+package trazador;
+
+import java.util.Random;
+
+import data.Rayo;
+import data.Vector4;
+import utils.CambioDeBase;
+
 /**
  * <h1>Camara</h1>
  * Clase que implementa el comportamiento 
@@ -9,15 +17,6 @@
  * 
  * @version 1.0
  */
-
-package trazador;
-
-import java.util.Random;
-
-import data.Rayo;
-import data.Vector4;
-import utils.CambioDeBase;
-
 public class Camara {
 	
 	/* atributos privados */

@@ -1,3 +1,7 @@
+package data;
+
+import objetos.Objeto;
+
 /**
  * <h1>Par</h1>
  * Estructura de datos que guarda el <b>lambda</b> con el que un rayo 
@@ -9,11 +13,6 @@
  * 
  * @version 1.0
  */
-
-package data;
-
-import objetos.Objeto;
-
 public class Par {
 
 	/* Atributos privados */
@@ -21,7 +20,8 @@ public class Par {
 	private Objeto objeto;
 	
 	/**
-	 * Crea un nuevo objeto Par
+	 * Crea un nuevo objeto Par.
+	 *
 	 * @param i lambda con la que intersecta el rayo
 	 * @param o objeto con el que intersecta
 	 */
@@ -31,6 +31,8 @@ public class Par {
 	}
 
 	/**
+	 * Gets the interseccion.
+	 *
 	 * @return lambda de la interseccion
 	 */
 	public Double getInterseccion() {
@@ -38,6 +40,8 @@ public class Par {
 	}
 
 	/**
+	 * Sets the interseccion.
+	 *
 	 * @param interseccion lambda de la interseccion
 	 */
 	public void setInterseccion(Double interseccion) {
@@ -45,6 +49,8 @@ public class Par {
 	}
 
 	/**
+	 * Gets the objeto.
+	 *
 	 * @return objeto con el que intersecta el rayo
 	 */
 	public Objeto getObjeto() {
@@ -52,6 +58,8 @@ public class Par {
 	}
 
 	/**
+	 * Sets the objeto.
+	 *
 	 * @param objeto objeto con el que intersecta el rayo
 	 */
 	public void setObjeto(Objeto objeto) {

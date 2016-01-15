@@ -1,3 +1,8 @@
+package trazador;
+
+import java.awt.Color;
+import data.Vector4;
+
 /**
  * <h1>Camara</h1>
  * Clase que implementa el comportamiento 
@@ -9,12 +14,6 @@
  * 
  * @version 1.0
  */
-
-package trazador;
-
-import java.awt.Color;
-import data.Vector4;
-
 public class Foco {
 	
 	/* atributos privados */

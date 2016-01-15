@@ -1,3 +1,10 @@
+package utils;
+
+import java.util.ArrayList;
+
+import Jama.Matrix;
+import data.Vector4;
+
 /**
  * <h1>TransformacionesAfines</h1>
  * Clase para realizar las transformaciones afines
@@ -8,14 +15,6 @@
  * 
  * @version 1.0
  */
-
-package utils;
-
-import java.util.ArrayList;
-
-import Jama.Matrix;
-import data.Vector4;
-
 public class TransformacionesAfines {
 
 	/* atributos */

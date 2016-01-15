@@ -1,3 +1,5 @@
+package multithreading;
+
 /**
  * <h1>Pixel</h1>
  * Estructura de datos que representa un <b>pixel</b> de la 
@@ -9,9 +11,6 @@
  * 
  * @version 1.0
  */
-
-package multithreading;
-
 public class Pixel {
 
 	/* atributos privados */

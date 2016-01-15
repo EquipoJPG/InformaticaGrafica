@@ -1,3 +1,11 @@
+package objetos;
+
+import Jama.Matrix;
+import data.Par;
+import data.Rayo;
+import data.Vector4;
+import utils.TransformacionesAfines;
+
 /**
  * <h1>Esfera</h1>
  * Clase que implementa el comportamiento de las esferas. 
@@ -8,15 +16,6 @@
  * 
  * @version 1.0
  */
-
-package objetos;
-
-import Jama.Matrix;
-import data.Par;
-import data.Rayo;
-import data.Vector4;
-import utils.TransformacionesAfines;
-
 public class Esfera extends Objeto {
 
 	/* Atributos privados */

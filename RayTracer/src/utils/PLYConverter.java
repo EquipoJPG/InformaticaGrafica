@@ -1,15 +1,3 @@
-/**
- * <h1>PLYConverter</h1>
- * CLase para recuperar de un archivo PLY los vertices
- * y caras de una figura
- * 
- * @author Patricia Lazaro Tello (554309)
- * @author Alejandro Royo Amondarain (560285)
- * @author Jaime Ruiz-Borau Vizarraga (546751)
- * 
- * @version 1.0
- */
-
 package utils;
 
 import java.awt.Color;
@@ -23,6 +11,17 @@ import objetos.Figura;
 import objetos.Material;
 import objetos.Triangulo;
 
+/**
+ * <h1>PLYConverter</h1>
+ * CLase para recuperar de un archivo PLY los vertices
+ * y caras de una figura
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
 public class PLYConverter {
 
 	/**

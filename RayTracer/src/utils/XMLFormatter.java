@@ -1,15 +1,3 @@
-/**
- * <h1>XMLFormatter</h1>
- * Clase para parsear el fichero XML que contiene 
- * la escena
- * 
- * @author Patricia Lazaro Tello (554309)
- * @author Alejandro Royo Amondarain (560285)
- * @author Jaime Ruiz-Borau Vizarraga (546751)
- * 
- * @version 1.0
- */
-
 package utils;
 
 import java.awt.Color;
@@ -40,6 +28,17 @@ import trazador.Foco;
 import Jama.Matrix;
 import data.Vector4;
 
+/**
+ * <h1>XMLFormatter</h1>
+ * Clase para parsear el fichero XML que contiene 
+ * la escena
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
 public class XMLFormatter {
 
 	/**

@@ -1,3 +1,13 @@
+package objetos;
+
+import java.util.ArrayList;
+
+import Jama.Matrix;
+import data.Par;
+import data.Rayo;
+import data.Vector4;
+import utils.TransformacionesAfines;
+
 /**
  * <h1>Caja</h1>
  * Clase que implementa el comportamiento de las cajas
@@ -9,17 +19,6 @@
  * 
  * @version 1.0
  */
-
-package objetos;
-
-import java.util.ArrayList;
-
-import Jama.Matrix;
-import data.Par;
-import data.Rayo;
-import data.Vector4;
-import utils.TransformacionesAfines;
-
 public class Caja extends Objeto {
 
 	/* Atributos privados */

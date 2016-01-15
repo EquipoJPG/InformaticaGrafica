@@ -1,3 +1,7 @@
+package objetos;
+
+import java.awt.Color;
+
 /**
  * <h1>Material</h1>
  * Clase que implementa el comportamiento del material
@@ -9,11 +13,6 @@
  * 
  * @version 1.0
  */
-
-package objetos;
-
-import java.awt.Color;
-
 public class Material {
 
 	/* atributos privados */

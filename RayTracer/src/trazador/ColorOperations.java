@@ -1,3 +1,9 @@
+package trazador;
+
+import java.awt.Color;
+
+import objetos.Objeto;
+
 /**
  * <h1>ColorOperations</h1>
  * Clase que implementa operaciones con colores  
@@ -8,13 +14,6 @@
  * 
  * @version 1.0
  */
-
-package trazador;
-
-import java.awt.Color;
-
-import objetos.Objeto;
-
 public class ColorOperations {
 	
 	/**

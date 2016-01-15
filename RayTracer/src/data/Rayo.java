@@ -1,3 +1,7 @@
+package data;
+
+import objetos.Objeto;
+
 /**
  * <h1>Rayo</h1>
  * Clase para la creacion de rayos, incluyendo el rayo <i>reflejado</i>
@@ -9,11 +13,6 @@
  * 
  * @version 1.0
  */
-
-package data;
-
-import objetos.Objeto;
-
 public class Rayo {
 
 	/* Atributos de la clase Rayo */

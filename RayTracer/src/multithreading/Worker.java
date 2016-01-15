@@ -1,3 +1,15 @@
+package multithreading;
+
+import java.awt.Color;
+import java.util.ArrayList;
+
+import data.Par;
+import data.Rayo;
+import data.Vector4;
+import objetos.Objeto;
+import trazador.ColorOperations;
+import trazador.Foco;
+
 /**
  * <h1>Worker</h1>
  * Clase trabajador que sigue la traza de un rayo para
@@ -15,19 +27,6 @@
  * 
  * @version 1.0
  */
-
-package multithreading;
-
-import java.awt.Color;
-import java.util.ArrayList;
-
-import data.Par;
-import data.Rayo;
-import data.Vector4;
-import objetos.Objeto;
-import trazador.ColorOperations;
-import trazador.Foco;
-
 public class Worker implements Runnable {
 
 	/* atributos privados */

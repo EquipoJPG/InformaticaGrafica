@@ -1,14 +1,3 @@
-/**
- * <h1>Figura</h1>
- * Clase que implementa el comportamiento de las figuras. 
- * 
- * @author Patricia Lazaro Tello (554309)
- * @author Alejandro Royo Amondarain (560285)
- * @author Jaime Ruiz-Borau Vizarraga (546751)
- * 
- * @version 1.0
- */
-
 package objetos;
 
 import java.util.ArrayList;
@@ -19,6 +8,16 @@ import data.Rayo;
 import data.Vector4;
 import utils.TransformacionesAfines;
 
+/**
+ * <h1>Figura</h1>
+ * Clase que implementa el comportamiento de las figuras. 
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
 public class Figura extends Objeto {
 
 	/* Atributos privados */

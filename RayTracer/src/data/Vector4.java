@@ -1,3 +1,7 @@
+package data;
+
+import Jama.Matrix;
+
 /**
  * <h1>Vector4</h1>
  * Estructura de datos que representa un <b>vector 3D</b> 
@@ -10,11 +14,6 @@
  * 
  * @version 1.0
  */
-
-package data;
-
-import Jama.Matrix;
-
 public class Vector4 {
 
 	/* Atributos de la clase PuntoVectorH */

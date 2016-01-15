@@ -1,3 +1,15 @@
+package multithreading;
+
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import data.Rayo;
+import objetos.Objeto;
+import trazador.Camara;
+import trazador.Foco;
+import utils.XMLFormatter;
+
 /**
  * <h1>Escena</h1>
  * Clase que controla los pixeles a pintar en la imagen para
@@ -12,19 +24,6 @@
  * 
  * @version 1.0
  */
-
-package multithreading;
-
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
-import data.Rayo;
-import objetos.Objeto;
-import trazador.Camara;
-import trazador.Foco;
-import utils.XMLFormatter;
-
 public class Escena {
 	
 	/* Imagen */

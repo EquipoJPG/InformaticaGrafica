@@ -1,3 +1,8 @@
+package utils;
+
+import Jama.Matrix;
+import data.Vector4;
+
 /**
  * <h1>CambioDeBase</h1>
  * Clase para realizar el cambio de base
@@ -8,12 +13,6 @@
  * 
  * @version 1.0
  */
-
-package utils;
-
-import Jama.Matrix;
-import data.Vector4;
-
 public class CambioDeBase {
 
 	/**

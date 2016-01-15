@@ -1,15 +1,3 @@
-/**
- * <h1>Trazador</h1>
- * Clase principal que implementa el trazador 
- * de rayos con multithread y cajas envolventes
- * 
- * @author Patricia Lazaro Tello (554309)
- * @author Alejandro Royo Amondarain (560285)
- * @author Jaime Ruiz-Borau Vizarraga (546751)
- * 
- * @version 1.0
- */
-
 package trazador;
 
 import java.io.File;
@@ -21,6 +9,17 @@ import multithreading.Escena;
 import multithreading.Worker;
 import utils.XMLFormatter;
 
+/**
+ * <h1>Trazador</h1>
+ * Clase principal que implementa el trazador 
+ * de rayos con multithread y cajas envolventes
+ * 
+ * @author Patricia Lazaro Tello (554309)
+ * @author Alejandro Royo Amondarain (560285)
+ * @author Jaime Ruiz-Borau Vizarraga (546751)
+ * 
+ * @version 1.0
+ */
 public class Trazador {
 	
 	/* atributos privados */
