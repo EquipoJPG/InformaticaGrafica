@@ -1,6 +1,6 @@
 <escena 
 	antialiasing="16" 
-	file="./escenas/escena.png" 
+	file="./escenasFinal/escenaTotal.png" 
 	rebotes="3" 
 	ambiente="0.4" 
 	epsilon="1e-3"

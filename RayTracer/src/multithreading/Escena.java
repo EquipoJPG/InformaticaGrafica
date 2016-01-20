@@ -125,7 +125,12 @@ public class Escena {
 			if (i < camara.getRows() - 1) {
 				i++;
 				j = 0;
-				System.out.println("FILA " + i + "/" + camara.getRows());
+				
+				if (i% (camara.getRows() / 10) == 0){
+					double percentage = (double) i / (double) camara.getRows();
+					percentage = percentage * 100.0;
+					System.out.printf("%.0f%% completado%n", percentage);
+				}
 			}
 			else {
 				return null;
