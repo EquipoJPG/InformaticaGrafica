@@ -35,7 +35,8 @@ public class Trazador {
 	 */
 	public static void main(String[] args) {
 		long startTime = System.nanoTime();
-		String nameFile = "escenaGiroide.xml";
+		//String nameFile = "escenaGiroide.xml";
+		String nameFile = "escenaGiroide2.xml";
 		if(args.length>=1){
 			nameFile = args[0];
 		}
