@@ -55,7 +55,7 @@ public class Plano extends Objeto {
 
 	/**
 	 * Los cuatro puntos del plano se encuentran definidos 
-	 * en sentido contrario a las agujas del reloj.
+	 * como (arriba-izquierda, arriba-derecha, abajo-izquierda, abajo-derecha)
 	 * 
 	 * @param p1 punto 1 del plano
 	 * @param p2 punto 2 del plano
