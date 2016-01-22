@@ -98,10 +98,12 @@ public class Rayo {
 		}
 		
 		Vector4 vistaNegada = Vector4.negate(vista.getDireccion().normalise());
-		double nR2 = Math.pow(nR, 2);
-		double dotNI = Vector4.dot(normal, vistaNegada);
-		double dotNI2 = Math.pow(dotNI, 2);
 		
+		double nR2 = Math.pow(nR, 2);	// nr^2
+		double dotNI = Vector4.dot(normal, vistaNegada);	// N·I
+		double dotNI2 = Math.pow(dotNI, 2);	// (N·I)^2
+		
+		// sqrt(1- nr^2 * (1 - (N·I)^2)
 		double insideRoot = 1 - (nR2 * (1 - dotNI2));
 		double root = Math.sqrt(insideRoot);
 		
